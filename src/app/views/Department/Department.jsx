@@ -158,6 +158,9 @@ export default function Department() {
           data={listDepartment}
           options={{
             sorting: false,
+            maxBodyHeight: '60vh',
+            pageSize: 10,
+            pageSizeOptions: [10, 20, 50],
             draggable: false,
             headerStyle: {
               textAlign: 'center',

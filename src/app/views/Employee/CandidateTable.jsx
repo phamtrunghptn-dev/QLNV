@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button } from '@mui/material';
-import { Breadcrumb } from 'app/components';
-import MaterialTable from 'material-table';
-import { getListRecruit, deleteRecruit } from './ApproveService';
+import React, { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { toast } from 'react-toastify';
-import ConfirmationDialog from '../../components/ConfirmationDialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
 import { checkStatus } from 'app/constant';
-import RecruitView from './RecruitView';
+import MaterialTable from 'material-table';
+import { getListCandidate } from './EmployeeService';
+import { toast } from 'react-toastify';
+import EmployeeDialog from './EmployeeDialog';
 
-export default function Approve() {
-  const [listCertificate, setListCertificate] = useState([]);
-  const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
-  const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
+export default function CandidateTable(props) {
+  const { open, handleClose } = props;
+  const [listCandidate, setListCandidate] = useState([]);
+  const [shouldOpenEmployeeDialog, setShouldOpenEmployeeDialog] = useState();
   const [item, setItem] = useState({});
 
   const columns = [
@@ -36,8 +38,8 @@ export default function Approve() {
           <IconButton
             color="primary"
             onClick={() => {
-              setShouldOpenViewDialog(true);
               setItem(rowData);
+              setShouldOpenEmployeeDialog(true);
             }}
           >
             <RemoveRedEyeIcon />
@@ -45,14 +47,23 @@ export default function Approve() {
         </>
       ),
       cellStyle: {
-        width: '5%',
+        width: '10%',
         textAlign: 'center',
       },
     },
     {
-      title: 'Tên kế hoạch',
-      field: 'name',
-      render: (rowData) => rowData.titleRecruit,
+      title: 'Mã hồ sơ',
+      field: 'code',
+      render: (rowData) => rowData?.code,
+      cellStyle: {
+        width: '10%',
+        textAlign: 'center',
+      },
+    },
+    {
+      title: 'Họ và tên',
+      field: 'fullName',
+      render: (rowData) => rowData?.fullName,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -62,32 +73,27 @@ export default function Approve() {
       },
     },
     {
-      title: 'Số lượng',
-      field: 'quantity',
-      render: (rowData) => rowData.quantity,
+      title: 'Email',
+      field: 'email',
+      render: (rowData) => rowData?.email,
       cellStyle: {
-        width: '5%',
-        textAlign: 'center',
+        width: '10%',
+        textAlign: 'left',
       },
       headerStyle: {
-        textAlign: 'center',
+        textAlign: 'left',
       },
     },
     {
-      title: 'Các kênh tuyển dụng chính',
-      field: 'description',
-      render: (rowData) => rowData.recruitmentChannel,
-      headerStyle: {
-        textAlign: 'center',
-      },
+      title: 'SĐT',
+      field: 'phone',
+      render: (rowData) => rowData?.phone,
       cellStyle: {
-        width: '20%',
-        textOverflow: 'ellipsis',
-        textAlign: 'center',
-
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        maxWidth: 100,
+        width: '10%',
+        textAlign: 'left',
+      },
+      headerStyle: {
+        textAlign: 'left',
       },
     },
     {
@@ -113,47 +119,36 @@ export default function Approve() {
   }, []);
 
   const updatePageData = () => {
-    getListRecruit()
+    getListCandidate()
       .then((res) => {
         if (res.data.statusCode === 200) {
-          setListCertificate(res.data.data.filter((item) => item.status === 2));
+          setListCandidate(res.data.data.filter((item) => item.status === 8));
         } else {
           toast.warning('Lỗi xác thực!');
         }
       })
       .catch((err) => toast.error('Có lỗi xảy ra!'));
   };
-  console.log(listCertificate);
-  const handleClose = () => {
-    setShouldOpenConfirmDialog(false);
-    setShouldOpenViewDialog(false);
-    setItem({});
-    updatePageData();
-  };
-
-  const handleDelete = () => {
-    deleteRecruit(item.id).then((res) => {
-      toast.success('Xóa thành công');
-      handleClose();
-    });
-  };
 
   return (
     <>
-      <Box style={{ margin: 20 }}>
-        <Breadcrumb
-          routeSegments={[{ name: 'Lãnh đạo', path: '/leader' }, { name: 'Danh sách kế hoạch' }]}
-        />
-
-        <div style={{ marginTop: 60 }}>
+      <Dialog open={open} fullWidth maxWidth={'lg'}>
+        <DialogTitle>
+          <Box className="icon-close" onClick={handleClose}>
+            <IconButton color="error">
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
+        <DialogContent style={{ padding: '30px 20px 0' }}>
           <MaterialTable
-            title="Danh sách kế hoạch"
+            title="Danh sách hồ sơ ứng viên"
             columns={columns}
-            data={listCertificate}
+            data={listCandidate}
             options={{
               sorting: false,
-              maxBodyHeight: '60vh',
               draggable: false,
+              maxBodyHeight: '40vh',
               pageSize: 10,
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
@@ -181,25 +176,19 @@ export default function Approve() {
               body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
             }}
           />
-        </div>
-      </Box>
-      {shouldOpenViewDialog && (
-        <RecruitView
-          open={shouldOpenViewDialog}
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="secondary" onClick={handleClose}>
+            Hủy
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {shouldOpenEmployeeDialog && (
+        <EmployeeDialog
+          open={shouldOpenEmployeeDialog}
+          handleCloseDialog={() => setShouldOpenEmployeeDialog(false)}
           handleClose={handleClose}
-          setItem={setItem}
-          item={item}
-        />
-      )}
-      {shouldOpenConfirmDialog && (
-        <ConfirmationDialog
-          title="Xác nhận"
-          text="Bạn có muốn xóa kế hoạch này?"
-          open={shouldOpenConfirmDialog}
-          onConfirmDialogClose={handleClose}
-          onYesClick={handleDelete}
-          Yes="Đồng ý"
-          No="Hủy"
+          candidate={item}
         />
       )}
     </>

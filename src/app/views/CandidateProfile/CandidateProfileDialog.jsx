@@ -19,7 +19,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 export default function CandidateProfileDialog(props) {
-  const { open, handleClose, item, readOnly } = props;
+  const { open, handleClose, item } = props;
 
   const [listRecruit, setListRecruit] = useState([]);
 
@@ -111,7 +111,7 @@ export default function CandidateProfileDialog(props) {
   return (
     <Dialog open={open} fullWidth maxWidth={'md'}>
       <DialogTitle style={{ marginBlockEnd: 0, padding: '16px 24px 0' }}>
-        {item.id && readOnly ? 'Thông tin hồ sơ' : item.id ? 'Sửa hồ sơ' : 'Thêm hồ sơ'}
+        {item.id ? 'Sửa hồ sơ' : 'Thêm hồ sơ'}
         <Box className="icon-close" onClick={handleClose}>
           <IconButton color="error">
             <CloseIcon />
@@ -127,9 +127,6 @@ export default function CandidateProfileDialog(props) {
                   label="Mã hồ sơ"
                   variant="outlined"
                   fullWidth
-                  InputProps={{
-                    readOnly: readOnly,
-                  }}
                   name="code"
                   value={formik.values?.code}
                   onChange={formik.handleChange}
@@ -142,9 +139,6 @@ export default function CandidateProfileDialog(props) {
                   label="Họ và Tên"
                   variant="outlined"
                   fullWidth
-                  InputProps={{
-                    readOnly: readOnly,
-                  }}
                   name="fullName"
                   value={formik.values?.fullName}
                   onChange={formik.handleChange}
@@ -157,9 +151,6 @@ export default function CandidateProfileDialog(props) {
                   label="Tuổi"
                   variant="outlined"
                   fullWidth
-                  InputProps={{
-                    readOnly: readOnly,
-                  }}
                   name="age"
                   value={formik.values?.age}
                   onChange={formik.handleChange}
@@ -174,9 +165,6 @@ export default function CandidateProfileDialog(props) {
                   label="Trình độ học vấn"
                   variant="outlined"
                   fullWidth
-                  InputProps={{
-                    readOnly: readOnly,
-                  }}
                   name="education"
                   value={formik.values?.education}
                   onChange={formik.handleChange}
@@ -189,9 +177,6 @@ export default function CandidateProfileDialog(props) {
                   label="Chuyên nghành"
                   variant="outlined"
                   fullWidth
-                  InputProps={{
-                    readOnly: readOnly,
-                  }}
                   name="major"
                   value={formik.values?.major}
                   onChange={formik.handleChange}
@@ -233,9 +218,6 @@ export default function CandidateProfileDialog(props) {
                     label="Email"
                     variant="outlined"
                     fullWidth
-                    InputProps={{
-                      readOnly: readOnly,
-                    }}
                     name="email"
                     value={formik.values?.email}
                     onChange={formik.handleChange}
@@ -248,9 +230,6 @@ export default function CandidateProfileDialog(props) {
                     label="Số điện thoại"
                     variant="outlined"
                     fullWidth
-                    InputProps={{
-                      readOnly: readOnly,
-                    }}
                     name="phone"
                     value={formik.values?.phone}
                     onChange={formik.handleChange}
@@ -284,9 +263,6 @@ export default function CandidateProfileDialog(props) {
                   label="Địa chỉ"
                   variant="outlined"
                   fullWidth
-                  InputProps={{
-                    readOnly: readOnly,
-                  }}
                   name="address"
                   value={formik.values?.address}
                   onChange={formik.handleChange}
@@ -298,20 +274,12 @@ export default function CandidateProfileDialog(props) {
           </Grid>
         </DialogContent>
         <DialogActions>
-          {readOnly ? (
-            <Button variant="contained" color="secondary" onClick={handleClose}>
-              Đóng
-            </Button>
-          ) : (
-            <>
-              <Button variant="contained" color="secondary" onClick={handleClose}>
-                Hủy
-              </Button>
-              <Button type="submit" variant="contained" color="primary">
-                {item.id ? 'Lưu' : 'Thêm'}
-              </Button>
-            </>
-          )}
+          <Button variant="contained" color="secondary" onClick={handleClose}>
+            Hủy
+          </Button>
+          <Button type="submit" variant="contained" color="primary">
+            {item.id ? 'Lưu' : 'Thêm'}
+          </Button>
         </DialogActions>
       </form>
     </Dialog>

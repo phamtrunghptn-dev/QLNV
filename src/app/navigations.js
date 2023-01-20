@@ -77,7 +77,7 @@ export const navigations = [
     children: [
       { name: 'Phê duyệt kế hoạch TD', icon: 'home', path: '/leader/approval-recruit' },
       { name: 'Danh sách KH đã phê duyệt', icon: 'home', path: '/leader/approved' },
-      { name: 'Phê duyệt hồ sơ ứng viên', iconText: 'SI', path: '/session/signin' },
+      { name: 'Phê duyệt hồ sơ ứng viên', iconText: 'SI', path: '/leader/approval-candidate' },
       { name: 'Quản lý nhân viên', iconText: 'SI', path: '/session/signin' },
       { name: 'Quản lý người dùng', iconText: 'SI', path: '/manage/user' },
     ],
@@ -88,8 +88,7 @@ export const navigations = [
     icon: 'security',
     children: [
       { name: 'Chấm công', icon: 'home', path: '/session/signin' },
-      { name: 'Quản lý nhân sự', iconText: 'SI', path: '/session/signin' },
-      { name: 'Tính lương', iconText: 'SI', path: '/session/signin' },
+      { name: 'Tạo hồ sơ nhân viên', iconText: 'SI', path: '/manage/create-employee' },
       { name: 'Báo cáo thống kê', iconText: 'SI', path: '/session/signin' },
     ],
     role: ['ADMIN', 'RECRUITMENT'],

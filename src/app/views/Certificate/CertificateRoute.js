@@ -5,7 +5,7 @@ import { lazy } from 'react';
 const Certificate = Loadable(lazy(() => import('./Certificate')));
 
 const certificateRoute = [
-  { path: '/manage/certificate', element: <Certificate />, auth: authRoles.admin },
+  { path: '/manage/certificate', element: <Certificate />, auth: authRoles.recruitment },
 ];
 
 export default certificateRoute;

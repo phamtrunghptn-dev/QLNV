@@ -63,7 +63,7 @@ export default function RecruitDialog(props) {
   return (
     <Dialog open={open} fullWidth maxWidth={'md'}>
       <DialogTitle style={{ marginBlockEnd: 0, padding: '16px 24px 0' }}>
-        {recruit.id ? 'Sửa kế hoạch' : 'Thêm kế hoạch'}
+        {recruit?.id ? 'Sửa kế hoạch' : 'Thêm kế hoạch'}
         <Box className="icon-close" onClick={handleClose}>
           <IconButton color="error">
             <CloseIcon />

@@ -9,6 +9,8 @@ import userRoute from 'app/views/User/UserRoute';
 import approveRoute from 'app/views/Approve/ApproveRoute';
 import listRecruitApprovedRoute from 'app/views/ListRecruitApproved/ListRecruitApprovedRoute';
 import candidateProfileRoute from 'app/views/CandidateProfile/CandidateProfileRoute';
+import approveCandidateRoute from 'app/views/ApproveCadidate/ApproveCadidateRoute';
+import employeeRoute from 'app/views/Employee/EmployeeRoute';
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes';
 import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 import NotFound from 'app/views/sessions/NotFound';
@@ -36,6 +38,8 @@ const routes = [
       ...approveRoute,
       ...listRecruitApprovedRoute,
       ...candidateProfileRoute,
+      ...approveCandidateRoute,
+      ...employeeRoute,
     ],
   },
   ...sessionRoutes,

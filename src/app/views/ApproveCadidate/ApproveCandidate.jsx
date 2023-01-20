@@ -2,24 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import { getListRecruit, deleteRecruit } from './ListRecruitApprovedService';
+import { getListCandidate } from './ApproveCandidateService';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
-import ConfirmationDialog from '../../components/ConfirmationDialog';
-import ListRecruitApprovedView from './ListRecruitApprovedView';
 import { checkStatus } from 'app/constant';
-import './Recruit.scss';
+import ConfirmationDialog from '../../components/ConfirmationDialog';
+import CandidateProfileView from './CandidateProfileView';
 
-export default function ListRecruitApproved() {
-  const [listRecruit, setListRecruit] = useState([]);
-  const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
+export default function ApproveCandidate() {
+  const [listCandidate, setListCandidate] = useState([]);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
-  const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
-
   const columns = [
     {
       title: 'STT',
@@ -34,25 +28,36 @@ export default function ListRecruitApproved() {
       title: 'Thao tác',
       field: 'action',
       render: (rowData) => (
-        <IconButton
-          color="primary"
-          onClick={() => {
-            setShouldOpenViewDialog(true);
-            setItem(rowData);
-          }}
-        >
-          <RemoveRedEyeIcon />
-        </IconButton>
+        <>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              setShouldOpenViewDialog(true);
+              setItem(rowData);
+            }}
+          >
+            <RemoveRedEyeIcon />
+          </IconButton>
+        </>
       ),
       cellStyle: {
-        width: '5%',
+        width: '10%',
         textAlign: 'center',
       },
     },
     {
-      title: 'Tên kế hoạch',
-      field: 'name',
-      render: (rowData) => rowData.titleRecruit,
+      title: 'Mã hồ sơ',
+      field: 'code',
+      render: (rowData) => rowData?.code,
+      cellStyle: {
+        width: '10%',
+        textAlign: 'center',
+      },
+    },
+    {
+      title: 'Họ và tên',
+      field: 'fullName',
+      render: (rowData) => rowData?.fullName,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -62,32 +67,27 @@ export default function ListRecruitApproved() {
       },
     },
     {
-      title: 'Số lượng',
-      field: 'quantity',
-      render: (rowData) => rowData.quantity,
+      title: 'Email',
+      field: 'email',
+      render: (rowData) => rowData?.email,
       cellStyle: {
-        width: '5%',
-        textAlign: 'center',
+        width: '10%',
+        textAlign: 'left',
       },
       headerStyle: {
-        textAlign: 'center',
+        textAlign: 'left',
       },
     },
     {
-      title: 'Các kênh tuyển dụng chính',
-      field: 'description',
-      render: (rowData) => rowData.recruitmentChannel,
-      headerStyle: {
-        textAlign: 'center',
-      },
+      title: 'SĐT',
+      field: 'phone',
+      render: (rowData) => rowData?.phone,
       cellStyle: {
-        width: '20%',
-        textOverflow: 'ellipsis',
-        textAlign: 'center',
-
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        maxWidth: 100,
+        width: '10%',
+        textAlign: 'left',
+      },
+      headerStyle: {
+        textAlign: 'left',
       },
     },
     {
@@ -113,10 +113,10 @@ export default function ListRecruitApproved() {
   }, []);
 
   const updatePageData = () => {
-    getListRecruit()
+    getListCandidate()
       .then((res) => {
         if (res.data.statusCode === 200) {
-          setListRecruit(res.data.data.filter((item) => item.status === 3));
+          setListCandidate(res.data.data.filter((item) => item.status === 18));
         } else {
           toast.warning('Lỗi xác thực!');
         }
@@ -125,30 +125,30 @@ export default function ListRecruitApproved() {
   };
 
   const handleClose = () => {
-    setShouldOpenDialog(false);
-    setShouldOpenConfirmDialog(false);
     setShouldOpenViewDialog(false);
-    setItem({});
     updatePageData();
+    setItem({});
   };
-
   return (
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[{ name: 'Tuyển dụng', path: '/plan' }, { name: 'Kế hoạch tuyển dụng' }]}
+          routeSegments={[
+            { name: 'Phê duyệt', path: '/leader' },
+            { name: 'Phê duyệt hồ sơ ứng viên' },
+          ]}
         />
         <div style={{ marginTop: 60 }}>
           <MaterialTable
-            title="Danh sách kế hoạch"
+            title="Danh sách hồ sơ ứng viên"
             columns={columns}
-            data={listRecruit}
+            data={listCandidate}
             options={{
               sorting: false,
               maxBodyHeight: '60vh',
+              draggable: false,
               pageSize: 10,
               pageSizeOptions: [10, 20, 50],
-              draggable: false,
               headerStyle: {
                 textAlign: 'center',
               },
@@ -177,23 +177,13 @@ export default function ListRecruitApproved() {
         </div>
       </Box>
       {shouldOpenViewDialog && (
-        <ListRecruitApprovedView
+        <CandidateProfileView
           open={shouldOpenViewDialog}
           handleClose={handleClose}
           item={item}
+          setItem={setItem}
         />
       )}
-      {/* {shouldOpenConfirmDialog && (
-        <ConfirmationDialog
-          title="Xác nhận"
-          text="Bạn có muốn xóa kế hoạch này?"
-          open={shouldOpenConfirmDialog}
-          onConfirmDialogClose={handleClose}
-          onYesClick={handleDelete}
-          Yes="Đồng ý"
-          No="Hủy"
-        />
-      )} */}
     </>
   );
 }

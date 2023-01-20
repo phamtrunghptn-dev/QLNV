@@ -1,4 +1,4 @@
-export const API = 'https://f6d5-222-252-21-66.ap.ngrok.io';
+export const API = 'https://c31a-27-69-1-119.ap.ngrok.io';
 export const checkStatus = (value) => {
   let message;
   let color;
@@ -35,10 +35,12 @@ export const checkStatus = (value) => {
       message = 'Tiếp nhận';
       break;
     case 8:
-      message = 'Pass phỏng vấn';
+      message = 'Đạt';
+      color = 'status-approved';
       break;
     case 9:
-      message = 'Không pass phỏng vấn';
+      message = 'Không đạt';
+      color = 'status-not-pass';
       break;
     case 10:
       message = 'Yêu cầu chỉnh sửa';
@@ -66,6 +68,10 @@ export const checkStatus = (value) => {
       message = 'Chờ xử lý';
       color = 'status-new';
       break;
+    case 18:
+      message = 'Chờ phỏng vấn';
+      color = 'status-pending';
+      break;
     default:
       message = 'Không trạng thái';
   }
@@ -74,3 +80,5 @@ export const checkStatus = (value) => {
     color,
   };
 };
+
+export const sex = [{ name: 'Nam' }, { name: 'Nữ' }, { name: 'Khác' }];
