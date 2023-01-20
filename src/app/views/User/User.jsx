@@ -147,6 +147,9 @@ export default function User() {
           options={{
             sorting: false,
             draggable: false,
+            maxBodyHeight: '60vh',
+            pageSize: 10,
+            pageSizeOptions: [10, 20, 50],
             headerStyle: {
               textAlign: 'center',
             },

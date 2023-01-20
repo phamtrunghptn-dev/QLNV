@@ -11,12 +11,13 @@ import { toast } from 'react-toastify';
 import { checkStatus } from 'app/constant';
 import CandidateProfileDialog from './CandidateProfileDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
+import CandidateProfileView from './CandidateProfileView';
 
 export default function CandidateProfile() {
   const [listCandidate, setListCandidate] = useState([]);
   const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
-  const [readOnly, setReadOnly] = useState(false);
+  const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [item, setItem] = useState({});
 
   const columns = [
@@ -37,9 +38,8 @@ export default function CandidateProfile() {
           <IconButton
             color="primary"
             onClick={() => {
-              setShouldOpenDialog(true);
+              setShouldOpenViewDialog(true);
               setItem(rowData);
-              setReadOnly(true);
             }}
           >
             <RemoveRedEyeIcon />
@@ -50,6 +50,7 @@ export default function CandidateProfile() {
               setShouldOpenDialog(true);
               setItem(rowData);
             }}
+            disabled={rowData?.status !== 17}
           >
             <EditIcon />
           </IconButton>
@@ -59,6 +60,7 @@ export default function CandidateProfile() {
               setShouldOpenConfirmDialog(true);
               setItem(rowData);
             }}
+            disabled={rowData?.status !== 17}
           >
             <DeleteIcon />
           </IconButton>
@@ -151,9 +153,9 @@ export default function CandidateProfile() {
   const handleClose = () => {
     setShouldOpenDialog(false);
     setShouldOpenConfirmDialog(false);
-    setItem({});
+    setShouldOpenViewDialog(false);
     updatePageData();
-    setReadOnly(false);
+    setItem({});
   };
 
   const handleDelete = () => {
@@ -178,45 +180,53 @@ export default function CandidateProfile() {
         >
           Thêm
         </Button>
-        <MaterialTable
-          title="Danh sách hồ sơ ứng viên"
-          columns={columns}
-          data={listCandidate}
-          options={{
-            sorting: false,
-            draggable: false,
-            headerStyle: {
-              textAlign: 'center',
-            },
-          }}
-          localization={{
-            toolbar: {
-              searchTooltip: 'Tìm kiếm',
-              searchPlaceholder: 'Tìm kiếm',
-            },
-            pagination: {
-              labelDisplayedRows: '{from}-{to} của {count}',
-              labelRowsSelect: 'hàng',
-              labelRowsPerPage: 'Số hàng mỗi trang:',
-              firstAriaLabel: 'Trang đầu',
-              firstTooltip: 'Trang đầu',
-              previousAriaLabel: 'Trang trước',
-              previousTooltip: 'Trang trước',
-              nextAriaLabel: 'Trang sau',
-              nextTooltip: 'Trang sau',
-              lastAriaLabel: 'Trang cuối',
-              lastTooltip: 'Trang cuối',
-            },
-            body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
-          }}
-        />
+        <div style={{ marginTop: 10 }}>
+          <MaterialTable
+            title="Danh sách hồ sơ ứng viên"
+            columns={columns}
+            data={listCandidate}
+            options={{
+              sorting: false,
+              draggable: false,
+              maxBodyHeight: '60vh',
+              pageSize: 10,
+              pageSizeOptions: [10, 20, 50],
+              headerStyle: {
+                textAlign: 'center',
+              },
+            }}
+            localization={{
+              toolbar: {
+                searchTooltip: 'Tìm kiếm',
+                searchPlaceholder: 'Tìm kiếm',
+              },
+              pagination: {
+                labelDisplayedRows: '{from}-{to} của {count}',
+                labelRowsSelect: 'hàng',
+                labelRowsPerPage: 'Số hàng mỗi trang:',
+                firstAriaLabel: 'Trang đầu',
+                firstTooltip: 'Trang đầu',
+                previousAriaLabel: 'Trang trước',
+                previousTooltip: 'Trang trước',
+                nextAriaLabel: 'Trang sau',
+                nextTooltip: 'Trang sau',
+                lastAriaLabel: 'Trang cuối',
+                lastTooltip: 'Trang cuối',
+              },
+              body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
+            }}
+          />
+        </div>
       </Box>
       {shouldOpenDialog && (
-        <CandidateProfileDialog
-          open={shouldOpenDialog}
+        <CandidateProfileDialog open={shouldOpenDialog} handleClose={handleClose} item={item} />
+      )}
+      {shouldOpenViewDialog && (
+        <CandidateProfileView
+          open={shouldOpenViewDialog}
           handleClose={handleClose}
           item={item}
-          readOnly={readOnly}
+          setItem={setItem}
         />
       )}
       {shouldOpenConfirmDialog && (

@@ -4,6 +4,8 @@ import { lazy } from 'react';
 
 const Position = Loadable(lazy(() => import('./Position')));
 
-const positionRoute = [{ path: '/manage/position', element: <Position />, auth: authRoles.admin }];
+const positionRoute = [
+  { path: '/manage/position', element: <Position />, auth: authRoles.recruitment },
+];
 
 export default positionRoute;

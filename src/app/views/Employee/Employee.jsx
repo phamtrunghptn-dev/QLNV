@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import { getListCertificate, deleteCertificate } from './CertificateService';
+import { getListEmployee, deleteEmployee } from './EmployeeService';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
-import CertificateDialog from './CertificateDialog';
+import { checkStatus } from 'app/constant';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
+import CandidateTable from './CandidateTable';
 
-export default function Certificate() {
-  const [listCertificate, setListCertificate] = useState([]);
-  const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
+export default function Employee() {
+  const [listEmployee, setListEmployee] = useState([]);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
-  const [readOnly, setReadOnly] = useState(false);
+  const [shouldOpenCandidateTable, setShouldOpenCandidateTable] = useState(false);
   const [item, setItem] = useState({});
 
   const columns = [
@@ -36,9 +36,7 @@ export default function Certificate() {
           <IconButton
             color="primary"
             onClick={() => {
-              setShouldOpenDialog(true);
               setItem(rowData);
-              setReadOnly(true);
             }}
           >
             <RemoveRedEyeIcon />
@@ -46,7 +44,6 @@ export default function Certificate() {
           <IconButton
             color="success"
             onClick={() => {
-              setShouldOpenDialog(true);
               setItem(rowData);
             }}
           >
@@ -69,7 +66,7 @@ export default function Certificate() {
       },
     },
     {
-      title: 'Mã bằng cấp',
+      title: 'Mã hồ sơ',
       field: 'code',
       render: (rowData) => rowData?.code,
       cellStyle: {
@@ -78,11 +75,11 @@ export default function Certificate() {
       },
     },
     {
-      title: 'Tên bằng cấp',
-      field: 'name',
-      render: (rowData) => rowData?.name,
+      title: 'Họ và tên',
+      field: 'fullName',
+      render: (rowData) => rowData?.fullName,
       cellStyle: {
-        width: '7%',
+        width: '10%',
         textAlign: 'left',
       },
       headerStyle: {
@@ -90,11 +87,11 @@ export default function Certificate() {
       },
     },
     {
-      title: 'Chuyên nghành',
-      field: 'majors',
-      render: (rowData) => rowData?.majors,
+      title: 'Email',
+      field: 'email',
+      render: (rowData) => rowData?.email,
       cellStyle: {
-        width: '15%',
+        width: '10%',
         textAlign: 'left',
       },
       headerStyle: {
@@ -102,11 +99,27 @@ export default function Certificate() {
       },
     },
     {
-      title: 'Được cấp bởi',
-      field: 'grantedBy',
-      render: (rowData) => rowData?.grantedBy,
+      title: 'SĐT',
+      field: 'phone',
+      render: (rowData) => rowData?.phone,
       cellStyle: {
-        width: '15%',
+        width: '10%',
+        textAlign: 'left',
+      },
+      headerStyle: {
+        textAlign: 'left',
+      },
+    },
+    {
+      title: 'Trạng thái',
+      field: 'status',
+      render: (rowData) => {
+        let message = checkStatus(rowData.status).message;
+        let color = checkStatus(rowData.status).color;
+        return <div className={color}>{message}</div>;
+      },
+      cellStyle: {
+        width: '10%',
         textAlign: 'left',
       },
       headerStyle: {
@@ -120,10 +133,10 @@ export default function Certificate() {
   }, []);
 
   const updatePageData = () => {
-    getListCertificate()
+    getListEmployee()
       .then((res) => {
         if (res.data.statusCode === 200) {
-          setListCertificate(res.data.data);
+          setListEmployee(res.data.data);
         } else {
           toast.warning('Lỗi xác thực!');
         }
@@ -132,15 +145,14 @@ export default function Certificate() {
   };
 
   const handleClose = () => {
-    setShouldOpenDialog(false);
     setShouldOpenConfirmDialog(false);
-    setItem({});
+    setShouldOpenCandidateTable(false);
     updatePageData();
-    setReadOnly(false);
+    setItem({});
   };
 
   const handleDelete = () => {
-    deleteCertificate(item.id).then((res) => {
+    deleteEmployee(item.id).then((res) => {
       toast.success('Xóa thành công');
       handleClose();
     });
@@ -150,74 +162,68 @@ export default function Certificate() {
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[
-            { name: 'Danh sách danh mục', path: '/manage' },
-            { name: 'Danh sách bằng cấp' },
-          ]}
+          routeSegments={[{ name: 'Tuyển dụng', path: '/manage' }, { name: 'Danh sách hồ sơ' }]}
         />
         <Button
           variant="contained"
           color="primary"
           size="medium"
           style={{ margin: '20px 0', padding: '5px 20px' }}
-          onClick={() => setShouldOpenDialog(true)}
+          onClick={() => setShouldOpenCandidateTable(true)}
         >
           Thêm
         </Button>
-        <MaterialTable
-          title="Danh sách bằng cấp"
-          columns={columns}
-          data={listCertificate}
-          options={{
-            sorting: false,
-            maxBodyHeight: '60vh',
-            pageSize: 10,
-            pageSizeOptions: [10, 20, 50],
-            draggable: false,
-            headerStyle: {
-              textAlign: 'center',
-            },
-          }}
-          localization={{
-            toolbar: {
-              searchTooltip: 'Tìm kiếm',
-              searchPlaceholder: 'Tìm kiếm',
-            },
-            pagination: {
-              labelDisplayedRows: '{from}-{to} của {count}',
-              labelRowsSelect: 'hàng',
-              labelRowsPerPage: 'Số hàng mỗi trang:',
-              firstAriaLabel: 'Trang đầu',
-              firstTooltip: 'Trang đầu',
-              previousAriaLabel: 'Trang trước',
-              previousTooltip: 'Trang trước',
-              nextAriaLabel: 'Trang sau',
-              nextTooltip: 'Trang sau',
-              lastAriaLabel: 'Trang cuối',
-              lastTooltip: 'Trang cuối',
-            },
-            body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
-          }}
-        />
+        <div style={{ marginTop: 10 }}>
+          <MaterialTable
+            title="Danh sách hồ sơ nhân viên"
+            columns={columns}
+            data={listEmployee}
+            options={{
+              sorting: false,
+              draggable: false,
+              maxBodyHeight: '60vh',
+              pageSize: 10,
+              pageSizeOptions: [10, 20, 50],
+              headerStyle: {
+                textAlign: 'center',
+              },
+            }}
+            localization={{
+              toolbar: {
+                searchTooltip: 'Tìm kiếm',
+                searchPlaceholder: 'Tìm kiếm',
+              },
+              pagination: {
+                labelDisplayedRows: '{from}-{to} của {count}',
+                labelRowsSelect: 'hàng',
+                labelRowsPerPage: 'Số hàng mỗi trang:',
+                firstAriaLabel: 'Trang đầu',
+                firstTooltip: 'Trang đầu',
+                previousAriaLabel: 'Trang trước',
+                previousTooltip: 'Trang trước',
+                nextAriaLabel: 'Trang sau',
+                nextTooltip: 'Trang sau',
+                lastAriaLabel: 'Trang cuối',
+                lastTooltip: 'Trang cuối',
+              },
+              body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
+            }}
+          />
+        </div>
       </Box>
-      {shouldOpenDialog && (
-        <CertificateDialog
-          open={shouldOpenDialog}
-          handleClose={handleClose}
-          item={item}
-          readOnly={readOnly}
-        />
-      )}
       {shouldOpenConfirmDialog && (
         <ConfirmationDialog
           title="Xác nhận"
-          text="Bạn có muốn xóa bằng cấp này?"
+          text="Bạn có muốn xóa hồ sơ này?"
           open={shouldOpenConfirmDialog}
           onConfirmDialogClose={handleClose}
           onYesClick={handleDelete}
           Yes="Đồng ý"
           No="Hủy"
         />
+      )}
+      {shouldOpenCandidateTable && (
+        <CandidateTable open={shouldOpenCandidateTable} handleClose={handleClose} />
       )}
     </>
   );
