@@ -70,16 +70,16 @@ export default function WorkingPosition(props) {
           fullWidth
           options={listPosition}
           getOptionLabel={(option) => option.name}
-          value={formik.values?.position}
-          onChange={(event, value) => formik.setFieldValue('position', value)}
+          value={formik.values?.positions ? formik.values?.positions[0] : null}
+          onChange={(event, value) => formik.setFieldValue('positions', [value])}
           filterOptions={filterOptions}
           renderInput={(params) => (
             <TextField
               {...params}
               label="Chức vụ"
               placeholder="Chức vụ"
-              error={formik.errors.position && formik.touched.position}
-              helperText={formik.errors.position}
+              error={formik.errors.positions && formik.touched.positions}
+              helperText={formik.errors.positions}
             />
           )}
         />

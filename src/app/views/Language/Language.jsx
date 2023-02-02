@@ -17,6 +17,7 @@ export default function Language() {
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -104,6 +105,7 @@ export default function Language() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
@@ -111,12 +113,17 @@ export default function Language() {
     getListLanguage()
       .then((res) => {
         if (res.data.statusCode === 200) {
+          setLoading(false);
           setListLanguage(res.data.data);
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
   const handleClose = () => {
@@ -129,7 +136,11 @@ export default function Language() {
 
   const handleDelete = () => {
     deleteLanguage(item.id).then((res) => {
-      toast.success('Xóa thành công');
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
       handleClose();
     });
   };
@@ -166,6 +177,7 @@ export default function Language() {
               textAlign: 'center',
             },
           }}
+          isLoading={loading}
           localization={{
             toolbar: {
               searchTooltip: 'Tìm kiếm',

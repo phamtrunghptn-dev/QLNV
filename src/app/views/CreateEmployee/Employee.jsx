@@ -2,17 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import { getListCandidate } from './ApproveCandidateService';
+import { getListEmployee, deleteEmployee } from './EmployeeService';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import { checkStatus } from 'app/constant';
-import CandidateProfileView from './CandidateProfileView';
+import ConfirmationDialog from '../../components/ConfirmationDialog';
+import CandidateTable from './CandidateTable';
+import EmployeeDialog from './EmployeeDialog';
+import EmployeeView from './EmployeeView';
+import RequestDialog from './RequestDialog';
 
-export default function ApproveCandidate() {
-  const [listCandidate, setListCandidate] = useState([]);
-  const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
+export default function Employee() {
+  const [listEmployee, setListEmployee] = useState([]);
+  const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
+  const [shouldOpenCandidateTable, setShouldOpenCandidateTable] = useState(false);
   const [item, setItem] = useState({});
+  const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
+  const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
+  const [shouldOpenRequestDialog, setShouldOpenRequestDialog] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const columns = [
@@ -33,11 +43,34 @@ export default function ApproveCandidate() {
           <IconButton
             color="primary"
             onClick={() => {
-              setShouldOpenViewDialog(true);
+              if (rowData.additionalRequestContent) {
+                setShouldOpenRequestDialog(true);
+              } else {
+                setShouldOpenViewDialog(true);
+              }
               setItem(rowData);
             }}
           >
             <RemoveRedEyeIcon />
+          </IconButton>
+          <IconButton
+            color="success"
+            onClick={() => {
+              setItem(rowData);
+              setShouldOpenDialog(true);
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color="error"
+            onClick={() => {
+              setShouldOpenConfirmDialog(true);
+              setItem(rowData);
+            }}
+            disabled={rowData.status === 10}
+          >
+            <DeleteIcon />
           </IconButton>
         </>
       ),
@@ -115,11 +148,11 @@ export default function ApproveCandidate() {
   }, []);
 
   const updatePageData = () => {
-    getListCandidate()
+    getListEmployee()
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListCandidate(res.data.data.filter((item) => item.status === 18));
+          setListEmployee(res.data.data.filter((item) => item.status === 1 || item.status === 10));
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');
@@ -132,28 +165,50 @@ export default function ApproveCandidate() {
   };
 
   const handleClose = () => {
+    setShouldOpenConfirmDialog(false);
+    setShouldOpenCandidateTable(false);
+    setShouldOpenDialog(false);
     setShouldOpenViewDialog(false);
+    setShouldOpenRequestDialog(false);
     updatePageData();
     setItem({});
   };
+
+  const handleDelete = () => {
+    deleteEmployee(item.id).then((res) => {
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
+      handleClose();
+    });
+  };
+
   return (
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[
-            { name: 'Phê duyệt', path: '/leader' },
-            { name: 'Phê duyệt hồ sơ ứng viên' },
-          ]}
+          routeSegments={[{ name: 'Tuyển dụng', path: '/manage' }, { name: 'Danh sách hồ sơ' }]}
         />
-        <div style={{ marginTop: 60 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="medium"
+          style={{ margin: '20px 0', padding: '5px 20px' }}
+          onClick={() => setShouldOpenCandidateTable(true)}
+        >
+          Thêm
+        </Button>
+        <div style={{ marginTop: 10 }}>
           <MaterialTable
-            title="Danh sách hồ sơ ứng viên"
+            title="Danh sách hồ sơ nhân viên"
             columns={columns}
-            data={listCandidate}
+            data={listEmployee}
             options={{
               sorting: false,
-              maxBodyHeight: '60vh',
               draggable: false,
+              maxBodyHeight: '60vh',
               pageSize: 10,
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
@@ -184,13 +239,38 @@ export default function ApproveCandidate() {
           />
         </div>
       </Box>
-      {shouldOpenViewDialog && (
-        <CandidateProfileView
-          open={shouldOpenViewDialog}
+      {shouldOpenConfirmDialog && (
+        <ConfirmationDialog
+          title="Xác nhận"
+          text="Bạn có muốn xóa hồ sơ này?"
+          open={shouldOpenConfirmDialog}
+          onConfirmDialogClose={handleClose}
+          onYesClick={handleDelete}
+          Yes="Đồng ý"
+          No="Hủy"
+        />
+      )}
+      {shouldOpenDialog && (
+        <EmployeeDialog
+          open={shouldOpenDialog}
+          handleCloseDialog={() => setShouldOpenDialog(false)}
           handleClose={handleClose}
           item={item}
+        />
+      )}
+      {shouldOpenCandidateTable && (
+        <CandidateTable open={shouldOpenCandidateTable} handleClose={handleClose} />
+      )}
+      {shouldOpenViewDialog && (
+        <EmployeeView
+          open={shouldOpenViewDialog}
+          item={item}
+          handleClose={handleClose}
           setItem={setItem}
         />
+      )}
+      {shouldOpenRequestDialog && (
+        <RequestDialog open={shouldOpenRequestDialog} item={item} handleCloseDialog={handleClose} />
       )}
     </>
   );
