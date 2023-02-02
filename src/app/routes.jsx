@@ -10,7 +10,10 @@ import approveRoute from 'app/views/Approve/ApproveRoute';
 import listRecruitApprovedRoute from 'app/views/ListRecruitApproved/ListRecruitApprovedRoute';
 import candidateProfileRoute from 'app/views/CandidateProfile/CandidateProfileRoute';
 import approveCandidateRoute from 'app/views/ApproveCadidate/ApproveCadidateRoute';
-import employeeRoute from 'app/views/Employee/EmployeeRoute';
+import createEmployeeRoute from 'app/views/CreateEmployee/EmployeeRoute';
+import approveEmployeeRoute from 'app/views/ApproveEmployee/ApproveEmployeeRoute';
+import contractRoute from 'app/views/Contract/ContractRoute';
+import timeKeepingRoute from 'app/views/TimeKeeping/TimeKeepingRoute';
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes';
 import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 import NotFound from 'app/views/sessions/NotFound';
@@ -39,7 +42,10 @@ const routes = [
       ...listRecruitApprovedRoute,
       ...candidateProfileRoute,
       ...approveCandidateRoute,
-      ...employeeRoute,
+      ...createEmployeeRoute,
+      ...approveEmployeeRoute,
+      ...contractRoute,
+      ...timeKeepingRoute,
     ],
   },
   ...sessionRoutes,

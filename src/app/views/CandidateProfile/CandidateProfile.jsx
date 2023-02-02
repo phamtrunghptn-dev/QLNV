@@ -19,6 +19,7 @@ export default function CandidateProfile() {
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -135,6 +136,7 @@ export default function CandidateProfile() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
@@ -142,12 +144,17 @@ export default function CandidateProfile() {
     getListCandidate()
       .then((res) => {
         if (res.data.statusCode === 200) {
+          setLoading(false);
           setListCandidate(res.data.data);
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
   const handleClose = () => {
@@ -160,7 +167,11 @@ export default function CandidateProfile() {
 
   const handleDelete = () => {
     deleteCandidate(item.id).then((res) => {
-      toast.success('Xóa thành công');
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
       handleClose();
     });
   };
@@ -195,6 +206,7 @@ export default function CandidateProfile() {
                 textAlign: 'center',
               },
             }}
+            isLoading={loading}
             localization={{
               toolbar: {
                 searchTooltip: 'Tìm kiếm',

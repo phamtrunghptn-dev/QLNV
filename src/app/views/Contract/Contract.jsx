@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import { getListCandidate } from './ApproveCandidateService';
+import { getListContract } from './ContractService';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 import { checkStatus } from 'app/constant';
-import CandidateProfileView from './CandidateProfileView';
+import ContractDialog from './ContractDialog';
 
-export default function ApproveCandidate() {
-  const [listCandidate, setListCandidate] = useState([]);
-  const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
+export default function Contract() {
+  const [listContract, setListContract] = useState([]);
+  const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +34,7 @@ export default function ApproveCandidate() {
           <IconButton
             color="primary"
             onClick={() => {
-              setShouldOpenViewDialog(true);
+              setShouldOpenDialog(true);
               setItem(rowData);
             }}
           >
@@ -47,7 +48,7 @@ export default function ApproveCandidate() {
       },
     },
     {
-      title: 'Mã hồ sơ',
+      title: 'Mã hợp đồng',
       field: 'code',
       render: (rowData) => rowData?.code,
       cellStyle: {
@@ -56,11 +57,11 @@ export default function ApproveCandidate() {
       },
     },
     {
-      title: 'Họ và tên',
-      field: 'fullName',
-      render: (rowData) => rowData?.fullName,
+      title: 'Họ và tên nhân viên',
+      field: 'name',
+      render: (rowData) => rowData?.employee?.fullName,
       cellStyle: {
-        width: '10%',
+        width: '15%',
         textAlign: 'left',
       },
       headerStyle: {
@@ -68,23 +69,11 @@ export default function ApproveCandidate() {
       },
     },
     {
-      title: 'Email',
-      field: 'email',
-      render: (rowData) => rowData?.email,
+      title: 'Ngày kí',
+      field: 'majors',
+      render: (rowData) => moment(rowData?.signingDate).format('DD/MM/YYYY'),
       cellStyle: {
-        width: '10%',
-        textAlign: 'left',
-      },
-      headerStyle: {
-        textAlign: 'left',
-      },
-    },
-    {
-      title: 'SĐT',
-      field: 'phone',
-      render: (rowData) => rowData?.phone,
-      cellStyle: {
-        width: '10%',
+        width: '15%',
         textAlign: 'left',
       },
       headerStyle: {
@@ -115,11 +104,11 @@ export default function ApproveCandidate() {
   }, []);
 
   const updatePageData = () => {
-    getListCandidate()
+    getListContract()
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListCandidate(res.data.data.filter((item) => item.status === 18));
+          setListContract(res.data.data);
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');
@@ -132,30 +121,31 @@ export default function ApproveCandidate() {
   };
 
   const handleClose = () => {
-    setShouldOpenViewDialog(false);
-    updatePageData();
+    setShouldOpenDialog(false);
     setItem({});
+    updatePageData();
   };
+
   return (
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
           routeSegments={[
-            { name: 'Phê duyệt', path: '/leader' },
-            { name: 'Phê duyệt hồ sơ ứng viên' },
+            { name: 'Danh sách danh mục', path: '/manage' },
+            { name: 'Danh sách hợp đồng' },
           ]}
         />
-        <div style={{ marginTop: 60 }}>
+        <div style={{ marginTop: '40px' }}>
           <MaterialTable
-            title="Danh sách hồ sơ ứng viên"
+            title="Danh sách hợp đồng"
             columns={columns}
-            data={listCandidate}
+            data={listContract}
             options={{
               sorting: false,
               maxBodyHeight: '60vh',
-              draggable: false,
               pageSize: 10,
               pageSizeOptions: [10, 20, 50],
+              draggable: false,
               headerStyle: {
                 textAlign: 'center',
               },
@@ -184,11 +174,11 @@ export default function ApproveCandidate() {
           />
         </div>
       </Box>
-      {shouldOpenViewDialog && (
-        <CandidateProfileView
-          open={shouldOpenViewDialog}
-          handleClose={handleClose}
+      {shouldOpenDialog && (
+        <ContractDialog
+          open={shouldOpenDialog}
           item={item}
+          handleCloseDialog={handleClose}
           setItem={setItem}
         />
       )}

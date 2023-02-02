@@ -19,6 +19,7 @@ export default function ListRecruitApproved() {
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -109,6 +110,7 @@ export default function ListRecruitApproved() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
@@ -116,12 +118,17 @@ export default function ListRecruitApproved() {
     getListRecruit()
       .then((res) => {
         if (res.data.statusCode === 200) {
+          setLoading(false);
           setListRecruit(res.data.data.filter((item) => item.status === 3));
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
   const handleClose = () => {
@@ -153,6 +160,7 @@ export default function ListRecruitApproved() {
                 textAlign: 'center',
               },
             }}
+            isLoading={loading}
             localization={{
               toolbar: {
                 searchTooltip: 'Tìm kiếm',

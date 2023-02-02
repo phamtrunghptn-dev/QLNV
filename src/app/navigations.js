@@ -68,6 +68,7 @@ export const navigations = [
       { name: 'Danh sách chức vụ', iconText: 'SI', path: '/manage/position' },
       { name: 'Danh sách bằng cấp', iconText: 'SI', path: '/manage/certificate' },
       { name: 'Danh sách chứng chỉ', iconText: 'SI', path: '/manage/language' },
+      { name: 'Danh sách hợp đồng', iconText: 'SI', path: '/manage/contract' },
     ],
     role: ['ADMIN', 'RECRUITMENT'],
   },
@@ -78,7 +79,7 @@ export const navigations = [
       { name: 'Phê duyệt kế hoạch TD', icon: 'home', path: '/leader/approval-recruit' },
       { name: 'Danh sách KH đã phê duyệt', icon: 'home', path: '/leader/approved' },
       { name: 'Phê duyệt hồ sơ ứng viên', iconText: 'SI', path: '/leader/approval-candidate' },
-      { name: 'Quản lý nhân viên', iconText: 'SI', path: '/session/signin' },
+      { name: 'Phê duyệt hồ sơ nhân viên', iconText: 'SI', path: '/leader/approval-employee' },
       { name: 'Quản lý người dùng', iconText: 'SI', path: '/manage/user' },
     ],
     role: ['ADMIN', 'LEADER'],
@@ -89,6 +90,7 @@ export const navigations = [
     children: [
       { name: 'Chấm công', icon: 'home', path: '/session/signin' },
       { name: 'Tạo hồ sơ nhân viên', iconText: 'SI', path: '/manage/create-employee' },
+      { name: 'Quản lý nhân viên', iconText: 'SI', path: '/manage/create-employee' },
       { name: 'Báo cáo thống kê', iconText: 'SI', path: '/session/signin' },
     ],
     role: ['ADMIN', 'RECRUITMENT'],
@@ -97,7 +99,7 @@ export const navigations = [
     name: 'Quản lý lương',
     icon: 'security',
     children: [
-      { name: 'Chấm công', icon: 'home', path: '/session/signin' },
+      { name: 'Chấm công', icon: 'home', path: '/manage/time-keeping' },
       { name: 'Quản lý nhân sự', iconText: 'SI', path: '/session/signin' },
       { name: 'Tính lương', iconText: 'SI', path: '/session/signin' },
       { name: 'Báo cáo thống kê', iconText: 'SI', path: '/session/signin' },

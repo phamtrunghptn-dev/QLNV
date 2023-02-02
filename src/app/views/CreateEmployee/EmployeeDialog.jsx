@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -16,7 +15,7 @@ import Tab from '@mui/material/Tab';
 import EmployeeInformation from './EmployeeInformation';
 import RelatedInformation from './RelatedInformation';
 import WorkingPosition from './WorkingPosition';
-import { addEmployee } from './EmployeeService';
+import { addEmployee, editEmployee } from './EmployeeService';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { toast } from 'react-toastify';
 
@@ -52,37 +51,72 @@ function a11yProps(index) {
 export default function EmployeeDialog(props) {
   const { open, handleClose, handleCloseDialog, candidate, item } = props;
   const [value, setValue] = React.useState(0);
-  const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [employee, setEmployee] = useState({});
   const [method, setMethod] = useState('');
 
   const firstRender = useRef(false);
-
   const formik = useFormik({
     initialValues: {
-      code: '',
-      fullName: candidate.id ? candidate?.fullName : '',
-      dateOfBirth: candidate.id ? candidate?.dateOfBirth : null,
-      phone: candidate.id ? candidate?.phone : '',
-      email: candidate.id ? candidate?.email : '',
-      education: candidate.id ? candidate?.education : '',
-      major: candidate.id ? candidate?.major : '',
-      nation: candidate.id ? candidate?.nation : '',
-      religion: candidate.id ? candidate?.religion : '',
-      address: candidate.id ? candidate?.address : '',
-      numberIdentityCard: candidate.id ? candidate?.numberIdentityCard : '',
-      issuedDateIdentityCard: candidate.id ? candidate?.issuedDateIdentityCard : null,
-      placeOfGrantIdentityCard: candidate.id ? candidate?.placeOfGrantIdentityCard : '',
-      numberMedicalInsurance: candidate.id ? candidate?.numberMedicalInsurance : '',
-      issuedDateMedicalInsurance: candidate.id ? candidate?.issuedDateMedicalInsurance : null,
-      placeOfIssueMedicalInsurance: candidate.id ? candidate?.placeOfIssueMedicalInsurance : '',
-      numberSocialInsurance: candidate.id ? candidate?.numberSocialInsurance : '',
-      issuedDateSocialInsurance: candidate.id ? candidate?.issuedDateSocialInsurance : null,
-      placeOfIssueSocialInsurance: candidate.id ? candidate?.placeOfIssueSocialInsurance : '',
-      certificate: candidate.id ? candidate?.certificate : null,
-      languages: candidate.id ? candidate?.certificate : null,
-      department: candidate.id ? candidate?.department : null,
-      position: candidate.id ? candidate?.position : null,
+      code: item?.id ? item?.code : '',
+      fullName: item?.id ? item?.fullName : candidate?.id ? candidate?.fullName : '',
+      dateOfBirth: item?.id ? item?.dateOfBirth : candidate?.id ? candidate?.dateOfBirth : null,
+      sex: item?.id ? item?.sex : candidate?.id ? candidate?.sex : '',
+      phone: item?.id ? item?.phone : candidate?.id ? candidate?.phone : '',
+      email: item?.id ? item?.email : candidate?.id ? candidate?.email : '',
+      education: item?.id ? item?.education : candidate?.id ? candidate?.education : '',
+      major: item?.id ? item?.major : candidate?.id ? candidate?.major : '',
+      nation: item?.id ? item?.nation : candidate?.id ? candidate?.nation : '',
+      religion: item?.id ? item?.religion : candidate?.id ? candidate?.religion : '',
+      address: item?.id ? item?.address : candidate?.id ? candidate?.address : '',
+      numberIdentityCard: item?.id
+        ? item?.numberIdentityCard
+        : candidate?.id
+        ? candidate?.numberIdentityCard
+        : '',
+      issuedDateIdentityCard: item?.id
+        ? item?.issuedDateIdentityCard
+        : candidate?.id
+        ? candidate?.issuedDateIdentityCard
+        : null,
+      placeOfGrantIdentityCard: item?.id
+        ? item?.placeOfGrantIdentityCard
+        : candidate?.id
+        ? candidate?.placeOfGrantIdentityCard
+        : '',
+      numberMedicalInsurance: item?.id
+        ? item?.numberMedicalInsurance
+        : candidate?.id
+        ? candidate?.numberMedicalInsurance
+        : '',
+      issuedDateMedicalInsurance: item?.id
+        ? item?.issuedDateMedicalInsurance
+        : candidate?.id
+        ? candidate?.issuedDateMedicalInsurance
+        : null,
+      placeOfIssueMedicalInsurance: item?.id
+        ? item?.placeOfIssueMedicalInsurance
+        : candidate?.id
+        ? candidate?.placeOfIssueMedicalInsurance
+        : '',
+      numberSocialInsurance: item?.id
+        ? item?.numberSocialInsurance
+        : candidate?.id
+        ? candidate?.numberSocialInsurance
+        : '',
+      issuedDateSocialInsurance: item?.id
+        ? item?.issuedDateSocialInsurance
+        : candidate?.id
+        ? candidate?.issuedDateSocialInsurance
+        : null,
+      placeOfIssueSocialInsurance: item?.id
+        ? item?.placeOfIssueSocialInsurance
+        : candidate?.id
+        ? candidate?.placeOfIssueSocialInsurance
+        : '',
+      certificate: item?.id ? item?.certificate : candidate?.id ? candidate?.certificate : null,
+      languages: item?.id ? item?.languages : candidate?.id ? candidate?.certificate : null,
+      department: item?.id ? item?.department : candidate?.id ? candidate?.department : null,
+      positions: item?.id ? item?.positions : candidate?.id ? candidate?.positions : null,
     },
     enableReinitialize: true,
     validateOnChange: false,
@@ -96,6 +130,7 @@ export default function EmployeeDialog(props) {
         .nullable()
         .typeError('Sai định dạng ngày!')
         .required('Vui lòng nhập trường này'),
+      sex: Yup.string().required('Vui lòng nhập trường này!'),
       email: Yup.string()
         .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/, 'Đây không phải là email!')
         .required('Vui lòng nhập Email!'),
@@ -134,14 +169,11 @@ export default function EmployeeDialog(props) {
       certificate: Yup.object().nullable().required('Vui lòng chọn trường này'),
       languages: Yup.array().nullable().required('Vui lòng chọn trường này'),
       department: Yup.object().nullable().required('Vui lòng chọn trường này'),
-      position: Yup.object().nullable().required('Vui lòng chọn trường này'),
+      positions: Yup.array().nullable().required('Vui lòng chọn trường này'),
     }),
     onSubmit: (values) => {
       values.id = item?.id;
-      console.log(values);
-      if (method === 2) {
-        setShouldOpenConfirmDialog(true);
-      } else if (method === 1) {
+      if (method === 1) {
         values.status = item?.status || method;
         setEmployee(values);
       }
@@ -160,7 +192,29 @@ export default function EmployeeDialog(props) {
   useEffect(() => {
     if (employee.id) {
       if (employee.status === 1) {
-      } else if (employee.status === 12) {
+        editEmployee(employee)
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              toast.success('Sửa hồ sơ thành công');
+              setEmployee({});
+              handleClose();
+            } else {
+              toast.warning('Lỗi xác thực');
+            }
+          })
+          .catch((err) => toast.error('Có lỗi xảy ra!'));
+      } else if (employee.status === 10) {
+        editEmployee(employee)
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              toast.success('Chỉnh sửa thành công');
+              setEmployee({});
+              handleClose();
+            } else {
+              toast.warning('Lỗi xác thực');
+            }
+          })
+          .catch((err) => toast.error('Có lỗi xảy ra!'));
       }
     } else {
       if (employee.status === 1) {
@@ -175,7 +229,6 @@ export default function EmployeeDialog(props) {
             }
           })
           .catch((err) => toast.error('Có lỗi xảy ra!'));
-      } else if (employee.status === 2) {
       }
     }
   }, [employee.status]);
@@ -225,35 +278,15 @@ export default function EmployeeDialog(props) {
               color="primary"
               onClick={() => {
                 setMethod(1);
+                setEmployee({ ...employee, additionalRequestContent: '' });
               }}
               type="submit"
             >
-              Lưu nháp
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setMethod(2);
-              }}
-              type="submit"
-            >
-              Trình lãnh đạo
+              {item?.id ? 'Lưu' : 'Thêm'}
             </Button>
           </DialogActions>
         </form>
       </Dialog>
-      {shouldOpenConfirmDialog && (
-        <ConfirmationDialog
-          title="Xác nhận"
-          text="Bạn có muốn trình lãnh đạo hồ sơ này?"
-          open={shouldOpenConfirmDialog}
-          onConfirmDialogClose={() => setShouldOpenConfirmDialog(false)}
-          // onYesClick={}
-          Yes="Đồng ý"
-          No="Hủy"
-        />
-      )}
     </>
   );
 }

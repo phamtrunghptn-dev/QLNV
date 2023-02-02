@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
 import { getListDepartment, deleteDepartment } from './DepartmentService';
@@ -17,6 +17,7 @@ export default function Department() {
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -104,6 +105,7 @@ export default function Department() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
@@ -111,12 +113,17 @@ export default function Department() {
     getListDepartment()
       .then((res) => {
         if (res.data.statusCode === 200) {
+          setLoading(false);
           setListDepartment(res.data.data);
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
   const handleClose = () => {
@@ -129,7 +136,11 @@ export default function Department() {
 
   const handleDelete = () => {
     deleteDepartment(item.id).then((res) => {
-      toast.success('Xóa thành công');
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
       handleClose();
     });
   };
@@ -166,6 +177,7 @@ export default function Department() {
               textAlign: 'center',
             },
           }}
+          isLoading={loading}
           localization={{
             toolbar: {
               searchTooltip: 'Tìm kiếm',

@@ -21,6 +21,7 @@ export default function Recruit() {
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const disableButtonByRole = (rowData) => {
     if (role === 'RECRUITMENT' && (rowData.status === 10 || rowData.status === 6)) {
@@ -149,6 +150,7 @@ export default function Recruit() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
@@ -156,12 +158,17 @@ export default function Recruit() {
     getListRecruit()
       .then((res) => {
         if (res.data.statusCode === 200) {
+          setLoading(false);
           setListRecruit(res.data.data.filter((item) => item.status !== 3 && item.status !== 2));
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
   console.log(listRecruit);
   const handleClose = () => {
@@ -174,7 +181,11 @@ export default function Recruit() {
 
   const handleDelete = () => {
     deleteRecruit(item.id).then((res) => {
-      toast.success('Xóa thành công');
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
       handleClose();
     });
   };
@@ -208,6 +219,7 @@ export default function Recruit() {
               textAlign: 'center',
             },
           }}
+          isLoading={loading}
           localization={{
             toolbar: {
               searchTooltip: 'Tìm kiếm',

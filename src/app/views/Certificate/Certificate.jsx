@@ -17,6 +17,7 @@ export default function Certificate() {
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -116,6 +117,7 @@ export default function Certificate() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
@@ -123,12 +125,17 @@ export default function Certificate() {
     getListCertificate()
       .then((res) => {
         if (res.data.statusCode === 200) {
+          setLoading(false);
           setListCertificate(res.data.data);
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
   const handleClose = () => {
@@ -141,7 +148,11 @@ export default function Certificate() {
 
   const handleDelete = () => {
     deleteCertificate(item.id).then((res) => {
-      toast.success('Xóa thành công');
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
       handleClose();
     });
   };
@@ -178,6 +189,7 @@ export default function Certificate() {
               textAlign: 'center',
             },
           }}
+          isLoading={loading}
           localization={{
             toolbar: {
               searchTooltip: 'Tìm kiếm',

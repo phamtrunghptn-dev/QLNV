@@ -17,6 +17,7 @@ export default function Position() {
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -104,6 +105,7 @@ export default function Position() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
@@ -111,12 +113,17 @@ export default function Position() {
     getListPosition()
       .then((res) => {
         if (res.data.statusCode === 200) {
+          setLoading(false);
           setListPosition(res.data.data);
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
   const handleClose = () => {
@@ -129,7 +136,11 @@ export default function Position() {
 
   const handleDelete = () => {
     deletePosition(item.id).then((res) => {
-      toast.success('Xóa thành công');
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
       handleClose();
     });
   };
@@ -166,6 +177,7 @@ export default function Position() {
               textAlign: 'center',
             },
           }}
+          isLoading={loading}
           localization={{
             toolbar: {
               searchTooltip: 'Tìm kiếm',
