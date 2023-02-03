@@ -17,17 +17,22 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { uploadImage } from 'app/constant';
+import './Candidate.scss';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function CandidateProfileDialog(props) {
   const { open, handleClose, item } = props;
 
   const [listRecruit, setListRecruit] = useState([]);
+  const [file, setFile] = useState(undefined);
 
   const formik = useFormik({
     initialValues: {
       code: item.id ? item?.code : '',
       fullName: item.id ? item?.fullName : '',
       age: item.id ? item?.age : '',
+      imageName: item.id ? item?.imageName : '',
       education: item.id ? item?.education : '',
       major: item.id ? item?.major : '',
       dateOfBirth: item.id ? item?.dateOfBirth : null,
@@ -44,12 +49,7 @@ export default function CandidateProfileDialog(props) {
       code: Yup.string()
         .matches(/^MaHS[0-9]{4}$/, 'Mã hồ sơ chưa đúng format VD:(MaHS9999)')
         .required('Vui lòng nhập trường này'),
-      fullName: Yup.string()
-        .matches(
-          /^[0-9a-zA-Z].{5,100}$/,
-          'Họ tên ứng viên phải lớn hơn 5 kí tự và nhỏ hơn 100 kí tự'
-        )
-        .required('Vui lòng nhập trường này'),
+      fullName: Yup.string().required('Vui lòng nhập trường này'),
       age: Yup.number().typeError('Tuổi phải là số!').required('Vui lòng nhập trường này'),
       education: Yup.string().required('Vui lòng nhập trường này'),
       major: Yup.string().required('Vui lòng nhập trường này'),
@@ -122,7 +122,7 @@ export default function CandidateProfileDialog(props) {
         <DialogContent style={{ padding: '0 20px' }}>
           <Grid container spacing={2} style={{ marginTop: 5 }}>
             <Grid container item xs={12} md={12} spacing={2}>
-              <Grid item xs={4} md={4}>
+              <Grid item xs={3} md={3}>
                 <TextField
                   label="Mã hồ sơ"
                   variant="outlined"
@@ -134,7 +134,7 @@ export default function CandidateProfileDialog(props) {
                   helperText={formik.errors.code}
                 />
               </Grid>
-              <Grid item xs={4} md={4}>
+              <Grid item xs={3} md={3}>
                 <TextField
                   label="Họ và Tên"
                   variant="outlined"
@@ -146,7 +146,7 @@ export default function CandidateProfileDialog(props) {
                   helperText={formik.errors.fullName}
                 />
               </Grid>
-              <Grid item xs={4} md={4}>
+              <Grid item xs={2} md={2}>
                 <TextField
                   label="Tuổi"
                   variant="outlined"
@@ -157,6 +157,34 @@ export default function CandidateProfileDialog(props) {
                   error={formik.errors.age && formik.touched.age}
                   helperText={formik.errors.age}
                 />
+              </Grid>
+              <Grid item xs={4} md={4}>
+                <TextField
+                  label="Ảnh ứng viên"
+                  type="text"
+                  style={{ width: '82%' }}
+                  name="imageName"
+                  value={formik.values?.imageName}
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ accept: 'image/*' }}
+                  error={formik.errors.code && formik.touched.code}
+                  helperText={formik.errors.code}
+                />
+                <label for="file-upload" class="custom-file-upload">
+                  <AddIcon />
+                </label>
+                <input
+                  type="file"
+                  id="file-upload"
+                  name="filename"
+                  onChange={(event) => {
+                    console.log(event.currentTarget.files[0]);
+                    uploadImage(event.currentTarget.files[0]).then((res) => {
+                      formik.setFieldValue('image', res?.data?.fileDownloadUri);
+                      formik.setFieldValue('imageName', res?.data?.fileName);
+                    });
+                  }}
+                ></input>
               </Grid>
             </Grid>
             <Grid container item xs={12} md={12} spacing={2}>

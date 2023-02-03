@@ -1,4 +1,6 @@
-export const API = 'https://af44-27-69-1-119.ap.ngrok.io';
+import axios from 'axios';
+
+export const API = 'http://localhost:8888';
 export const checkStatus = (value) => {
   let message;
   let color;
@@ -97,3 +99,9 @@ export const months = [
   { name: 'Tháng 11', value: 11 },
   { name: 'Tháng 12', value: 12 },
 ];
+
+export const uploadImage = (image) => {
+  let bodyFormData = new FormData();
+  bodyFormData.append('file', image);
+  return axios.post(API + '/api/files/uploadFile', bodyFormData);
+};
