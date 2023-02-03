@@ -62,10 +62,60 @@ export default function EmployeeView(props) {
             >
               Hồ sơ nhân viên
             </Grid>
+            <Grid item container xs={8} className="pd-60" spacing={1}>
+              <Grid item container xs={6}>
+                <Grid item className="fw-600 mr-10">
+                  Mã nhân viên:
+                </Grid>
+                <Grid item xs={5}>
+                  {item?.code}
+                </Grid>
+              </Grid>
+              <Grid item container xs={6}>
+                <Grid item className="fw-600 mr-10">
+                  Họ và Tên:
+                </Grid>
+                <Grid item xs={7}>
+                  {item?.fullName}
+                </Grid>
+              </Grid>
+              <Grid item container xs={6}>
+                <Grid item className="fw-600 mr-10">
+                  Giới tính:
+                </Grid>
+                <Grid item xs={7}>
+                  {item?.sex}
+                </Grid>
+              </Grid>
+              <Grid item container xs={6}>
+                <Grid item className="fw-600 mr-10">
+                  Ngày sinh:
+                </Grid>
+                <Grid item xs={5}>
+                  {moment(item?.dateOfBirth).format('DD/MM/YYYY')}
+                </Grid>
+              </Grid>
+              <Grid item container xs={6}>
+                <Grid item className="fw-600 mr-10">
+                  Email:
+                </Grid>
+                <Grid item xs={7}>
+                  {item?.email}
+                </Grid>
+              </Grid>
+              <Grid item container xs={6}>
+                <Grid item className="fw-600 mr-10">
+                  SĐT:
+                </Grid>
+                <Grid item xs={7}>
+                  {item?.phone}
+                </Grid>
+              </Grid>
+            </Grid>
             <Grid
               item
               container
-              xs={12}
+              xs={3}
               spacing={1}
               justifyContent="flex-end"
               style={{ marginRight: 60, marginBottom: 20 }}
@@ -83,58 +133,6 @@ export default function EmployeeView(props) {
                   style={{ height: '150px', border: '1px solid #000' }}
                 />
               )}
-            </Grid>
-            <Grid item container xs={12} className="pd-60" spacing={1}>
-              <Grid item container xs={4}>
-                <Grid item className="fw-600 mr-10">
-                  Mã nhân viên:
-                </Grid>
-                <Grid item xs={5}>
-                  {item?.code}
-                </Grid>
-              </Grid>
-              <Grid item container xs={4}>
-                <Grid item className="fw-600 mr-10">
-                  Họ và Tên:
-                </Grid>
-                <Grid item xs={7}>
-                  {item?.fullName}
-                </Grid>
-              </Grid>
-              <Grid item container xs={4}>
-                <Grid item className="fw-600 mr-10">
-                  Giới tính:
-                </Grid>
-                <Grid item xs={7}>
-                  {item?.sex}
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item container xs={12} className="pd-60" spacing={1}>
-              <Grid item container xs={4}>
-                <Grid item className="fw-600 mr-10">
-                  Ngày sinh:
-                </Grid>
-                <Grid item xs={5}>
-                  {moment(item?.dateOfBirth).format('DD/MM/YYYY')}
-                </Grid>
-              </Grid>
-              <Grid item container xs={4}>
-                <Grid item className="fw-600 mr-10">
-                  Email:
-                </Grid>
-                <Grid item xs={7}>
-                  {item?.email}
-                </Grid>
-              </Grid>
-              <Grid item container xs={4}>
-                <Grid item className="fw-600 mr-10">
-                  SĐT:
-                </Grid>
-                <Grid item xs={7}>
-                  {item?.phone}
-                </Grid>
-              </Grid>
             </Grid>
             <Grid item container xs={12} className="pd-60" spacing={1}>
               <Grid item className="fw-600 mr-10">
