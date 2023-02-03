@@ -39,7 +39,7 @@ export default function CandidateProfileDialog(props) {
       email: item.id ? item?.email : '',
       phone: item.id ? item?.phone : '',
       address: item.id ? item?.address : '',
-      recruitDtos: item.id ? item?.recruitDtos[0] : null,
+      recruitDtos: item.id ? item?.recruitDtos : [],
       status: item.id ? item?.status : '',
     },
     enableReinitialize: true,
@@ -63,13 +63,12 @@ export default function CandidateProfileDialog(props) {
       phone: Yup.string()
         .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/, 'Số điện thoại không hợp lệ')
         .required('Vui lòng nhập Số điện thoại!'),
-      recruitDtos: Yup.object().nullable().required('Vui lòng nhập trường này'),
+      recruitDtos: Yup.array().nullable().required('Vui lòng nhập trường này'),
       address: Yup.string().required('Vui lòng nhập trường này'),
     }),
     onSubmit: (values) => {
       values.id = item?.id;
       values.status = 17;
-      values.recruitDtos = [values.recruitDtos];
       handleAdd(values);
     },
   });
@@ -85,7 +84,7 @@ export default function CandidateProfileDialog(props) {
       })
       .catch((err) => toast.error('Có lỗi!'));
   }, []);
-
+  console.log(formik.values?.recruitDtos);
   const handleAdd = (values) => {
     if (values.id) {
       editCandidate(values)
@@ -165,7 +164,7 @@ export default function CandidateProfileDialog(props) {
                   style={{ width: '82%' }}
                   name="imageName"
                   value={formik.values?.imageName}
-                  InputLabelProps={{ shrink: true }}
+                  // InputLabelProps={{ shrink: true }}
                   inputProps={{ accept: 'image/*' }}
                   error={formik.errors.code && formik.touched.code}
                   helperText={formik.errors.code}
@@ -269,8 +268,8 @@ export default function CandidateProfileDialog(props) {
                   <Autocomplete
                     options={listRecruit}
                     getOptionLabel={(option) => option.titleRecruit}
-                    value={formik.values?.recruitDtos}
-                    onChange={(event, newValue) => formik.setFieldValue('recruitDtos', newValue)}
+                    value={formik.values?.recruitDtos[0]}
+                    onChange={(event, newValue) => formik.setFieldValue('recruitDtos', [newValue])}
                     componentsProps={{ paper: { elevation: 8 } }}
                     fullWidth
                     renderInput={(params) => (

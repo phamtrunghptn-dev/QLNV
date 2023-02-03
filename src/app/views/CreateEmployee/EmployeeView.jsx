@@ -18,6 +18,8 @@ export default function EmployeeView(props) {
   const { open, handleClose, item, setItem } = props;
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
 
+  console.log(item);
+
   useEffect(() => {
     if (item.status === 2) {
       editEmployee(item)
@@ -68,11 +70,19 @@ export default function EmployeeView(props) {
               justifyContent="flex-end"
               style={{ marginRight: 60, marginBottom: 20 }}
             >
-              <img
-                src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                alt=""
-                style={{ height: '150px', border: '1px solid #000' }}
-              />
+              {item?.image ? (
+                <img
+                  src={item?.image}
+                  alt=""
+                  style={{ height: '150px', border: '1px solid #000' }}
+                />
+              ) : (
+                <img
+                  src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                  alt=""
+                  style={{ height: '150px', border: '1px solid #000' }}
+                />
+              )}
             </Grid>
             <Grid item container xs={12} className="pd-60" spacing={1}>
               <Grid item container xs={4}>

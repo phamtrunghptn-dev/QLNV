@@ -14,7 +14,7 @@ export default function EmployeeInformation(props) {
       <Grid container item xs={12} md={12} spacing={2}>
         <Grid item xs={3} md={3}>
           <TextField
-            label="Mã hồ sơ"
+            label="Mã nhân viên"
             variant="outlined"
             fullWidth
             name="code"

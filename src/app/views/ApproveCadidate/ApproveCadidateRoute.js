@@ -8,7 +8,7 @@ const approveCandidateRoute = [
   {
     path: '/leader/approval-candidate',
     element: <ApproveCandidate />,
-    auth: authRoles.recruitment,
+    auth: authRoles.hr,
   },
 ];
 
