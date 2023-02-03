@@ -65,8 +65,8 @@ export default function CandidateProfileView(props) {
         <DialogContent style={{ margin: '20px', fontSize: 16, overflowX: 'hidden' }}>
           <Grid container>
             <Grid container spacing={2} style={{ marginTop: 5 }}>
-              <Grid container item xs={8} md={8} spacing={2}>
-                <Grid item xs={2} md={2} style={{ fontWeight: 600 }}>
+              <Grid container item xs={8} md={8} spacing={2} style={{ height: 200 }}>
+                <Grid item style={{ fontWeight: 600 }}>
                   Mã hồ sơ:
                 </Grid>
                 <Grid item xs={8} md={8}>
@@ -81,13 +81,13 @@ export default function CandidateProfileView(props) {
                 <Grid item style={{ fontWeight: 600 }}>
                   Tuổi:
                 </Grid>
-                <Grid item xs={9} md={9}>
+                <Grid item xs={2} md={2}>
                   {candidate.age}
                 </Grid>
                 <Grid item style={{ fontWeight: 600 }}>
                   Ngày sinh:
                 </Grid>
-                <Grid item xs={8} md={8}>
+                <Grid item xs={6} md={6}>
                   {moment(candidate.dateOfBirth).format('DD/MM/YYYY')}
                 </Grid>
                 <Grid item style={{ fontWeight: 600 }}>
@@ -103,12 +103,19 @@ export default function CandidateProfileView(props) {
                   {candidate.email}
                 </Grid>
               </Grid>
-              <Grid container item xs={4} md={4} spacing={2} style={{ height: '50%' }}>
-                <img
-                  src="https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png"
-                  alt=""
-                  style={{ height: '100%' }}
-                />
+              <Grid container item xs={4} md={4} style={{ height: 200 }}>
+                <Grid item xs={12} style={{ height: '100%' }}>
+                  <img
+                    src={candidate?.image}
+                    alt=""
+                    style={{
+                      height: '100%',
+                      float: 'right',
+                      border: '1px solid #ccc',
+                      borderRadius: 10,
+                    }}
+                  />
+                </Grid>
               </Grid>
               <Grid container item xs={8} md={8} spacing={2}>
                 <Grid container item xs={12} md={12} spacing={2}>
@@ -127,11 +134,11 @@ export default function CandidateProfileView(props) {
                     {candidate.education}
                   </Grid>
                 </Grid>
-                <Grid container item xs={6} md={6} spacing={2}>
+                <Grid container item xs={10} md={10} spacing={2}>
                   <Grid item style={{ fontWeight: 600 }}>
                     Ngành:
                   </Grid>
-                  <Grid item xs={8} md={8}>
+                  <Grid item xs={10} md={10}>
                     {candidate.major}
                   </Grid>
                 </Grid>
