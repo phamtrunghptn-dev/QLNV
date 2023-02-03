@@ -221,7 +221,7 @@ export default function RelatedInformation(props) {
               />
               <span style={{ width: '10%' }}>{option.code}</span>{' '}
               <span style={{ width: '15%' }}>{option.name}</span>{' '}
-              <span style={{ width: '25%' }}>{option.description}</span>
+              <span style={{ width: '50%' }}>{option.description}</span>
             </Box>
           )}
           renderInput={(params) => (

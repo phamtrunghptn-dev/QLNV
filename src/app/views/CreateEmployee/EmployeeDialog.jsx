@@ -18,6 +18,8 @@ import WorkingPosition from './WorkingPosition';
 import { addEmployee, editEmployee } from './EmployeeService';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { toast } from 'react-toastify';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,6 +63,7 @@ export default function EmployeeDialog(props) {
       fullName: item?.id ? item?.fullName : candidate?.id ? candidate?.fullName : '',
       dateOfBirth: item?.id ? item?.dateOfBirth : candidate?.id ? candidate?.dateOfBirth : null,
       sex: item?.id ? item?.sex : candidate?.id ? candidate?.sex : '',
+      image: item?.id ? item?.image : candidate?.id ? candidate?.image : '',
       phone: item?.id ? item?.phone : candidate?.id ? candidate?.phone : '',
       email: item?.id ? item?.email : candidate?.id ? candidate?.email : '',
       education: item?.id ? item?.education : candidate?.id ? candidate?.education : '',
@@ -199,7 +202,7 @@ export default function EmployeeDialog(props) {
               setEmployee({});
               handleClose();
             } else {
-              toast.warning('Lỗi xác thực');
+              toast.warning(res.data.message);
             }
           })
           .catch((err) => toast.error('Có lỗi xảy ra!'));
@@ -211,7 +214,7 @@ export default function EmployeeDialog(props) {
               setEmployee({});
               handleClose();
             } else {
-              toast.warning('Lỗi xác thực');
+              toast.warning(res.data.message);
             }
           })
           .catch((err) => toast.error('Có lỗi xảy ra!'));
@@ -225,7 +228,7 @@ export default function EmployeeDialog(props) {
               setEmployee({});
               handleClose();
             } else {
-              toast.warning('Lỗi xác thực');
+              toast.warning(res.data.message);
             }
           })
           .catch((err) => toast.error('Có lỗi xảy ra!'));
@@ -234,12 +237,17 @@ export default function EmployeeDialog(props) {
   }, [employee.status]);
 
   useEffect(() => {
-    if (firstRender.current) {
+    if (firstRender.current && method) {
       formik.handleSubmit();
     } else {
       firstRender.current = true;
     }
   }, [method]);
+
+  useEffect(() => {
+    setMethod('');
+    setEmployee({ ...employee, status: '' });
+  }, [formik.values]);
 
   return (
     <>
@@ -269,21 +277,36 @@ export default function EmployeeDialog(props) {
           <TabPanel value={value} index={2}>
             <WorkingPosition formik={formik} />
           </TabPanel>
-          <DialogActions>
-            <Button variant="contained" color="secondary" onClick={handleCloseDialog}>
-              Hủy
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setMethod(1);
-                setEmployee({ ...employee, additionalRequestContent: '' });
-              }}
-              type="submit"
-            >
-              {item?.id ? 'Lưu' : 'Thêm'}
-            </Button>
+          <DialogActions style={{ justifyContent: 'space-between' }}>
+            <div>
+              <IconButton
+                style={{ margin: '0 10px' }}
+                onClick={() => setValue(value - 1)}
+                disabled={value === 0}
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
+              <IconButton onClick={() => setValue(value + 1)} disabled={value === 2}>
+                <ArrowForwardIosIcon />
+              </IconButton>
+            </div>
+            <div>
+              <Button variant="contained" color="secondary" onClick={handleCloseDialog}>
+                Hủy
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setMethod(1);
+                  setEmployee({ ...employee, additionalRequestContent: '' });
+                }}
+                // type="submit"
+                style={{ margin: '0 10px' }}
+              >
+                {item?.id ? 'Lưu' : 'Thêm'}
+              </Button>
+            </div>
           </DialogActions>
         </form>
       </Dialog>

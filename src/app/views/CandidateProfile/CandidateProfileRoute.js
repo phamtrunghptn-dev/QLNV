@@ -5,7 +5,7 @@ import { lazy } from 'react';
 const CandidateProfile = Loadable(lazy(() => import('./CandidateProfile')));
 
 const candidateProfileRoute = [
-  { path: '/plan/candidate', element: <CandidateProfile />, auth: authRoles.recruitment },
+  { path: '/plan/candidate', element: <CandidateProfile />, auth: authRoles.hr },
 ];
 
 export default candidateProfileRoute;

@@ -4,6 +4,6 @@ import { lazy } from 'react';
 
 const Recruit = Loadable(lazy(() => import('./Recruit')));
 
-const recruitRoute = [{ path: '/plan/recruit', element: <Recruit />, auth: authRoles.recruitment }];
+const recruitRoute = [{ path: '/plan/recruit', element: <Recruit />, auth: authRoles.hr }];
 
 export default recruitRoute;
