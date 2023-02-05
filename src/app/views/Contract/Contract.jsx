@@ -139,16 +139,25 @@ export default function Contract() {
             { name: 'Danh sách hợp đồng' },
           ]}
         />
-
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          style={{ margin: '20px 0', padding: '5px 20px' }}
-          onClick={() => setShouldOpenEmployeeTable(true)}
-        >
-          Thêm
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            style={{ margin: '20px 0', padding: '5px 20px' }}
+            onClick={() => setShouldOpenEmployeeTable(true)}
+          >
+            Thêm
+          </Button>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
         <MaterialTable
           title="Danh sách hợp đồng"
           columns={columns}

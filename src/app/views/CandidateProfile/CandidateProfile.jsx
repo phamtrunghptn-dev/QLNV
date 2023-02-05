@@ -202,7 +202,7 @@ export default function CandidateProfile() {
             <LoopIcon />
           </IconButton>
         </div>
-        <div style={{ marginTop: 10 }}>
+        <div>
           <MaterialTable
             title="Danh sách hồ sơ ứng viên"
             columns={columns}
