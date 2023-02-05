@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import TimeKeepingTable from './TimeKeepingTable';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function Employee() {
   const [listEmployee, setListEmployee] = useState([]);
@@ -129,7 +130,17 @@ export default function Employee() {
             { name: 'Danh sách chấm công nhân viên' },
           ]}
         />
-        <div style={{ marginTop: 60 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
+        <div>
           <MaterialTable
             title="Danh sách nhân viên"
             columns={columns}

@@ -76,22 +76,8 @@ export default function EmployeeView(props) {
             >
               Hồ sơ nhân viên
             </Grid>
-            <Grid
-              item
-              container
-              xs={12}
-              spacing={1}
-              justifyContent="flex-end"
-              style={{ marginRight: 60, marginBottom: 20 }}
-            >
-              <img
-                src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                alt=""
-                style={{ height: '150px', border: '1px solid #000' }}
-              />
-            </Grid>
-            <Grid item container xs={12} className="pd-60" spacing={1}>
-              <Grid item container xs={4}>
+            <Grid item container xs={8} className="pd-60" spacing={1}>
+              <Grid item container xs={6}>
                 <Grid item className="fw-600 mr-10">
                   Mã nhân viên:
                 </Grid>
@@ -99,7 +85,7 @@ export default function EmployeeView(props) {
                   {item?.code}
                 </Grid>
               </Grid>
-              <Grid item container xs={4}>
+              <Grid item container xs={6}>
                 <Grid item className="fw-600 mr-10">
                   Họ và Tên:
                 </Grid>
@@ -107,7 +93,7 @@ export default function EmployeeView(props) {
                   {item?.fullName}
                 </Grid>
               </Grid>
-              <Grid item container xs={4}>
+              <Grid item container xs={6}>
                 <Grid item className="fw-600 mr-10">
                   Giới tính:
                 </Grid>
@@ -115,9 +101,7 @@ export default function EmployeeView(props) {
                   {item?.sex}
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item container xs={12} className="pd-60" spacing={1}>
-              <Grid item container xs={4}>
+              <Grid item container xs={6}>
                 <Grid item className="fw-600 mr-10">
                   Ngày sinh:
                 </Grid>
@@ -125,7 +109,7 @@ export default function EmployeeView(props) {
                   {moment(item?.dateOfBirth).format('DD/MM/YYYY')}
                 </Grid>
               </Grid>
-              <Grid item container xs={4}>
+              <Grid item container xs={6}>
                 <Grid item className="fw-600 mr-10">
                   Email:
                 </Grid>
@@ -133,7 +117,7 @@ export default function EmployeeView(props) {
                   {item?.email}
                 </Grid>
               </Grid>
-              <Grid item container xs={4}>
+              <Grid item container xs={6}>
                 <Grid item className="fw-600 mr-10">
                   SĐT:
                 </Grid>
@@ -141,6 +125,28 @@ export default function EmployeeView(props) {
                   {item?.phone}
                 </Grid>
               </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              xs={3}
+              spacing={1}
+              justifyContent="flex-end"
+              style={{ marginRight: 60, marginBottom: 20 }}
+            >
+              {item?.image ? (
+                <img
+                  src={item?.image}
+                  alt=""
+                  style={{ height: '150px', border: '1px solid #000' }}
+                />
+              ) : (
+                <img
+                  src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                  alt=""
+                  style={{ height: '150px', border: '1px solid #000' }}
+                />
+              )}
             </Grid>
             <Grid item container xs={12} className="pd-60" spacing={1}>
               <Grid item className="fw-600 mr-10">

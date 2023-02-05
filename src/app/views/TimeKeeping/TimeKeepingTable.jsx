@@ -18,16 +18,23 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { deleteListTimeKeeping } from './TimeKeepingService';
+import TimeKeepingDialog from './TimeKeepingDialog';
 
 export default function TimeKeepingTable(props) {
   const { open, handleClose, item } = props;
   const [listTimeKeeping, setListTimeKeeping] = useState([]);
-  const [timeKeeping, setTimeKeeping] = useState([]);
+  const [timeKeeping, setTimeKeeping] = useState({});
   const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
+
+  useEffect(() => {
+    if (!timeKeeping?.employee) {
+      setTimeKeeping({ ...timeKeeping, employee: item });
+    }
+  }, []);
 
   const columns = [
     {
@@ -61,7 +68,7 @@ export default function TimeKeepingTable(props) {
             color="error"
             onClick={() => {
               setTimeKeeping(rowData);
-              setShouldOpenConfirmDialog(false);
+              setShouldOpenConfirmDialog(true);
             }}
           >
             <DeleteIcon />
@@ -205,6 +212,7 @@ export default function TimeKeepingTable(props) {
       .then((res) => {
         if (res.data.statusCode === 200) {
           toast.success('Xóa bản ghi chấm công thành công');
+          updatePageData();
         } else {
           toast.warning('Lỗi xác thực!');
         }
@@ -220,7 +228,7 @@ export default function TimeKeepingTable(props) {
     <>
       <Dialog open={open} fullWidth maxWidth={'lg'}>
         <DialogTitle style={{ marginBlockEnd: 0, padding: '16px 24px 0' }}>
-          Danh sách chấm công của nhân viên {item?.fullname}
+          Danh sách chấm công của nhân viên {item?.fullName}
           <Box className="icon-close" onClick={handleClose}>
             <IconButton color="error">
               <CloseIcon />
@@ -337,6 +345,19 @@ export default function TimeKeepingTable(props) {
           onYesClick={handleDelete}
           Yes="Đồng ý"
           No="Hủy"
+        />
+      )}
+      {shouldOpenDialog && (
+        <TimeKeepingDialog
+          open={shouldOpenDialog}
+          hanldeCloseDialog={() => {
+            setShouldOpenDialog(false);
+            setTimeKeeping({});
+          }}
+          handleClose={handleClose}
+          timeKeeping={timeKeeping}
+          setTimeKeeping={setTimeKeeping}
+          item={item}
         />
       )}
     </>

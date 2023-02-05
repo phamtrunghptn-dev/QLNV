@@ -10,6 +10,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import DepartmentDialog from './DepartmentDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function Department() {
   const [listDepartment, setListDepartment] = useState([]);
@@ -154,15 +155,25 @@ export default function Department() {
             { name: 'Danh sách phòng ban' },
           ]}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          style={{ margin: '20px 0', padding: '5px 20px' }}
-          onClick={() => setShouldOpenDialog(true)}
-        >
-          Thêm
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            style={{ margin: '20px 0', padding: '5px 20px' }}
+            onClick={() => setShouldOpenDialog(true)}
+          >
+            Thêm
+          </Button>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
         <MaterialTable
           title="Danh sách phòng ban"
           columns={columns}

@@ -12,6 +12,7 @@ import ConfirmationDialog from '../../components/ConfirmationDialog';
 import ListRecruitApprovedView from './ListRecruitApprovedView';
 import { checkStatus } from 'app/constant';
 import './Recruit.scss';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function ListRecruitApproved() {
   const [listRecruit, setListRecruit] = useState([]);
@@ -145,7 +146,17 @@ export default function ListRecruitApproved() {
         <Breadcrumb
           routeSegments={[{ name: 'Tuyển dụng', path: '/plan' }, { name: 'Kế hoạch tuyển dụng' }]}
         />
-        <div style={{ marginTop: 60 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
+        <div>
           <MaterialTable
             title="Danh sách kế hoạch"
             columns={columns}

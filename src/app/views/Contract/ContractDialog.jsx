@@ -130,6 +130,9 @@ export default function ContractDialog(props) {
                     name="code"
                     value={formik.values?.code}
                     onChange={formik.handleChange}
+                    InputProps={{
+                      readOnly: item?.employee,
+                    }}
                     error={formik.errors.code && formik.touched.code}
                     helperText={formik.errors.code}
                   />
@@ -184,6 +187,9 @@ export default function ContractDialog(props) {
                     name="nameLeader"
                     value={formik.values?.nameLeader}
                     onChange={formik.handleChange}
+                    InputProps={{
+                      readOnly: item?.employee,
+                    }}
                     error={formik.errors.nameLeader && formik.touched.nameLeader}
                     helperText={formik.errors.nameLeader}
                   />
@@ -200,6 +206,9 @@ export default function ContractDialog(props) {
                     name="postionLeader"
                     value={formik.values?.postionLeader}
                     onChange={formik.handleChange}
+                    InputProps={{
+                      readOnly: item?.employee,
+                    }}
                     error={formik.errors.postionLeader && formik.touched.postionLeader}
                     helperText={formik.errors.postionLeader}
                   />
@@ -285,6 +294,7 @@ export default function ContractDialog(props) {
                               formik.setFieldValue('signingDate', new Date(value));
                             }
                           }}
+                          readOnly={item?.employee}
                           renderInput={(params) => {
                             return (
                               <TextField
@@ -310,6 +320,7 @@ export default function ContractDialog(props) {
                               formik.setFieldValue('contractEffect', new Date(value));
                             }
                           }}
+                          readOnly={item?.employee}
                           renderInput={(params) => {
                             return (
                               <TextField
@@ -388,6 +399,7 @@ export default function ContractDialog(props) {
                           InputProps={{
                             maxLength: 10,
                             endAdornment: <InputAdornment position="end">VND</InputAdornment>,
+                            readOnly: item?.employee,
                           }}
                           error={formik.errors.basicSalary && formik.touched.basicSalary}
                           helperText={formik.errors.basicSalary}
@@ -414,6 +426,7 @@ export default function ContractDialog(props) {
                           InputProps={{
                             maxLength: 10,
                             endAdornment: <InputAdornment position="end">VND</InputAdornment>,
+                            readOnly: item?.employee,
                           }}
                           error={formik.errors.hourlyRate && formik.touched.hourlyRate}
                           helperText={formik.errors.hourlyRate}
@@ -577,12 +590,15 @@ export default function ContractDialog(props) {
             <Button variant="contained" color="secondary" onClick={handleCloseDialog}>
               Hủy
             </Button>
-            <Button variant="contained" color="primary" onClick={handlePrint}>
-              In
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
-              Phê duyệt
-            </Button>
+            {item?.employee ? (
+              <Button variant="contained" color="primary" onClick={handlePrint}>
+                In
+              </Button>
+            ) : (
+              <Button type="submit" variant="contained" color="primary">
+                Tạo hợp đồng
+              </Button>
+            )}
           </>
         </DialogActions>
       </form>

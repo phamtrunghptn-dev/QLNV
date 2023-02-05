@@ -8,6 +8,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import { checkStatus } from 'app/constant';
 import EmployeeView from './EmployeeView';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function ApproveEmployee() {
   const [listEmployee, setListEmployee] = useState([]);
@@ -145,7 +146,17 @@ export default function ApproveEmployee() {
             { name: 'Phê duyệt hồ sơ nhân viên' },
           ]}
         />
-        <div style={{ marginTop: 60 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
+        <div>
           <MaterialTable
             title="Danh sách hồ sơ nhân viên"
             columns={columns}

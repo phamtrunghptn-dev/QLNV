@@ -14,6 +14,7 @@ import CandidateTable from './CandidateTable';
 import EmployeeDialog from './EmployeeDialog';
 import EmployeeView from './EmployeeView';
 import RequestDialog from './RequestDialog';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function Employee() {
   const [listEmployee, setListEmployee] = useState([]);
@@ -191,15 +192,25 @@ export default function Employee() {
         <Breadcrumb
           routeSegments={[{ name: 'Tuyển dụng', path: '/manage' }, { name: 'Danh sách hồ sơ' }]}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          style={{ margin: '20px 0', padding: '5px 20px' }}
-          onClick={() => setShouldOpenCandidateTable(true)}
-        >
-          Thêm
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            style={{ margin: '20px 0', padding: '5px 20px' }}
+            onClick={() => setShouldOpenCandidateTable(true)}
+          >
+            Thêm
+          </Button>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
         <div style={{ marginTop: 10 }}>
           <MaterialTable
             title="Danh sách hồ sơ nhân viên"
