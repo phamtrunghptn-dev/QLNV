@@ -16,8 +16,8 @@ import { toast } from 'react-toastify';
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const filterOptions = createFilterOptions({
-  matchFrom: 'start',
-  stringify: (option) => option.code,
+  // matchFrom: 'start',
+  stringify: (option) => option.name,
 });
 
 export default function RelatedInformation(props) {
@@ -171,6 +171,7 @@ export default function RelatedInformation(props) {
       <Grid item xs={12} md={12}>
         <Autocomplete
           fullWidth
+          freeSolo
           options={listCertificate}
           getOptionLabel={(option) => option.name}
           value={formik.values?.certificate}

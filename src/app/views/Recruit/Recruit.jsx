@@ -12,6 +12,7 @@ import RecruitDialog from './RecruitDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import RecruitView from './RecruitView';
 import { checkStatus } from 'app/constant';
+import LoopIcon from '@mui/icons-material/Loop';
 import './Recruit.scss';
 
 export default function Recruit() {
@@ -196,15 +197,25 @@ export default function Recruit() {
         <Breadcrumb
           routeSegments={[{ name: 'Tuyển dụng', path: '/plan' }, { name: 'Kế hoạch tuyển dụng' }]}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          style={{ margin: '20px 0', padding: '5px 20px' }}
-          onClick={() => setShouldOpenDialog(true)}
-        >
-          Thêm
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            style={{ margin: '20px 0', padding: '5px 20px' }}
+            onClick={() => setShouldOpenDialog(true)}
+          >
+            Thêm
+          </Button>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
         <MaterialTable
           title="Danh sách kế hoạch"
           columns={columns}
