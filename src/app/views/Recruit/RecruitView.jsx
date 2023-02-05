@@ -28,30 +28,40 @@ export default function RecruitView(props) {
           <Grid container item xs={12} md={12} justifyContent="center">
             <h2>{item?.titleRecruit}</h2>
           </Grid>
-          <Grid container item xs={4} md={4}>
-            <Grid item xs={4} md={4} className="fw-600">
+          <Grid container item xs={3} md={3} spacing={1}>
+            <Grid item className="fw-600">
               Mã kế hoạch:
             </Grid>
             <Grid item xs={6} md={6}>
               {item?.code}
             </Grid>
           </Grid>
-          <Grid container item xs={4} md={4}>
-            <Grid item xs={6} md={6} className="fw-600">
+          <Grid container item xs={3} md={3} spacing={1}>
+            <Grid item className="fw-600">
               Số lượng tuyển dụng:
             </Grid>
-            <Grid item xs={5} md={5}>
+            <Grid item xs={1} md={1}>
               {item?.quantity}
             </Grid>
           </Grid>
-          <Grid container item xs={4} md={4}>
-            <Grid item xs={6} md={6} className="fw-600">
+          <Grid container item xs={6} md={6} spacing={1}>
+            <Grid item className="fw-600">
               Trạng thái kế hoạch:
             </Grid>
             <Grid item xs={5} md={5}>
               {checkStatus(item?.status).message}
             </Grid>
           </Grid>
+          {item?.feedback && (
+            <Grid container item spacing={1}>
+              <Grid item className="fw-600">
+                Yêu cầu chỉnh sửa:
+              </Grid>
+              <Grid item xs={10}>
+                {item?.feedback}
+              </Grid>
+            </Grid>
+          )}
           <Grid container item spacing={1}>
             <Grid item xs={12} md={12}>
               <span className="fz-18 fw-600">Mô tả công việc</span>

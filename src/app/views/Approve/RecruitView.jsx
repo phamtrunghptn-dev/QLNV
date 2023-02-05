@@ -34,12 +34,28 @@ export default function RecruitView(props) {
   }, [item.status]);
 
   const handleAprrove = () => {
-    approveRecruit(item)
-      .then((res) => {
-        toast.success('Phê duyệt kế hoạch thành công');
-        handleClose();
-      })
-      .catch((err) => toast.error('Có lỗi xảy ra'));
+    if (item.status === 3) {
+      approveRecruit(item)
+        .then((res) => {
+          toast.success('Phê duyệt kế hoạch thành công');
+          handleClose();
+        })
+        .catch((err) => toast.error('Có lỗi xảy ra'));
+    } else if (item.status === 10) {
+      approveRecruit(item)
+        .then((res) => {
+          toast.success('Yêu cầu bổ sung kế hoạch thành công');
+          handleClose();
+        })
+        .catch((err) => toast.error('Có lỗi xảy ra'));
+    } else if (item.status === 6) {
+      approveRecruit(item)
+        .then((res) => {
+          toast.success('Đã từ chối kế hoạch');
+          handleClose();
+        })
+        .catch((err) => toast.error('Có lỗi xảy ra'));
+    }
   };
   return (
     <>

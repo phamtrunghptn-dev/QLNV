@@ -9,10 +9,13 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import { checkStatus } from 'app/constant';
 import ContractDialog from './ContractDialog';
+import EmployeeTable from './EmployeeTable';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function Contract() {
   const [listContract, setListContract] = useState([]);
   const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
+  const [shouldOpenEmployeeTable, setShouldOpenEmployeeTable] = useState(false);
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -122,6 +125,7 @@ export default function Contract() {
 
   const handleClose = () => {
     setShouldOpenDialog(false);
+    setShouldOpenEmployeeTable(false);
     setItem({});
     updatePageData();
   };
@@ -135,44 +139,52 @@ export default function Contract() {
             { name: 'Danh sách hợp đồng' },
           ]}
         />
-        <div style={{ marginTop: '40px' }}>
-          <MaterialTable
-            title="Danh sách hợp đồng"
-            columns={columns}
-            data={listContract}
-            options={{
-              sorting: false,
-              maxBodyHeight: '60vh',
-              pageSize: 10,
-              pageSizeOptions: [10, 20, 50],
-              draggable: false,
-              headerStyle: {
-                textAlign: 'center',
-              },
-            }}
-            isLoading={loading}
-            localization={{
-              toolbar: {
-                searchTooltip: 'Tìm kiếm',
-                searchPlaceholder: 'Tìm kiếm',
-              },
-              pagination: {
-                labelDisplayedRows: '{from}-{to} của {count}',
-                labelRowsSelect: 'hàng',
-                labelRowsPerPage: 'Số hàng mỗi trang:',
-                firstAriaLabel: 'Trang đầu',
-                firstTooltip: 'Trang đầu',
-                previousAriaLabel: 'Trang trước',
-                previousTooltip: 'Trang trước',
-                nextAriaLabel: 'Trang sau',
-                nextTooltip: 'Trang sau',
-                lastAriaLabel: 'Trang cuối',
-                lastTooltip: 'Trang cuối',
-              },
-              body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
-            }}
-          />
-        </div>
+
+        <Button
+          variant="contained"
+          color="primary"
+          size="medium"
+          style={{ margin: '20px 0', padding: '5px 20px' }}
+          onClick={() => setShouldOpenEmployeeTable(true)}
+        >
+          Thêm
+        </Button>
+        <MaterialTable
+          title="Danh sách hợp đồng"
+          columns={columns}
+          data={listContract}
+          options={{
+            sorting: false,
+            maxBodyHeight: '60vh',
+            pageSize: 10,
+            pageSizeOptions: [10, 20, 50],
+            draggable: false,
+            headerStyle: {
+              textAlign: 'center',
+            },
+          }}
+          isLoading={loading}
+          localization={{
+            toolbar: {
+              searchTooltip: 'Tìm kiếm',
+              searchPlaceholder: 'Tìm kiếm',
+            },
+            pagination: {
+              labelDisplayedRows: '{from}-{to} của {count}',
+              labelRowsSelect: 'hàng',
+              labelRowsPerPage: 'Số hàng mỗi trang:',
+              firstAriaLabel: 'Trang đầu',
+              firstTooltip: 'Trang đầu',
+              previousAriaLabel: 'Trang trước',
+              previousTooltip: 'Trang trước',
+              nextAriaLabel: 'Trang sau',
+              nextTooltip: 'Trang sau',
+              lastAriaLabel: 'Trang cuối',
+              lastTooltip: 'Trang cuối',
+            },
+            body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
+          }}
+        />
       </Box>
       {shouldOpenDialog && (
         <ContractDialog
@@ -181,6 +193,9 @@ export default function Contract() {
           handleCloseDialog={handleClose}
           setItem={setItem}
         />
+      )}
+      {shouldOpenEmployeeTable && (
+        <EmployeeTable open={shouldOpenEmployeeTable} handleClose={handleClose} />
       )}
     </>
   );

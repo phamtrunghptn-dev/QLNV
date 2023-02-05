@@ -20,14 +20,16 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 export default function ContractDialog(props) {
   const { open, item, handleCloseDialog, setItem } = props;
+  console.log(item);
   const formik = useFormik({
     initialValues: {
-      code: item?.code ? item?.code : '',
-      nameLeader: item?.code ? item?.nameLeader : '',
-      postionLeader: item?.code ? item?.postionLeader : '',
-      signingDate: item?.code ? item?.signingDate : null,
-      contractEffect: item?.code ? item?.contractEffect : null,
-      basicSalary: item?.code ? item?.basicSalary : '',
+      code: item?.employee ? item.code : '',
+      nameLeader: item?.employee ? item.nameLeader : '',
+      postionLeader: item?.employee ? item.postionLeader : '',
+      signingDate: item?.employee ? item.signingDate : null,
+      contractEffect: item?.employee ? item.contractEffect : null,
+      basicSalary: item?.employee ? item.basicSalary : '',
+      hourlyRate: item?.employee ? item.hourlyRate : '',
     },
     enableReinitialize: true,
     validateOnChange: false,
@@ -49,8 +51,16 @@ export default function ContractDialog(props) {
       basicSalary: Yup.number()
         .typeError('Số lương phải là số!')
         .required('Vui lòng nhập trường này'),
+      hourlyRate: Yup.number()
+        .typeError('Số lương phải là số!')
+        .required('Vui lòng nhập trường này'),
     }),
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      values.employee = item;
+      values.status = 4;
+      values.coefficientSalary = 1.5;
+      setItem({ ...item, contract: values, status: 12 });
+    },
   });
 
   const handlePrint = () => {
@@ -71,7 +81,7 @@ export default function ContractDialog(props) {
           </IconButton>
         </Box>
       </DialogTitle>
-      <form onError={(errors) => console.log(errors)}>
+      <form onSubmit={formik.handleSubmit} onError={(errors) => console.log(errors)}>
         <DialogContent style={{ padding: '0 20px' }} id="contract">
           <Grid
             container
@@ -120,10 +130,6 @@ export default function ContractDialog(props) {
                     name="code"
                     value={formik.values?.code}
                     onChange={formik.handleChange}
-                    InputProps={{
-                      readOnly: true,
-                      disableUnderline: true,
-                    }}
                     error={formik.errors.code && formik.touched.code}
                     helperText={formik.errors.code}
                   />
@@ -178,10 +184,6 @@ export default function ContractDialog(props) {
                     name="nameLeader"
                     value={formik.values?.nameLeader}
                     onChange={formik.handleChange}
-                    InputProps={{
-                      readOnly: true,
-                      disableUnderline: true,
-                    }}
                     error={formik.errors.nameLeader && formik.touched.nameLeader}
                     helperText={formik.errors.nameLeader}
                   />
@@ -198,10 +200,6 @@ export default function ContractDialog(props) {
                     name="postionLeader"
                     value={formik.values?.postionLeader}
                     onChange={formik.handleChange}
-                    InputProps={{
-                      readOnly: true,
-                      disableUnderline: true,
-                    }}
                     error={formik.errors.postionLeader && formik.touched.postionLeader}
                     helperText={formik.errors.postionLeader}
                   />
@@ -231,7 +229,7 @@ export default function ContractDialog(props) {
                   Ông/Bà:
                 </Grid>
                 <Grid item xs={6} md={6} style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
-                  {item?.employee?.fullName}
+                  {item?.employee ? item?.employee?.fullName : item?.fullName}
                 </Grid>
               </Grid>
               <Grid item container xs={12} md={12}>
@@ -239,19 +237,23 @@ export default function ContractDialog(props) {
                   Số CCCD:
                 </Grid>
                 <Grid item xs={2} md={2} style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
-                  {item?.employee?.numberIdentityCard}
+                  {item?.employee ? item?.employee?.numberIdentityCard : item?.numberIdentityCard}
                 </Grid>
                 <Grid item className="mr-10">
                   Ngày cấp:
                 </Grid>
                 <Grid item xs={2} md={2}>
-                  {moment(item?.employee?.issuedDateIdentityCard).format('DD/MM/YYYY')}
+                  {item?.employee
+                    ? moment(item?.employee?.issuedDateIdentityCard).format('DD/MM/YYYY')
+                    : moment(item?.issuedDateIdentityCard).format('DD/MM/YYYY')}
                 </Grid>
                 <Grid item className="mr-10">
                   Nơi cấp:
                 </Grid>
                 <Grid item xs={3} md={3}>
-                  {item?.employee?.placeOfGrantIdentityCard}
+                  {item?.employee
+                    ? item?.employee?.placeOfGrantIdentityCard
+                    : item?.placeOfGrantIdentityCard}
                 </Grid>
               </Grid>
               <Grid item container xs={12} md={12}>
@@ -259,7 +261,7 @@ export default function ContractDialog(props) {
                   Địa chỉ:
                 </Grid>
                 <Grid item xs={10} md={10}>
-                  {item?.employee?.address}
+                  {item?.employee ? item?.employee?.address : item?.address}
                 </Grid>
               </Grid>
               <Grid item container xs={12} md={12}>
@@ -278,7 +280,6 @@ export default function ContractDialog(props) {
                           name="signingDate"
                           inputFormat="DD/MM/YYYY"
                           value={formik.values?.signingDate || null}
-                          readOnly={true}
                           onChange={(value) => {
                             if (value) {
                               formik.setFieldValue('signingDate', new Date(value));
@@ -291,9 +292,6 @@ export default function ContractDialog(props) {
                                 format="DD/MM/YYYY"
                                 type="date"
                                 variant="standard"
-                                InputProps={{
-                                  disableUnderline: true,
-                                }}
                                 error={formik.errors.signingDate && formik.touched.signingDate}
                                 helperText={formik.errors.signingDate}
                               />
@@ -307,7 +305,6 @@ export default function ContractDialog(props) {
                           name="contractEffect"
                           inputFormat="DD/MM/YYYY"
                           value={formik.values?.contractEffect || null}
-                          readOnly={true}
                           onChange={(value) => {
                             if (value) {
                               formik.setFieldValue('contractEffect', new Date(value));
@@ -320,9 +317,6 @@ export default function ContractDialog(props) {
                                 format="DD/MM/YYYY"
                                 type="date"
                                 variant="standard"
-                                InputProps={{
-                                  disableUnderline: true,
-                                }}
                                 error={
                                   formik.errors.contractEffect && formik.touched.contractEffect
                                 }
@@ -336,15 +330,17 @@ export default function ContractDialog(props) {
                     <li>Địa điểm làm việc tại Công ty TNHH Oceantech</li>
                     <li>
                       <span className="mr-10">Chức vụ:</span>
-                      {item?.employee?.positions[0]?.name}
+                      {item?.employee
+                        ? item?.employee?.positions[0]?.name
+                        : item?.positions[0]?.name}
                     </li>
                     <li>
                       <span className="mr-10">Phòng ban:</span>
-                      {item?.employee?.department?.name}
+                      {item?.employee ? item?.employee?.department?.name : item?.department?.name}
                     </li>
                   </ul>
                 </Grid>
-                <Grid item className="mr-10" style={{ marginBottom: 30 }}>
+                <Grid item className="mr-10" style={{ marginBottom: 20 }}>
                   <ul className="dashed">
                     <span style={{ fontWeight: 'bold' }}>Điều 2: Chế độ làm việc</span>
                     <li>
@@ -376,7 +372,6 @@ export default function ContractDialog(props) {
                         <TextField
                           variant="standard"
                           name="basicSalary"
-                          className="textfield"
                           value={
                             formik.values?.basicSalary
                               ? formik.values?.basicSalary
@@ -391,13 +386,37 @@ export default function ContractDialog(props) {
                             );
                           }}
                           InputProps={{
-                            readOnly: true,
-                            disableUnderline: true,
                             maxLength: 10,
                             endAdornment: <InputAdornment position="end">VND</InputAdornment>,
                           }}
-                          error={formik.errors.postionLeader && formik.touched.postionLeader}
-                          helperText={formik.errors.postionLeader}
+                          error={formik.errors.basicSalary && formik.touched.basicSalary}
+                          helperText={formik.errors.basicSalary}
+                        />
+                      </li>
+                      <li>
+                        <span className="mr-10">Số tiền tính cho 1h làm thêm:</span>
+                        <TextField
+                          variant="standard"
+                          name="hourlyRate"
+                          value={
+                            formik.values?.hourlyRate
+                              ? formik.values?.hourlyRate
+                                  .toString()
+                                  .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+                              : ''
+                          }
+                          onChange={(event) => {
+                            formik.setFieldValue(
+                              'hourlyRate',
+                              event.target.value.replace(/,/g, '')
+                            );
+                          }}
+                          InputProps={{
+                            maxLength: 10,
+                            endAdornment: <InputAdornment position="end">VND</InputAdornment>,
+                          }}
+                          error={formik.errors.hourlyRate && formik.touched.hourlyRate}
+                          helperText={formik.errors.hourlyRate}
                         />
                       </li>
                       <li>Hình thức trả lương : Tiền mặt hoặc chuyển khoản.</li>
@@ -544,7 +563,7 @@ export default function ContractDialog(props) {
             >
               <Grid item xs={2}></Grid>
               <Grid item xs={4} style={{ fontWeight: 'bold' }}>
-                {item?.employee?.fullName}
+                {item?.employee ? item?.employee?.fullName : item?.fullName}
               </Grid>
               <Grid item xs={2}></Grid>
               <Grid item xs={4} style={{ fontWeight: 'bold', textAlign: 'center' }}>
@@ -560,6 +579,9 @@ export default function ContractDialog(props) {
             </Button>
             <Button variant="contained" color="primary" onClick={handlePrint}>
               In
+            </Button>
+            <Button type="submit" variant="contained" color="primary">
+              Phê duyệt
             </Button>
           </>
         </DialogActions>

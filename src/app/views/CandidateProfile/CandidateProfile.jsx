@@ -12,6 +12,7 @@ import { checkStatus } from 'app/constant';
 import CandidateProfileDialog from './CandidateProfileDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import CandidateProfileView from './CandidateProfileView';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function CandidateProfile() {
   const [listCandidate, setListCandidate] = useState([]);
@@ -182,15 +183,25 @@ export default function CandidateProfile() {
         <Breadcrumb
           routeSegments={[{ name: 'Tuyển dụng', path: '/manage' }, { name: 'Danh sách hồ sơ' }]}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          style={{ margin: '20px 0', padding: '5px 20px' }}
-          onClick={() => setShouldOpenDialog(true)}
-        >
-          Thêm
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            style={{ margin: '20px 0', padding: '5px 20px' }}
+            onClick={() => setShouldOpenDialog(true)}
+          >
+            Thêm
+          </Button>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
         <div style={{ marginTop: 10 }}>
           <MaterialTable
             title="Danh sách hồ sơ ứng viên"

@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button } from '@mui/material';
-import { Breadcrumb } from 'app/components';
-import MaterialTable from 'material-table';
-import { getListCandidate } from './ApproveCandidateService';
+import React, { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { toast } from 'react-toastify';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
 import { checkStatus } from 'app/constant';
-import CandidateProfileView from './CandidateProfileView';
-import LoopIcon from '@mui/icons-material/Loop';
+import MaterialTable from 'material-table';
+import { getEmployeeWithoutContract, editEmployee } from './ContractService';
+import { toast } from 'react-toastify';
+import ContractDialog from './ContractDialog';
 
-export default function ApproveCandidate() {
-  const [listCandidate, setListCandidate] = useState([]);
-  const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
+export default function EmployeeTable(props) {
+  const { open, handleClose } = props;
+  const [listEmployee, setListEmployee] = useState([]);
+  const [shouldOpenContractDialog, setShouldOpenContractDialog] = useState();
   const [item, setItem] = useState({});
-  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -34,8 +38,8 @@ export default function ApproveCandidate() {
           <IconButton
             color="primary"
             onClick={() => {
-              setShouldOpenViewDialog(true);
               setItem(rowData);
+              setShouldOpenContractDialog(true);
             }}
           >
             <RemoveRedEyeIcon />
@@ -111,67 +115,62 @@ export default function ApproveCandidate() {
   ];
 
   useEffect(() => {
-    setLoading(true);
     updatePageData();
   }, []);
 
+  useEffect(() => {
+    if (item?.status === 12) {
+      editEmployee(item)
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            toast.success('Tạo hợp đồng nhân viên thành công');
+            handleClose();
+          } else {
+            toast.warning(res.data?.message);
+            handleClose();
+          }
+        })
+        .catch((err) => toast.error('Có lỗi xảy ra'));
+    }
+  }, [item?.status]);
+
   const updatePageData = () => {
-    getListCandidate()
+    getEmployeeWithoutContract()
       .then((res) => {
         if (res.data.statusCode === 200) {
-          setLoading(false);
-          setListCandidate(res.data.data.filter((item) => item.status === 18));
+          setListEmployee(res.data.data);
         } else {
-          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => {
-        toast.error('Có lỗi xảy ra!');
-        setLoading(false);
-      });
+      .catch((err) => toast.error('Có lỗi xảy ra!'));
   };
 
-  const handleClose = () => {
-    setShouldOpenViewDialog(false);
-    updatePageData();
-    setItem({});
-  };
   return (
     <>
-      <Box style={{ margin: 20 }}>
-        <Breadcrumb
-          routeSegments={[
-            { name: 'Phê duyệt', path: '/leader' },
-            { name: 'Phê duyệt hồ sơ ứng viên' },
-          ]}
-        />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <IconButton
-            color="primary"
-            onClick={() => {
-              updatePageData();
-            }}
-          >
-            <LoopIcon />
-          </IconButton>
-        </div>
-        <div>
+      <Dialog open={open} fullWidth maxWidth={'lg'}>
+        <DialogTitle>
+          <Box className="icon-close" onClick={handleClose}>
+            <IconButton color="error">
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
+        <DialogContent style={{ padding: '30px 20px 0' }}>
           <MaterialTable
             title="Danh sách hồ sơ ứng viên"
             columns={columns}
-            data={listCandidate}
+            data={listEmployee}
             options={{
               sorting: false,
-              maxBodyHeight: '60vh',
               draggable: false,
+              maxBodyHeight: '40vh',
               pageSize: 10,
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
                 textAlign: 'center',
               },
             }}
-            isLoading={loading}
             localization={{
               toolbar: {
                 searchTooltip: 'Tìm kiếm',
@@ -193,11 +192,17 @@ export default function ApproveCandidate() {
               body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
             }}
           />
-        </div>
-      </Box>
-      {shouldOpenViewDialog && (
-        <CandidateProfileView
-          open={shouldOpenViewDialog}
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="secondary" onClick={handleClose}>
+            Hủy
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {shouldOpenContractDialog && (
+        <ContractDialog
+          open={shouldOpenContractDialog}
+          handleCloseDialog={() => setShouldOpenContractDialog(false)}
           handleClose={handleClose}
           item={item}
           setItem={setItem}

@@ -13,16 +13,17 @@ import { editEmployee } from './ApproveEmployeeService';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import RequestDialog from './RequestDialog';
 import './EmployeeView.scss';
-import ContractDialog from './ContractDialog';
+// import ContractDialog from './ContractDialog';
 import { toast } from 'react-toastify';
 
 export default function EmployeeView(props) {
   const { open, handleClose, item, setItem } = props;
-  const [shouldOpenContractDialog, setShouldOpenContractDialog] = useState(false);
+  // const [shouldOpenContractDialog, setShouldOpenContractDialog] = useState(false);
+  const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [shouldOpenRequestDialog, setShouldOpenRequestDialog] = useState(false);
 
   useEffect(() => {
-    if (item.status === 12) {
+    if (item.status === 3) {
       editEmployee(item)
         .then((res) => {
           if (res.data.statusCode === 200) {
@@ -328,18 +329,29 @@ export default function EmployeeView(props) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setShouldOpenContractDialog(true)}
+            onClick={() => setShouldOpenConfirmDialog(true)}
           >
             Phê duyệt
           </Button>
         </DialogActions>
       </Dialog>
-      {shouldOpenContractDialog && (
+      {/* {shouldOpenContractDialog && (
         <ContractDialog
           open={shouldOpenContractDialog}
           item={item}
           setItem={setItem}
           handleCloseDialog={() => setShouldOpenContractDialog(false)}
+        />
+      )} */}
+      {shouldOpenConfirmDialog && (
+        <ConfirmationDialog
+          title="Xác nhận"
+          text="Bạn có muốn phê duyệt hồ sơ nhân viên này?"
+          open={shouldOpenConfirmDialog}
+          onConfirmDialogClose={handleClose}
+          onYesClick={() => setItem({ ...item, status: 3 })}
+          Yes="Đồng ý"
+          No="Hủy"
         />
       )}
       {shouldOpenRequestDialog && (

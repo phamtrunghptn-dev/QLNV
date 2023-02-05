@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { checkStatus } from 'app/constant';
 import RecruitView from './RecruitView';
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default function Approve() {
   const [listCertificate, setListCertificate] = useState([]);
@@ -155,8 +156,17 @@ export default function Approve() {
         <Breadcrumb
           routeSegments={[{ name: 'Lãnh đạo', path: '/leader' }, { name: 'Danh sách kế hoạch' }]}
         />
-
-        <div style={{ marginTop: 60 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
+        <div>
           <MaterialTable
             title="Danh sách kế hoạch"
             columns={columns}
