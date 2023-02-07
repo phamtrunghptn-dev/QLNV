@@ -185,7 +185,7 @@ export default function CandidateProfileView(props) {
             onClick={() => setShouldOpenConfirmDialog(true)}
             disabled={candidate?.status === 8 || candidate?.status === 9}
           >
-            Đạt
+            Tiếp Nhận
           </Button>
           <Button
             variant="contained"
@@ -193,7 +193,7 @@ export default function CandidateProfileView(props) {
             onClick={() => setShouldOpenRefuseDialog(true)}
             disabled={candidate?.status === 8 || candidate?.status === 9}
           >
-            Không Đạt
+            Từ Chối
           </Button>
           <Button variant="contained" color="secondary" onClick={handleClose}>
             Hủy
