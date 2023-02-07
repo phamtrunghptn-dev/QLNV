@@ -153,7 +153,7 @@ export default function CandidateProfile() {
         }
       })
       .catch((err) => {
-        toast.error('Có lỗi xảy ra!');
+        toast.error(err);
         setLoading(false);
       });
   };
