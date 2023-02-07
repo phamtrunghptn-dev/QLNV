@@ -181,7 +181,7 @@ export default function TimeKeepingTable(props) {
   const updatePageData = () => {
     let searchObject = {};
     searchObject.pageIndex = 1;
-    searchObject.pageSize = 100;
+    searchObject.pageSize = 1000;
     searchObject.employeeId = item?.id;
     if (month) {
       searchObject.month = month?.value;

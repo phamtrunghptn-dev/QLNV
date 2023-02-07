@@ -98,7 +98,7 @@ export const navigations = [
     name: 'Quản lý lương',
     icon: 'paid',
     children: [
-      { name: 'Tính lương', path: '/session/signin' },
+      { name: 'Tính lương', path: '/payment-salary' },
       { name: 'Báo cáo thống kê', path: '/session/signin' },
     ],
     role: ['ADMIN', 'ACCOUNTANCY'],

@@ -24,7 +24,7 @@ const addNew = Yup.object({
   email: Yup.string()
     .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/, 'Đây không phải là email!')
     .required('Vui lòng nhập trường này'),
-  roles: Yup.object().nullable().required('Vui lòng chọn vai trò'),
+  roles: Yup.array().nullable().required('Vui lòng chọn vai trò'),
   passWord: Yup.string().required('Vui lòng nhập trường này'),
   confirm_password: Yup.string()
     .oneOf([Yup.ref('passWord')], 'Mật khẩu nhập lại không chính xác')
@@ -38,7 +38,7 @@ const changePass = Yup.object({
   email: Yup.string()
     .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/, 'Đây không phải là email!')
     .required('Vui lòng nhập trường này'),
-  roles: Yup.object().nullable().required('Vui lòng chọn vai trò'),
+  roles: Yup.array().nullable().required('Vui lòng chọn vai trò'),
   newPassword: Yup.string().required('Vui lòng nhập lại mật khẩu'),
 });
 
@@ -48,7 +48,7 @@ const edit = Yup.object({
   email: Yup.string()
     .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/, 'Đây không phải là email!')
     .required('Vui lòng nhập trường này'),
-  roles: Yup.object().nullable().required('Vui lòng chọn vai trò'),
+  roles: Yup.array().nullable().required('Vui lòng chọn vai trò'),
 });
 
 export default function UserDialog(props) {
@@ -61,7 +61,7 @@ export default function UserDialog(props) {
       userName: item.id ? item?.userName : '',
       fullName: item.id ? item?.fullName : '',
       email: item.id ? item?.email : '',
-      roles: item.id ? item?.roles[0] : null,
+      roles: item.id ? item?.roles : [],
       passWord: '',
       confirm_password: '',
       newPassword: '',
@@ -72,7 +72,7 @@ export default function UserDialog(props) {
     validationSchema: item?.id && editPassword ? changePass : item?.id ? edit : addNew,
     onSubmit: (values) => {
       values.id = item.id;
-      values.roles = [values.roles];
+      // values.roles = [values.roles];
       handleAdd(values);
     },
   });
@@ -161,8 +161,8 @@ export default function UserDialog(props) {
               <Autocomplete
                 options={listRole}
                 getOptionLabel={(option) => option.roleName}
-                value={formik.values?.roles}
-                onChange={(event, newValue) => formik.setFieldValue('roles', newValue)}
+                value={formik.values?.roles ? formik.values?.roles[0] : null}
+                onChange={(event, newValue) => formik.setFieldValue('roles', [newValue])}
                 componentsProps={{ paper: { elevation: 8 } }}
                 renderInput={(params) => (
                   <TextField

@@ -27,6 +27,7 @@ export default function TimeKeepingDialog(props) {
     if (timeKeeping?.month) {
       setMonthObject({ name: `Tháng ${timeKeeping?.month}`, value: timeKeeping?.month });
     }
+    setTimeKeeping({ ...timeKeeping, employee: item });
   }, []);
 
   useEffect(() => {
