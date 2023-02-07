@@ -1,7 +1,7 @@
 import axios from 'axios.js';
 import { API } from 'app/constant';
 
-const API_PATH = API + '/api/timekeepings';
+const API_PATH = API + '/api/time-keepings';
 const API_PATH2 = API + '/api/employees';
 
 export const getListTimeKeeping = (searchObject) => {

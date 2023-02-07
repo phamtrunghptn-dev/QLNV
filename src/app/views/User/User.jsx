@@ -140,7 +140,7 @@ export default function User() {
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[{ name: 'Tuyển dụng', path: '/plan' }, { name: 'Kế hoạch tuyển dụng' }]}
+          routeSegments={[{ name: 'Quản lý', path: '/manage' }, { name: 'Quản lý người dùng' }]}
         />
         <Button
           variant="contained"
