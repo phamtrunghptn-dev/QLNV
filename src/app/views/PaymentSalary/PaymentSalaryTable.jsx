@@ -109,7 +109,7 @@ export default function PaymentSalary(props) {
       },
     },
     {
-      title: 'Chi phí đóng bảo hiểm xã hội (8%)',
+      title: 'Tiền BHXH(8%)',
       field: 'socialInsuranceCosts',
       render: (rowData) =>
         Math.round(rowData?.socialInsuranceCosts)
@@ -125,7 +125,7 @@ export default function PaymentSalary(props) {
       },
     },
     {
-      title: 'Chi phí đóng bảo hiểm y tế (1.5%)',
+      title: 'Tiền BHYT(1.5%)',
       field: 'healthInsurancePremium',
       render: (rowData) =>
         Math.round(rowData?.healthInsurancePremium)
@@ -141,7 +141,7 @@ export default function PaymentSalary(props) {
       },
     },
     {
-      title: 'Tiền thuế thu nhập cá nhân (8%)',
+      title: 'Tiền thuế TNCN',
       field: 'personalIncomeTax',
       render: (rowData) =>
         Math.round(rowData?.personalIncomeTax)
@@ -157,7 +157,7 @@ export default function PaymentSalary(props) {
       },
     },
     {
-      title: 'Thuế giá tính gia tăng',
+      title: 'Giá trị gia tăng(TNCN)',
       field: 'valueAddedWithEachSalary',
       render: (rowData) => <span>{rowData?.valueAddedWithEachSalary * 100}%</span>,
       cellStyle: {
@@ -170,7 +170,7 @@ export default function PaymentSalary(props) {
       },
     },
     {
-      title: 'Tổng số lương được nhận',
+      title: 'Lương thực lĩnh',
       field: 'netWage',
       render: (rowData) =>
         Math.round(rowData?.netWage)

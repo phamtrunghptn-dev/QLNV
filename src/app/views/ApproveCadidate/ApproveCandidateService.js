@@ -1,7 +1,7 @@
 import axios from 'axios.js';
 import { API } from 'app/constant';
 
-const API_PATH = API + '/api/candidateProfiles';
+const API_PATH = API + '/api/candidate-profiles';
 
 export const getListCandidate = () => {
   return axios.get(API_PATH);
