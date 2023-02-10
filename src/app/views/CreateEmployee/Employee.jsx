@@ -8,13 +8,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
-import { checkStatus } from 'app/constant';
+import { checkStatus, trangThaiNhanVien } from 'app/constant';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import CandidateTable from './CandidateTable';
 import EmployeeDialog from './EmployeeDialog';
 import EmployeeView from './EmployeeView';
 import RequestDialog from './RequestDialog';
 import LoopIcon from '@mui/icons-material/Loop';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 
 export default function Employee() {
   const [listEmployee, setListEmployee] = useState([]);
@@ -25,6 +28,7 @@ export default function Employee() {
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [shouldOpenRequestDialog, setShouldOpenRequestDialog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({});
 
   const columns = [
     {
@@ -146,14 +150,16 @@ export default function Employee() {
   useEffect(() => {
     setLoading(true);
     updatePageData();
-  }, []);
+  }, [status]);
 
   const updatePageData = () => {
     getListEmployee()
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListEmployee(res.data.data.filter((item) => item.status === 1 || item.status === 10));
+          status?.value
+            ? setListEmployee(res.data.data.filter((item) => item.status === status?.value))
+            : setListEmployee(res.data.data);
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');
@@ -190,27 +196,55 @@ export default function Employee() {
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[{ name: 'Tuyển dụng', path: '/manage' }, { name: 'Danh sách hồ sơ' }]}
+          routeSegments={[
+            { name: 'Quản lý', path: '/manage' },
+            { name: 'Tạo mới hồ sơ nhân viên' },
+          ]}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            style={{ margin: '20px 0', padding: '5px 20px' }}
-            onClick={() => setShouldOpenCandidateTable(true)}
-          >
-            Thêm
-          </Button>
-          <IconButton
-            color="primary"
-            onClick={() => {
-              updatePageData();
-            }}
-          >
-            <LoopIcon />
-          </IconButton>
-        </div>
+        <Grid container spacing={1} justifyContent="space-between">
+          <Grid item xs={9}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              style={{ margin: '5px 0', padding: '5px 20px' }}
+              onClick={() => setShouldOpenCandidateTable(true)}
+            >
+              Thêm
+            </Button>
+          </Grid>
+          <Grid item container xs={2}>
+            <Grid item xs={10}>
+              <Autocomplete
+                options={trangThaiNhanVien}
+                getOptionLabel={(option) => option?.name || ''}
+                value={status}
+                onChange={(event, newValue) => setStatus(newValue)}
+                componentsProps={{ paper: { elevation: 8 } }}
+                fullWidth
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    fullWidth
+                    label="Lọc theo trạng thái"
+                    size="small"
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  updatePageData();
+                }}
+              >
+                <LoopIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Grid>
         <div style={{ marginTop: 10 }}>
           <MaterialTable
             title="Danh sách hồ sơ nhân viên"

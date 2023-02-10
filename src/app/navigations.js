@@ -79,7 +79,7 @@ export const navigations = [
       { name: 'Danh sách KH đã phê duyệt', path: '/leader/approved' },
       { name: 'Phê duyệt hồ sơ ứng viên', path: '/leader/approval-candidate' },
       { name: 'Phê duyệt hồ sơ nhân viên', path: '/leader/approval-employee' },
-      // { name: 'Quản lý người dùng', iconText: 'SI', path: '/manage/user' },
+      { name: 'Khen thưởng / Kỷ luật', path: '/leader/commendation-and-discipline' },
     ],
     role: ['ADMIN', 'LEADER'],
   },
@@ -89,7 +89,7 @@ export const navigations = [
     children: [
       { name: 'Chấm công', path: '/manage/time-keeping' },
       { name: 'Tạo hồ sơ nhân viên', path: '/manage/create-employee' },
-      { name: 'Cập nhật diễn biến', path: '/manage/create-employee' },
+      { name: 'Cập nhật diễn biến', path: '/manage/employee' },
       { name: 'Báo cáo thống kê', path: '/session/signin' },
     ],
     role: ['ADMIN', 'HR'],
