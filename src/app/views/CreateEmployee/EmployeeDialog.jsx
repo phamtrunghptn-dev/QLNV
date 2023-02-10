@@ -145,30 +145,24 @@ export default function EmployeeDialog(props) {
       nation: Yup.string().required('Vui lòng nhập trường này'),
       religion: Yup.string().required('Vui lòng nhập trường này'),
       address: Yup.string().required('Vui lòng nhập trường này'),
-      numberIdentityCard: Yup.number()
-        .typeError('Số CCCD phải là số!')
-        .required('Vui lòng nhập trường này'),
-      issuedDateIdentityCard: Yup.date()
-        .nullable()
-        .typeError('Sai định dạng ngày!')
-        .required('Vui lòng nhập trường này'),
-      placeOfGrantIdentityCard: Yup.string().required('Vui lòng nhập trường này'),
-      numberMedicalInsurance: Yup.number()
-        .typeError('Số bảo hiểm y tế phải là số!')
-        .required('Vui lòng nhập trường này'),
-      issuedDateMedicalInsurance: Yup.date()
-        .nullable()
-        .typeError('Sai định dạng ngày!')
-        .required('Vui lòng nhập trường này'),
-      placeOfIssueMedicalInsurance: Yup.string().required('Vui lòng nhập trường này'),
-      numberSocialInsurance: Yup.number()
-        .typeError('Số bảo hiểm xã hội phải là số!')
-        .required('Vui lòng nhập trường này'),
-      issuedDateSocialInsurance: Yup.date()
-        .nullable()
-        .typeError('Sai định dạng ngày!')
-        .required('Vui lòng nhập trường này'),
-      placeOfIssueSocialInsurance: Yup.string().required('Vui lòng nhập trường này'),
+      numberIdentityCard: Yup.number().typeError('Số CCCD phải là số!'),
+      // .required('Vui lòng nhập trường này'),
+      issuedDateIdentityCard: Yup.date().nullable().typeError('Sai định dạng ngày!'),
+      // .required('Vui lòng nhập trường này'),
+      placeOfGrantIdentityCard: Yup.string(),
+      // .required('Vui lòng nhập trường này'),
+      numberMedicalInsurance: Yup.number().typeError('Số bảo hiểm y tế phải là số!'),
+      // .required('Vui lòng nhập trường này'),
+      issuedDateMedicalInsurance: Yup.date().nullable().typeError('Sai định dạng ngày!'),
+      // .required('Vui lòng nhập trường này'),
+      placeOfIssueMedicalInsurance: Yup.string(),
+      // .required('Vui lòng nhập trường này'),
+      numberSocialInsurance: Yup.number().typeError('Số bảo hiểm xã hội phải là số!'),
+      // .required('Vui lòng nhập trường này'),
+      issuedDateSocialInsurance: Yup.date().nullable().typeError('Sai định dạng ngày!'),
+      // .required('Vui lòng nhập trường này'),
+      placeOfIssueSocialInsurance: Yup.string(),
+      // .required('Vui lòng nhập trường này'),
       certificate: Yup.object().nullable().required('Vui lòng chọn trường này'),
       languages: Yup.array().nullable().required('Vui lòng chọn trường này'),
       department: Yup.object().nullable().required('Vui lòng chọn trường này'),

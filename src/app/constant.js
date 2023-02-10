@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API = 'http://localhost:8888';
+export const API = 'https://f1b0-2402-800-6188-3fd0-7165-8631-bc76-6cd2.ap.ngrok.io';
 export const checkStatus = (value) => {
   let message;
   let color;
@@ -53,6 +53,7 @@ export const checkStatus = (value) => {
       break;
     case 12:
       message = 'Thử việc';
+      color = 'status-processing';
       break;
     case 13:
       message = 'Kết thúc thử việc';
@@ -105,3 +106,11 @@ export const uploadImage = (image) => {
   bodyFormData.append('file', image);
   return axios.post(API + '/api/files/uploadFile', bodyFormData);
 };
+
+export const trangThaiNhanVien = [
+  { name: 'Bản nháp', value: 1 },
+  { name: 'Đã duyệt', value: 3 },
+  { name: 'Từ chối', value: 6 },
+  { name: 'Yêu cầu chỉnh sửa', value: 10 },
+  { name: 'Thử việc', value: 12 },
+];

@@ -15,6 +15,7 @@ import approveEmployeeRoute from 'app/views/ApproveEmployee/ApproveEmployeeRoute
 import contractRoute from 'app/views/Contract/ContractRoute';
 import timeKeepingRoute from 'app/views/TimeKeeping/TimeKeepingRoute';
 import paymentSalaryRoute from 'app/views/PaymentSalary/PaymentSalaryRoute';
+import employeeRoute from 'app/views/Employee/EmployeeRoute';
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes';
 import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 import NotFound from 'app/views/sessions/NotFound';
@@ -48,6 +49,7 @@ const routes = [
       ...contractRoute,
       ...timeKeepingRoute,
       ...paymentSalaryRoute,
+      ...employeeRoute,
     ],
   },
   ...sessionRoutes,
