@@ -170,10 +170,8 @@ export default function EmployeeDialog(props) {
     }),
     onSubmit: (values) => {
       values.id = item?.id;
-      if (method === 1) {
-        values.status = item?.status || method;
-        setEmployee(values);
-      }
+      values.status = item?.status || method;
+      setEmployee(values);
     },
   });
   console.log(employee);
@@ -239,6 +237,7 @@ export default function EmployeeDialog(props) {
   }, [method]);
 
   useEffect(() => {
+    console.log(formik.values);
     setMethod('');
     setEmployee({ ...employee, status: '' });
   }, [formik.values]);

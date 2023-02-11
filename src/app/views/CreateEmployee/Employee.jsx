@@ -64,6 +64,7 @@ export default function Employee() {
               setItem(rowData);
               setShouldOpenDialog(true);
             }}
+            disabled={rowData.status === 12 || rowData.status === 2 || rowData.status === 3}
           >
             <EditIcon />
           </IconButton>
@@ -73,7 +74,12 @@ export default function Employee() {
               setShouldOpenConfirmDialog(true);
               setItem(rowData);
             }}
-            disabled={rowData.status === 10}
+            disabled={
+              rowData.status === 10 ||
+              rowData.status === 12 ||
+              rowData.status === 2 ||
+              rowData.status === 3
+            }
           >
             <DeleteIcon />
           </IconButton>

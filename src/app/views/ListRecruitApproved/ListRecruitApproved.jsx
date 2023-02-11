@@ -120,7 +120,7 @@ export default function ListRecruitApproved() {
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListRecruit(res.data.data.filter((item) => item.status === 3));
+          setListRecruit(res.data.data.filter((item) => item.status === 4 || item.status === 5));
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');

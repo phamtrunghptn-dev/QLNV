@@ -107,7 +107,7 @@ export const navigations = [
     name: 'Danh sách hợp đồng',
     path: '/manage/contract',
     icon: 'history_edu',
-    role: ['ADMIN', 'LEADER', 'HR'],
+    role: ['ADMIN', 'HR'],
   },
   {
     name: 'Quản lý người dùng',
