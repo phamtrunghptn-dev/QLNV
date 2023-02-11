@@ -219,7 +219,7 @@ export default function Employee() {
               Thêm
             </Button>
           </Grid>
-          <Grid item container xs={2}>
+          <Grid item container xs={3}>
             <Grid item xs={10}>
               <Autocomplete
                 options={trangThaiNhanVien}
@@ -231,7 +231,7 @@ export default function Employee() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    variant="outlined"
+                    variant="standard"
                     fullWidth
                     label="Lọc theo trạng thái"
                     size="small"
