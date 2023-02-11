@@ -52,8 +52,12 @@ export default function RecruitDialog(props) {
       } else if (recruit.status === 2) {
         addRecruit(recruit)
           .then((res) => {
-            toast.success('Gửi yêu cầu phê duyệt thành công');
-            handleClose();
+            if (res.data.statusCode === 200) {
+              toast.success('Gửi yêu cầu duyệt thành công');
+              handleClose();
+            } else {
+              toast.warning(res.data.message);
+            }
           })
           .catch((err) => toast.error('Có lỗi xảy ra!'));
       }

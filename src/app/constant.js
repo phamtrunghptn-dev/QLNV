@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API = 'https://f1b0-2402-800-6188-3fd0-7165-8631-bc76-6cd2.ap.ngrok.io';
+export const API = 'http://localhost:8888';
 export const checkStatus = (value) => {
   let message;
   let color;

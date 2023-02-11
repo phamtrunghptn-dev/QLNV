@@ -232,7 +232,9 @@ export default function EmployeeView(props) {
                   Ngày cấp:
                 </Grid>
                 <Grid item xs={6}>
-                  {moment(item?.issuedDateMedicalInsurance).format('DD/MM/YYYY')}
+                  {item?.issuedDateMedicalInsurance
+                    ? moment(item?.issuedDateMedicalInsurance).format('DD/MM/YYYY')
+                    : ''}
                 </Grid>
               </Grid>
               <Grid item container xs={12}>
@@ -258,7 +260,9 @@ export default function EmployeeView(props) {
                   Ngày cấp:
                 </Grid>
                 <Grid item xs={6}>
-                  {moment(item?.issuedDateSocialInsurance).format('DD/MM/YYYY')}
+                  {item?.issuedDateSocialInsurance
+                    ? moment(item?.issuedDateSocialInsurance).format('DD/MM/YYYY')
+                    : ''}
                 </Grid>
               </Grid>
               <Grid item container xs={12}>
