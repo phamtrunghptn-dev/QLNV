@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API = 'http://localhost:8888';
+export const API = 'https://0028-116-97-107-49.ap.ngrok.io';
 export const checkStatus = (value) => {
   let message;
   let color;
@@ -113,4 +113,17 @@ export const trangThaiNhanVien = [
   { name: 'Từ chối', value: 6 },
   { name: 'Yêu cầu chỉnh sửa', value: 10 },
   { name: 'Thử việc', value: 12 },
+];
+
+export const trangThaiKeHoanhTD = [
+  { name: 'Bản nháp', value: 1 },
+  { name: 'Đang thực hiện', value: 4 },
+  { name: 'Kết thúc', value: 5 },
+  { name: 'Từ chối', value: 6 },
+  { name: 'Yêu cầu chỉnh sửa', value: 10 },
+];
+
+export const quyetDinh = [
+  { name: 'Khen thưởng', value: 1 },
+  { name: 'Kỷ luật', value: 2 },
 ];

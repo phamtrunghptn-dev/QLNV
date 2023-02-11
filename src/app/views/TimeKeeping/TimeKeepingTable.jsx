@@ -30,11 +30,11 @@ export default function TimeKeepingTable(props) {
   const [year, setYear] = useState('');
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
 
+  console.log(item);
+
   useEffect(() => {
-    if (!timeKeeping?.employee) {
-      setTimeKeeping({ ...timeKeeping, employee: item });
-    }
-  }, []);
+    setTimeKeeping({ ...timeKeeping, employee: item });
+  }, [shouldOpenDialog]);
 
   const columns = [
     {
@@ -212,6 +212,7 @@ export default function TimeKeepingTable(props) {
       .then((res) => {
         if (res.data.statusCode === 200) {
           toast.success('Xóa bản ghi chấm công thành công');
+          setTimeKeeping({});
           updatePageData();
         } else {
           toast.warning('Lỗi xác thực!');

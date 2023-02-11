@@ -2,17 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import { getListRecruit, deleteRecruit } from './ApproveService';
+import {
+  getListCommendationAndDiscipline,
+  deleteCommendationAndDiscipline,
+} from './CommendationAndDisciplineService';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
+import LoopIcon from '@mui/icons-material/Loop';
+import CommendationAndDisciplineDialog from './CommendationAndDisciplineDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { checkStatus } from 'app/constant';
-import RecruitView from './RecruitView';
-import LoopIcon from '@mui/icons-material/Loop';
 
-export default function Approve() {
-  const [listCertificate, setListCertificate] = useState([]);
+export default function CommendationAndDiscipline() {
+  const [listEmployee, setListEmployee] = useState([]);
+  const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
@@ -42,17 +48,46 @@ export default function Approve() {
           >
             <RemoveRedEyeIcon />
           </IconButton>
+          <IconButton
+            color="success"
+            onClick={() => {
+              setShouldOpenDialog(true);
+              setItem(rowData);
+            }}
+            disabled={rowData?.status === 4 || rowData?.status === 5}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color="error"
+            onClick={() => {
+              setShouldOpenConfirmDialog(true);
+              setItem(rowData);
+            }}
+            disabled={rowData?.status === 4 || rowData?.status === 5}
+          >
+            <DeleteIcon />
+          </IconButton>
         </>
       ),
       cellStyle: {
-        width: '5%',
+        width: '10%',
         textAlign: 'center',
       },
     },
     {
-      title: 'Tên kế hoạch',
-      field: 'name',
-      render: (rowData) => rowData.titleRecruit,
+      title: 'Số quyết định',
+      field: 'decisionNumber',
+      render: (rowData) => rowData?.decisionNumber,
+      cellStyle: {
+        width: '10%',
+        textAlign: 'center',
+      },
+    },
+    {
+      title: 'Họ và tên nhân viên',
+      field: 'staffName',
+      render: (rowData) => rowData?.staffName,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -62,32 +97,27 @@ export default function Approve() {
       },
     },
     {
-      title: 'Số lượng',
-      field: 'quantity',
-      render: (rowData) => rowData.quantity,
+      title: 'Loại',
+      field: 'type',
+      render: (rowData) => (rowData?.type === 1 ? 'Khen thưởng' : 'Kỷ luật'),
       cellStyle: {
-        width: '5%',
-        textAlign: 'center',
+        width: '10%',
+        textAlign: 'left',
       },
       headerStyle: {
-        textAlign: 'center',
+        textAlign: 'left',
       },
     },
     {
-      title: 'Các kênh tuyển dụng chính',
-      field: 'description',
-      render: (rowData) => rowData.recruitmentChannel,
-      headerStyle: {
-        textAlign: 'center',
-      },
+      title: 'Ngày quyết định',
+      field: 'day',
+      render: (rowData) => rowData?.day + '/' + rowData?.month + '/' + rowData?.year,
       cellStyle: {
-        width: '20%',
-        textOverflow: 'ellipsis',
-        textAlign: 'center',
-
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        maxWidth: 100,
+        width: '10%',
+        textAlign: 'left',
+      },
+      headerStyle: {
+        textAlign: 'left',
       },
     },
     {
@@ -114,11 +144,11 @@ export default function Approve() {
   }, []);
 
   const updatePageData = () => {
-    getListRecruit()
+    getListCommendationAndDiscipline()
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListCertificate(res.data.data.filter((item) => item.status === 2));
+          setListEmployee(res.data.data);
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');
@@ -129,16 +159,9 @@ export default function Approve() {
         setLoading(false);
       });
   };
-  console.log(listCertificate);
-  const handleClose = () => {
-    setShouldOpenConfirmDialog(false);
-    setShouldOpenViewDialog(false);
-    setItem({});
-    updatePageData();
-  };
 
   const handleDelete = () => {
-    deleteRecruit(item.id).then((res) => {
+    deleteCommendationAndDiscipline(item?.id).then((res) => {
       if (res.data.statusCode === 200) {
         toast.success('Xóa thành công');
       } else {
@@ -148,13 +171,32 @@ export default function Approve() {
     });
   };
 
+  const handleClose = () => {
+    setShouldOpenDialog(false);
+    setShouldOpenViewDialog(false);
+    setShouldOpenConfirmDialog(false);
+    updatePageData();
+    setItem({});
+  };
   return (
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[{ name: 'Lãnh đạo', path: '/leader' }, { name: 'Danh sách kế hoạch' }]}
+          routeSegments={[
+            { name: 'Phê duyệt', path: '/leader' },
+            { name: 'Khen thưởng / Kỷ luật' },
+          ]}
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            style={{ margin: '20px 0', padding: '5px 20px' }}
+            onClick={() => setShouldOpenDialog(true)}
+          >
+            Thêm
+          </Button>
           <IconButton
             color="primary"
             onClick={() => {
@@ -166,9 +208,9 @@ export default function Approve() {
         </div>
         <div>
           <MaterialTable
-            title="Danh sách kế hoạch"
+            title="Danh sách hồ sơ nhân viên"
             columns={columns}
-            data={listCertificate}
+            data={listEmployee}
             options={{
               sorting: false,
               maxBodyHeight: '60vh',
@@ -203,23 +245,30 @@ export default function Approve() {
           />
         </div>
       </Box>
-      {shouldOpenViewDialog && (
-        <RecruitView
-          open={shouldOpenViewDialog}
+      {shouldOpenDialog && (
+        <CommendationAndDisciplineDialog
+          open={shouldOpenDialog}
           handleClose={handleClose}
-          setItem={setItem}
           item={item}
         />
       )}
       {shouldOpenConfirmDialog && (
         <ConfirmationDialog
           title="Xác nhận"
-          text="Bạn có muốn xóa kế hoạch này?"
+          text="Bạn có muốn xóa quyết định này?"
           open={shouldOpenConfirmDialog}
           onConfirmDialogClose={handleClose}
           onYesClick={handleDelete}
           Yes="Đồng ý"
           No="Hủy"
+        />
+      )}
+      {shouldOpenViewDialog && (
+        <CommendationAndDisciplineDialog
+          open={shouldOpenViewDialog}
+          readOnly={shouldOpenViewDialog}
+          handleClose={handleClose}
+          item={item}
         />
       )}
     </>

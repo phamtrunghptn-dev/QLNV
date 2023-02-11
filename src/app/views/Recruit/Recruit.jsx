@@ -12,32 +12,21 @@ import RecruitDialog from './RecruitDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import RecruitView from './RecruitView';
 import { checkStatus } from 'app/constant';
+import Grid from '@mui/material/Grid';
 import LoopIcon from '@mui/icons-material/Loop';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import { trangThaiKeHoanhTD } from 'app/constant';
 import './Recruit.scss';
 
 export default function Recruit() {
-  const role = localStorage.getItem('role');
   const [listRecruit, setListRecruit] = useState([]);
   const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const disableButtonByRole = (rowData) => {
-    if (role === 'RECRUITMENT' && (rowData.status === 10 || rowData.status === 6)) {
-      return true;
-    } else if (role === 'ADMIN') {
-      return false;
-    }
-  };
-  const disableButtonByRole1 = (rowData) => {
-    if (role === 'RECRUITMENT' && rowData.status === 6) {
-      return true;
-    } else if (role === 'ADMIN') {
-      return false;
-    }
-  };
+  const [status, setStatus] = useState('');
 
   const columns = [
     {
@@ -69,7 +58,7 @@ export default function Recruit() {
               setShouldOpenDialog(true);
               setItem(rowData);
             }}
-            disabled={disableButtonByRole1(rowData)}
+            disabled={rowData?.status === 6 || rowData?.status === 4 || rowData?.status === 5}
           >
             <EditIcon />
           </IconButton>
@@ -80,7 +69,12 @@ export default function Recruit() {
               setShouldOpenConfirmDialog(true);
               setItem(rowData);
             }}
-            disabled={disableButtonByRole(rowData)}
+            disabled={
+              rowData?.status === 6 ||
+              rowData?.status === 4 ||
+              rowData?.status === 5 ||
+              rowData?.status === 10
+            }
           >
             <DeleteIcon />
           </IconButton>
@@ -153,14 +147,18 @@ export default function Recruit() {
   useEffect(() => {
     setLoading(true);
     updatePageData();
-  }, []);
+  }, [status]);
 
   const updatePageData = () => {
     getListRecruit()
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListRecruit(res.data.data.filter((item) => item.status !== 3 && item.status !== 2));
+          status?.value
+            ? setListRecruit(res.data.data.filter((item) => item.status === status?.value))
+            : setListRecruit(
+                res.data.data.filter((item) => item.status !== 3 && item.status !== 2)
+              );
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');
@@ -197,25 +195,50 @@ export default function Recruit() {
         <Breadcrumb
           routeSegments={[{ name: 'Tuyển dụng', path: '/plan' }, { name: 'Kế hoạch tuyển dụng' }]}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            style={{ margin: '20px 0', padding: '5px 20px' }}
-            onClick={() => setShouldOpenDialog(true)}
-          >
-            Thêm
-          </Button>
-          <IconButton
-            color="primary"
-            onClick={() => {
-              updatePageData();
-            }}
-          >
-            <LoopIcon />
-          </IconButton>
-        </div>
+        <Grid container spacing={1} justifyContent="space-between">
+          <Grid item xs={9}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              style={{ margin: '20px 0', padding: '5px 20px' }}
+              onClick={() => setShouldOpenDialog(true)}
+            >
+              Thêm
+            </Button>
+          </Grid>
+          <Grid item container xs={3}>
+            <Grid item xs={10}>
+              <Autocomplete
+                options={trangThaiKeHoanhTD}
+                getOptionLabel={(option) => option?.name || ''}
+                value={status}
+                onChange={(event, newValue) => setStatus(newValue)}
+                componentsProps={{ paper: { elevation: 8 } }}
+                fullWidth
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="standard"
+                    fullWidth
+                    label="Lọc theo trạng thái"
+                    size="small"
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  updatePageData();
+                }}
+              >
+                <LoopIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Grid>
         <MaterialTable
           title="Danh sách kế hoạch"
           columns={columns}
