@@ -26,6 +26,8 @@ export default function CommendationAndDisciplineDialog(props) {
   const [typeObj, setTypeObj] = useState('');
   const [method, setMethod] = useState('');
 
+  console.log(item);
+
   const formik = useFormik({
     initialValues: {
       decisionNumber: item?.id ? item?.decisionNumber : '',
@@ -141,7 +143,7 @@ export default function CommendationAndDisciplineDialog(props) {
                   CÔNG TY OCEANTECH
                 </Grid>
                 <Grid container item xs={12} md={12} justifyContent="center">
-                  <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+                  <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                     Số:{' '}
                   </Grid>
                   <Grid item xs={4.1} md={4.1}>
@@ -197,7 +199,7 @@ export default function CommendationAndDisciplineDialog(props) {
               justifyContent="flex-end"
               style={{ marginBottom: 20 }}
             >
-              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                 Hà Nội, ngày{' '}
               </Grid>
               <Grid item xs={1} md={1}>
@@ -214,7 +216,7 @@ export default function CommendationAndDisciplineDialog(props) {
                   helperText={formik.errors.day}
                 />
               </Grid>
-              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                 tháng
               </Grid>
               <Grid item xs={1} md={1}>
@@ -231,7 +233,7 @@ export default function CommendationAndDisciplineDialog(props) {
                   helperText={formik.errors.month}
                 />
               </Grid>
-              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                 năm
               </Grid>
               <Grid item xs={1} md={1}>
@@ -283,9 +285,7 @@ export default function CommendationAndDisciplineDialog(props) {
                       )}
                     />
                   </Grid>
-                  <Grid item style={{ lineHeight: '2' }}>
-                    cá nhân năm {formik.values?.year}
-                  </Grid>
+                  <Grid item>cá nhân năm {formik.values?.year}</Grid>
                 </>
               )}
             </Grid>
@@ -372,9 +372,9 @@ export default function CommendationAndDisciplineDialog(props) {
             >
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+                <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                   {' '}
-                  <span>1: </span> {typeObj?.name}: Ông/bà
+                  <span>1: </span> {typeObj?.name}: Ông/bà:
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
@@ -419,7 +419,7 @@ export default function CommendationAndDisciplineDialog(props) {
               <Grid item xs={1} md={1}></Grid>
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+                <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                   {' '}
                   <span>3: </span> Mức {typeObj?.name} :
                 </Grid>
@@ -451,7 +451,7 @@ export default function CommendationAndDisciplineDialog(props) {
               <Grid item xs={1} md={1}></Grid>
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+                <Grid item style={{ marginRight: 5 }}>
                   <span>4: </span> Quyết định có hiểu lực từ ngày ký, Phòng Kế toán, Phòng Hành
                   chính Nhân sự và các Phòng/Ban có liên quan chịu trách nhiệm thi hành quyết định
                   này.
@@ -489,7 +489,7 @@ export default function CommendationAndDisciplineDialog(props) {
             Hủy
           </Button>
           {readOnly ? (
-            <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(1)}>
+            <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(4)}>
               Phê duyệt
             </Button>
           ) : (
