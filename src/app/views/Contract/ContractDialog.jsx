@@ -71,7 +71,6 @@ export default function ContractDialog(props) {
     document.body.innerHTML = oldstr;
   };
 
-  console.log(formik.values?.contractEffect - formik.values?.signingDate);
   return (
     <Dialog open={open} fullWidth maxWidth={'md'}>
       <DialogTitle style={{ marginBlockEnd: 0, padding: '16px 24px 0' }}>

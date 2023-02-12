@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API = 'http://localhost:8888';
+export const API = 'https://dc3e-2402-800-6188-3fd0-b833-4e4-df98-fdfa.ap.ngrok.io';
 export const checkStatus = (value) => {
   let message;
   let color;
@@ -60,6 +60,7 @@ export const checkStatus = (value) => {
       break;
     case 14:
       message = 'Chính thức';
+      color = 'status-approved';
       break;
     case 15:
       message = 'Nghỉ việc';
@@ -112,7 +113,13 @@ export const trangThaiNhanVien = [
   { name: 'Đã duyệt', value: 3 },
   { name: 'Từ chối', value: 6 },
   { name: 'Yêu cầu chỉnh sửa', value: 10 },
+];
+
+export const trangThaiNhanVienCNDB = [
   { name: 'Thử việc', value: 12 },
+  { name: 'Chính thức', value: 14 },
+  { name: 'Nghỉ việc', value: 15 },
+  { name: 'Sa thải', value: 16 },
 ];
 
 export const trangThaiKeHoanhTD = [

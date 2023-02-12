@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import {
-  getListCommendationAndDiscipline,
-  deleteCommendationAndDiscipline,
-} from './CommendationAndDisciplineService';
+import { getListCommendationAndDiscipline } from './ListCommendationAndDisciplineService';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,9 +13,8 @@ import CommendationAndDisciplineDialog from './CommendationAndDisciplineDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { checkStatus } from 'app/constant';
 
-export default function CommendationAndDiscipline() {
+export default function ListCommendationAndDiscipline() {
   const [listCommendationAndDiscipline, setListCommendationAndDiscipline] = useState([]);
-  const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
@@ -47,26 +43,6 @@ export default function CommendationAndDiscipline() {
             }}
           >
             <RemoveRedEyeIcon />
-          </IconButton>
-          <IconButton
-            color="success"
-            onClick={() => {
-              setShouldOpenDialog(true);
-              setItem(rowData);
-            }}
-            disabled={rowData?.status === 4 || rowData?.status === 5}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            color="error"
-            onClick={() => {
-              setShouldOpenConfirmDialog(true);
-              setItem(rowData);
-            }}
-            disabled={rowData?.status === 4 || rowData?.status === 5}
-          >
-            <DeleteIcon />
           </IconButton>
         </>
       ),
@@ -148,7 +124,9 @@ export default function CommendationAndDiscipline() {
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListCommendationAndDiscipline(res.data.data);
+          setListCommendationAndDiscipline(
+            res.data.data.filter((item) => item?.status === 4 || item?.status === 5)
+          );
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');
@@ -160,19 +138,7 @@ export default function CommendationAndDiscipline() {
       });
   };
 
-  const handleDelete = () => {
-    deleteCommendationAndDiscipline(item?.id).then((res) => {
-      if (res.data.statusCode === 200) {
-        toast.success('Xóa thành công');
-      } else {
-        toast.warning(res.data.message);
-      }
-      handleClose();
-    });
-  };
-
   const handleClose = () => {
-    setShouldOpenDialog(false);
     setShouldOpenViewDialog(false);
     setShouldOpenConfirmDialog(false);
     updatePageData();
@@ -187,16 +153,7 @@ export default function CommendationAndDiscipline() {
             { name: 'Khen thưởng / Kỷ luật' },
           ]}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            style={{ margin: '20px 0', padding: '5px 20px' }}
-            onClick={() => setShouldOpenDialog(true)}
-          >
-            Thêm
-          </Button>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <IconButton
             color="primary"
             onClick={() => {
@@ -245,24 +202,6 @@ export default function CommendationAndDiscipline() {
           />
         </div>
       </Box>
-      {shouldOpenDialog && (
-        <CommendationAndDisciplineDialog
-          open={shouldOpenDialog}
-          handleClose={handleClose}
-          item={item}
-        />
-      )}
-      {shouldOpenConfirmDialog && (
-        <ConfirmationDialog
-          title="Xác nhận"
-          text="Bạn có muốn xóa quyết định này?"
-          open={shouldOpenConfirmDialog}
-          onConfirmDialogClose={handleClose}
-          onYesClick={handleDelete}
-          Yes="Đồng ý"
-          No="Hủy"
-        />
-      )}
       {shouldOpenViewDialog && (
         <CommendationAndDisciplineDialog
           open={shouldOpenViewDialog}

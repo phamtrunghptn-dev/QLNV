@@ -174,7 +174,7 @@ export default function EmployeeDialog(props) {
       setEmployee(values);
     },
   });
-  console.log(employee);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
