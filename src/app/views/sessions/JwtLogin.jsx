@@ -1,5 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 import { Box, styled, useTheme } from '@mui/system';
 import { Paragraph } from 'app/components/Typography';
 import useAuth from 'app/hooks/useAuth';
@@ -57,7 +59,7 @@ const JwtLogin = () => {
   const handleFormSubmit = async (values) => {
     setLoading(true);
     try {
-      await login(values.userName, values.password);
+      const res = await login(values.userName, values.password);
       navigate('/');
     } catch (e) {
       setLoading(false);
@@ -66,80 +68,86 @@ const JwtLogin = () => {
 
   return (
     <JWTRoot>
-      <Card className="card">
-        <Grid container>
-          <Grid item sm={6} xs={12}>
-            <JustifyBox p={4} height="100%" sx={{ minWidth: 320 }}>
-              <img src="/assets/images/illustrations/dreamer.svg" width="100%" alt="" />
-            </JustifyBox>
+      <Dialog open={true} fullWidth maxWidth={'lg'}>
+        <DialogContent style={{ padding: '100px 50px' }}>
+          <Grid container>
+            <Grid item sm={6} xs={12}>
+              <JustifyBox height="100%" sx={{ width: '100%' }}>
+                <img
+                  src="https://images.squarespace-cdn.com/content/v1/5d13cec9626d0b0001fd119c/1562269721664-C4QGYNS07KD61WGN7WQI/EcoTech+Logo+2.png"
+                  width="100%"
+                  alt=""
+                />
+              </JustifyBox>
+            </Grid>
+
+            <Grid item sm={6} xs={12}>
+              <ContentBox>
+                <Formik
+                  onSubmit={handleFormSubmit}
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                >
+                  {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+                    <form
+                      onSubmit={handleSubmit}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        height: '100%',
+                      }}
+                    >
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="text"
+                        name="userName"
+                        label="Tên đăng nhập"
+                        variant="outlined"
+                        onBlur={handleBlur}
+                        value={values.userName}
+                        onChange={handleChange}
+                        helperText={touched.userName && errors.userName}
+                        error={Boolean(errors.userName && touched.userName)}
+                        sx={{ mb: 3 }}
+                      />
+
+                      <TextField
+                        fullWidth
+                        size="small"
+                        name="password"
+                        type="password"
+                        label="Mật khẩu"
+                        variant="outlined"
+                        onBlur={handleBlur}
+                        value={values.password}
+                        onChange={handleChange}
+                        helperText={touched.password && errors.password}
+                        error={Boolean(errors.password && touched.password)}
+                        sx={{ mb: 1.5 }}
+                      />
+
+                      <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                        <LoadingButton
+                          type="submit"
+                          color="primary"
+                          loading={loading}
+                          variant="contained"
+                          sx={{ my: 2 }}
+                          style={{ width: '30%' }}
+                        >
+                          Login
+                        </LoadingButton>
+                      </Box>
+                    </form>
+                  )}
+                </Formik>
+              </ContentBox>
+            </Grid>
           </Grid>
-
-          <Grid item sm={6} xs={12}>
-            <ContentBox>
-              <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-              >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-                  <form
-                    onSubmit={handleSubmit}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      height: '100%',
-                    }}
-                  >
-                    <TextField
-                      fullWidth
-                      size="small"
-                      type="text"
-                      name="userName"
-                      label="Tên đăng nhập"
-                      variant="outlined"
-                      onBlur={handleBlur}
-                      value={values.userName}
-                      onChange={handleChange}
-                      helperText={touched.userName && errors.userName}
-                      error={Boolean(errors.userName && touched.userName)}
-                      sx={{ mb: 3 }}
-                    />
-
-                    <TextField
-                      fullWidth
-                      size="small"
-                      name="password"
-                      type="password"
-                      label="Mật khẩu"
-                      variant="outlined"
-                      onBlur={handleBlur}
-                      value={values.password}
-                      onChange={handleChange}
-                      helperText={touched.password && errors.password}
-                      error={Boolean(errors.password && touched.password)}
-                      sx={{ mb: 1.5 }}
-                    />
-
-                    <Box>
-                      <LoadingButton
-                        type="submit"
-                        color="primary"
-                        loading={loading}
-                        variant="contained"
-                        sx={{ my: 2 }}
-                        style={{ float: 'right' }}
-                      >
-                        Login
-                      </LoadingButton>
-                    </Box>
-                  </form>
-                )}
-              </Formik>
-            </ContentBox>
-          </Grid>
-        </Grid>
-      </Card>
+        </DialogContent>
+      </Dialog>
     </JWTRoot>
   );
 };

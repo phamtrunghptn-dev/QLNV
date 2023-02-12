@@ -89,7 +89,9 @@ export const AuthProvider = ({ children }) => {
         username,
         password,
       })
-      // .then((res) => {})
+      // .then((res) => {
+      //   toast.success('Đăng nhập thành công');
+      // })
       .catch((err) => {
         if (err.code === 400) {
           toast.error(err.error);
@@ -97,6 +99,10 @@ export const AuthProvider = ({ children }) => {
           toast.error('Có lỗi xảy ra!');
         }
       });
+
+    if (response?.data?.code === 200) {
+      toast.success('Đăng nhập thành công');
+    }
     const { accessToken, name, roles } = response.data;
 
     const obj = {

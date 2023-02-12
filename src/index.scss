@@ -104,3 +104,19 @@ input::-webkit-inner-spin-button {
   text-align: center;
   font-size: 12px;
 }
+
+.collapse {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 600;
+  color: white;
+  font-size: 18px;
+  align-items: center;
+  background-color: #1976d2d9;
+  padding: 15px 20px;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}

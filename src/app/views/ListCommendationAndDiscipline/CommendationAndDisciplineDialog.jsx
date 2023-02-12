@@ -16,17 +16,12 @@ import { toast } from 'react-toastify';
 import { quyetDinh } from 'app/constant';
 import './CommendationAndDiscipline.scss';
 import InputAdornment from '@mui/material/InputAdornment';
-import {
-  addCommendationAndDiscipline,
-  editCommendationAndDiscipline,
-} from './CommendationAndDisciplineService';
+import { editCommendationAndDiscipline } from './ListCommendationAndDisciplineService';
 
 export default function CommendationAndDisciplineDialog(props) {
   const { open, handleClose, item, readOnly } = props;
   const [typeObj, setTypeObj] = useState('');
   const [method, setMethod] = useState('');
-
-  console.log(item);
 
   const formik = useFormik({
     initialValues: {
@@ -58,9 +53,6 @@ export default function CommendationAndDisciplineDialog(props) {
       values.id = item?.id;
       values.rewardDisciplineLevel = Number(values.rewardDisciplineLevel);
       values.status = method;
-      if (!values.type) {
-        values.type = item?.type;
-      }
       handleAdd(values);
     },
   });
@@ -71,24 +63,11 @@ export default function CommendationAndDisciplineDialog(props) {
 
   const handleAdd = (values) => {
     if (values?.id) {
-      if (values?.status === 1) {
+      if (values?.status === 5) {
         editCommendationAndDiscipline(values)
           .then((res) => {
             if (res.data.statusCode === 200) {
-              toast.success('Sửa quyết định thành công');
-              handleClose();
-            } else {
-              toast.warning(res.data.message);
-            }
-          })
-          .catch((err) => {
-            toast.error('Có lỗi xảy ra!');
-          });
-      } else if (values?.status === 4) {
-        editCommendationAndDiscipline(values)
-          .then((res) => {
-            if (res.data.statusCode === 200) {
-              toast.success('Quyết định đã được chuyển xuống các ban phòng');
+              toast.success('Đã thi hành quyết định thành công');
               handleClose();
             } else {
               toast.warning(res.data.message);
@@ -99,19 +78,16 @@ export default function CommendationAndDisciplineDialog(props) {
           });
       }
     } else {
-      addCommendationAndDiscipline(values)
-        .then((res) => {
-          if (res.data.statusCode === 200) {
-            toast.success('Tạo quyết định thành công');
-            handleClose();
-          } else {
-            toast.warning(res.data.message);
-          }
-        })
-        .catch((err) => {
-          toast.error('Có lỗi xảy ra!');
-        });
+      toast.error('Có lỗi xảy ra!');
     }
+  };
+
+  const handlePrint = () => {
+    var oldstr = document.body.innerHTML;
+    document.body.innerHTML = document.getElementById('commendation-and-discipline').innerHTML;
+    window.print();
+    window.location.reload();
+    document.body.innerHTML = oldstr;
   };
 
   return (
@@ -124,7 +100,7 @@ export default function CommendationAndDisciplineDialog(props) {
         </Box>
       </DialogTitle>
       <form onSubmit={formik.handleSubmit} onError={(errors) => console.log(errors)}>
-        <DialogContent style={{ padding: '0 20px' }}>
+        <DialogContent style={{ padding: '0 20px' }} id="commendation-and-discipline">
           <Grid
             container
             spacing={2}
@@ -146,7 +122,7 @@ export default function CommendationAndDisciplineDialog(props) {
                   CÔNG TY OCEANTECH
                 </Grid>
                 <Grid container item xs={12} md={12} justifyContent="center">
-                  <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
+                  <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
                     Số:{' '}
                   </Grid>
                   <Grid item xs={4.1} md={4.1}>
@@ -202,7 +178,7 @@ export default function CommendationAndDisciplineDialog(props) {
               justifyContent="flex-end"
               style={{ marginBottom: 20 }}
             >
-              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
                 Hà Nội, ngày{' '}
               </Grid>
               <Grid item xs={1} md={1}>
@@ -219,7 +195,7 @@ export default function CommendationAndDisciplineDialog(props) {
                   helperText={formik.errors.day}
                 />
               </Grid>
-              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
                 tháng
               </Grid>
               <Grid item xs={1} md={1}>
@@ -236,7 +212,7 @@ export default function CommendationAndDisciplineDialog(props) {
                   helperText={formik.errors.month}
                 />
               </Grid>
-              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
                 năm
               </Grid>
               <Grid item xs={1} md={1}>
@@ -288,7 +264,9 @@ export default function CommendationAndDisciplineDialog(props) {
                       )}
                     />
                   </Grid>
-                  <Grid item>cá nhân năm {formik.values?.year}</Grid>
+                  <Grid item style={{ lineHeight: '2' }}>
+                    cá nhân năm {formik.values?.year}
+                  </Grid>
                 </>
               )}
             </Grid>
@@ -375,7 +353,7 @@ export default function CommendationAndDisciplineDialog(props) {
             >
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
+                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
                   {' '}
                   <span>1: </span> {typeObj?.name}: Ông/bà:
                 </Grid>
@@ -422,7 +400,7 @@ export default function CommendationAndDisciplineDialog(props) {
               <Grid item xs={1} md={1}></Grid>
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
+                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
                   {' '}
                   <span>3: </span> Mức {typeObj?.name} :
                 </Grid>
@@ -454,7 +432,7 @@ export default function CommendationAndDisciplineDialog(props) {
               <Grid item xs={1} md={1}></Grid>
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ marginRight: 5 }}>
+                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
                   <span>4: </span> Quyết định có hiểu lực từ ngày ký, Phòng Kế toán, Phòng Hành
                   chính Nhân sự và các Phòng/Ban có liên quan chịu trách nhiệm thi hành quyết định
                   này.
@@ -491,15 +469,16 @@ export default function CommendationAndDisciplineDialog(props) {
           <Button variant="contained" color="secondary" onClick={handleClose}>
             Hủy
           </Button>
-          {readOnly ? (
-            <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(4)}>
-              Phê duyệt
+          {readOnly && item?.status === 4 ? (
+            <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(5)}>
+              Thi hành
             </Button>
           ) : (
-            <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(1)}>
-              {item.id ? 'Lưu' : 'Thêm'}
-            </Button>
+            ''
           )}
+          <Button variant="contained" color="primary" onClick={handlePrint}>
+            In
+          </Button>
         </DialogActions>
       </form>
     </Dialog>
