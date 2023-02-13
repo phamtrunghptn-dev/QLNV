@@ -56,6 +56,9 @@ export default function CommendationAndDisciplineDialog(props) {
       values.id = item?.id;
       values.rewardDisciplineLevel = Number(values.rewardDisciplineLevel);
       values.status = method;
+      if (readOnly) {
+        values.type = item?.type;
+      }
       handleAdd(values);
     },
   });
@@ -325,11 +328,11 @@ export default function CommendationAndDisciplineDialog(props) {
                 <Grid item xs={12} md={12}>
                   - Căn cứ vào Điều lệ hoạt động của Công ty OCEANTECH;
                 </Grid>
-                {formik.values?.type === 1 ? (
+                {item?.type === 1 ? (
                   <Grid item xs={12} md={12}>
                     - Để động viên khuyến khích CBNV toàn Công ty
                   </Grid>
-                ) : formik.values?.type === 2 ? (
+                ) : item?.type === 2 ? (
                   <Grid item xs={12} md={12}>
                     - Xét tính chất và mức độ vi phạm
                   </Grid>
@@ -489,7 +492,7 @@ export default function CommendationAndDisciplineDialog(props) {
             Hủy
           </Button>
           {readOnly ? (
-            <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(1)}>
+            <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(4)}>
               Phê duyệt
             </Button>
           ) : (
