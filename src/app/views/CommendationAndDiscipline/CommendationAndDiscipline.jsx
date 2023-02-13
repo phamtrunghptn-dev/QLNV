@@ -208,7 +208,7 @@ export default function CommendationAndDiscipline() {
         </div>
         <div>
           <MaterialTable
-            title="Danh sách quyết định khen thưởng / kỷ luật "
+            title="Danh sách quyết định khen thưởng - kỷ luật "
             columns={columns}
             data={listCommendationAndDiscipline}
             options={{
