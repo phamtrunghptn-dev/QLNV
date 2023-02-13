@@ -148,7 +148,7 @@ export default function CommendationAndDiscipline() {
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListCommendationAndDiscipline(res.data.data);
+          setListCommendationAndDiscipline(res.data.data.filter((item) => item?.status === 1));
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');

@@ -22,7 +22,7 @@ export default function CommendationAndDisciplineDialog(props) {
   const { open, handleClose, item, readOnly } = props;
   const [typeObj, setTypeObj] = useState('');
   const [method, setMethod] = useState('');
-
+  console.log('item', item);
   const formik = useFormik({
     initialValues: {
       decisionNumber: item?.id ? item?.decisionNumber : '',
@@ -56,10 +56,7 @@ export default function CommendationAndDisciplineDialog(props) {
       handleAdd(values);
     },
   });
-
-  useEffect(() => {
-    formik.setFieldValue('type', typeObj?.value);
-  }, [typeObj]);
+  console.log('type', formik.values?.type);
 
   const handleAdd = (values) => {
     if (values?.id) {
@@ -242,33 +239,11 @@ export default function CommendationAndDisciplineDialog(props) {
             <Grid container item xs={12} md={12} spacing={1} style={{ marginBottom: 20 }}>
               <Grid item xs={4.5} md={4.5}></Grid>
 
-              {readOnly && item?.type === 1 ? (
-                `Khen thưởng cá nhân năm ${formik.values?.year}`
-              ) : readOnly && item?.type === 2 ? (
-                `Kỷ luật cá nhân năm ${formik.values?.year}`
-              ) : (
-                <>
-                  <Grid item xs={2.2} md={2.2}>
-                    <Autocomplete
-                      readOnly={readOnly}
-                      options={quyetDinh}
-                      getOptionLabel={(option) => option?.name}
-                      value={typeObj || null}
-                      onChange={(event, value) => setTypeObj(value)}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="standard"
-                          placeholder="Khen thưởng / Kỷ luật"
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item style={{ lineHeight: '2' }}>
-                    cá nhân năm {formik.values?.year}
-                  </Grid>
-                </>
-              )}
+              {readOnly && item?.type === 1
+                ? `Khen thưởng cá nhân năm ${formik.values?.year}`
+                : readOnly && item?.type === 2
+                ? `Kỷ luật cá nhân năm ${formik.values?.year}`
+                : ''}
             </Grid>
             <Grid
               container
