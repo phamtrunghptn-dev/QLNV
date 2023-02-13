@@ -10,7 +10,7 @@ const listCommendationAndDisciplineRoute = [
   {
     path: '/commendation-and-discipline',
     element: <ListCommendationAndDiscipline />,
-    auth: authRoles.hr,
+    auth: authRoles.accountancy,
   },
 ];
 

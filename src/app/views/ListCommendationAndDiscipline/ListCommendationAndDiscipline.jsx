@@ -150,7 +150,7 @@ export default function ListCommendationAndDiscipline() {
         <Breadcrumb
           routeSegments={[
             { name: 'Phê duyệt', path: '/leader' },
-            { name: 'Khen thưởng / Kỷ luật' },
+            { name: 'Khen thưởng - Kỷ luật' },
           ]}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -165,7 +165,7 @@ export default function ListCommendationAndDiscipline() {
         </div>
         <div>
           <MaterialTable
-            title="Danh sách quyết định khen thưởng / kỷ luật "
+            title="Danh sách quyết định khen thưởng - kỷ luật "
             columns={columns}
             data={listCommendationAndDiscipline}
             options={{

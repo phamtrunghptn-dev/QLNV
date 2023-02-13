@@ -103,12 +103,26 @@ export default function CandidateProfileView(props) {
                   {candidate.email}
                 </Grid>
               </Grid>
-              <Grid container item xs={4} md={4} spacing={2} style={{ height: '50%' }}>
+              {/* <Grid container item xs={4} md={4} spacing={2} style={{ height: '50%' }}>
                 <img
                   src="https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png"
                   alt=""
                   style={{ height: '100%' }}
                 />
+              </Grid> */}
+              <Grid container item xs={4} md={4} style={{ height: 200 }}>
+                <Grid item xs={12} style={{ height: '100%' }}>
+                  <img
+                    src={candidate?.image}
+                    alt=""
+                    style={{
+                      height: '100%',
+                      float: 'right',
+                      border: '1px solid #ccc',
+                      borderRadius: 10,
+                    }}
+                  />
+                </Grid>
               </Grid>
               <Grid container item xs={8} md={8} spacing={2}>
                 <Grid container item xs={12} md={12} spacing={2}>

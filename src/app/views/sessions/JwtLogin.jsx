@@ -68,8 +68,8 @@ const JwtLogin = () => {
 
   return (
     <JWTRoot>
-      <Dialog open={true} fullWidth maxWidth={'lg'}>
-        <DialogContent style={{ padding: '100px 50px' }}>
+      <Dialog open={true} fullWidth maxWidth={'sm'}>
+        <DialogContent>
           <Grid container>
             <Grid item sm={6} xs={12}>
               <JustifyBox height="100%" sx={{ width: '100%' }}>
