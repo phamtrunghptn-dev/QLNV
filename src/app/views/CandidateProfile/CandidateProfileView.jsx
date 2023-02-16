@@ -181,6 +181,38 @@ export default function CandidateProfileView(props) {
                 ) : (
                   ''
                 )}
+                <Grid container item xs={12} md={12} spacing={2}>
+                  <Grid item style={{ fontWeight: 600 }}>
+                    Mục tiêu nghề nghiệp:
+                  </Grid>
+                  <Grid item xs={8} md={8}>
+                    {item?.career_goals || ''}
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={12} spacing={2}>
+                  <Grid item style={{ fontWeight: 600 }}>
+                    Kinh nghiệm làm việc:
+                  </Grid>
+                  <Grid item xs={8} md={8}>
+                    {item?.careerGoals || ''}
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={12} spacing={2}>
+                  <Grid item style={{ fontWeight: 600 }}>
+                    Sở thích:
+                  </Grid>
+                  <Grid item xs={8} md={8}>
+                    {item?.hobby || ''}
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={12} spacing={2}>
+                  <Grid item style={{ fontWeight: 600 }}>
+                    Sở thích:
+                  </Grid>
+                  <Grid item xs={8} md={8}>
+                    {item?.skill || ''}
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
