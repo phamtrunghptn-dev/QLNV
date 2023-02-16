@@ -120,6 +120,7 @@ export default function EmployeeDialog(props) {
       languages: item?.id ? item?.languages : candidate?.id ? candidate?.certificate : null,
       department: item?.id ? item?.department : candidate?.id ? candidate?.department : null,
       positions: item?.id ? item?.positions : candidate?.id ? candidate?.positions : null,
+      candidateProfileDto: candidate?.id ? candidate : null,
     },
     enableReinitialize: true,
     validateOnChange: false,

@@ -149,7 +149,7 @@ export default function QuitJobDialog(props) {
                 justifyContent="flex-start"
                 style={{ marginBottom: 10 }}
               >
-                <Grid item className="mr-10">
+                <Grid item className="mr-10" style={{ lineHeight: '1.5' }}>
                   <span>Tôi tên là:</span>
                 </Grid>
                 <Grid item sm={10.5} xs={10.5}>
@@ -173,7 +173,7 @@ export default function QuitJobDialog(props) {
                 justifyContent="flex-start"
                 style={{ marginBottom: 10 }}
               >
-                <Grid item className="mr-10">
+                <Grid item className="mr-10" style={{ lineHeight: '1.5' }}>
                   <span>Hiện đang công tác tại vị trí:</span>
                 </Grid>
                 <Grid item sm={5} xs={5}>
@@ -197,7 +197,7 @@ export default function QuitJobDialog(props) {
                 justifyContent="flex-start"
                 style={{ marginBottom: 10 }}
               >
-                <Grid item className="mr-10">
+                <Grid item className="mr-10" style={{ lineHeight: '1.5' }}>
                   <span>Tôi xin được phép nghỉ làm từ ngày:</span>
                 </Grid>
                 <Grid item sm={3} xs={3}>

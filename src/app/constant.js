@@ -76,6 +76,10 @@ export const checkStatus = (value) => {
       message = 'Chờ phỏng vấn';
       color = 'status-pending';
       break;
+    case 19:
+      message = 'Chuyển đổi hồ sơ ứng viên';
+      color = 'status-approved';
+      break;
     default:
       message = 'Không trạng thái';
   }
