@@ -196,14 +196,13 @@ export default function CommendationAndDisciplineDialog(props) {
               item
               xs={12}
               md={12}
-              spacing={2}
               justifyContent="flex-end"
-              style={{ marginBottom: 20 }}
+              style={{ marginBottom: 20, marginRight: 10 }}
             >
-              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                 Hà Nội, ngày{' '}
               </Grid>
-              <Grid item xs={1} md={1}>
+              <Grid item style={{ width: 30 }}>
                 <TextField
                   variant="standard"
                   type="number"
@@ -217,10 +216,10 @@ export default function CommendationAndDisciplineDialog(props) {
                   helperText={formik.errors.day}
                 />
               </Grid>
-              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                 tháng
               </Grid>
-              <Grid item xs={1} md={1}>
+              <Grid item style={{ width: 30 }}>
                 <TextField
                   variant="standard"
                   type="number"
@@ -234,10 +233,10 @@ export default function CommendationAndDisciplineDialog(props) {
                   helperText={formik.errors.month}
                 />
               </Grid>
-              <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+              <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                 năm
               </Grid>
-              <Grid item xs={1} md={1}>
+              <Grid item style={{ width: 50 }}>
                 <TextField
                   variant="standard"
                   type="number"
@@ -375,9 +374,9 @@ export default function CommendationAndDisciplineDialog(props) {
             >
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+                <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                   {' '}
-                  <span>1: </span> {typeObj?.name}: Ông/bà
+                  <span>1: </span> {typeObj?.name}: Ông/bà:
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
@@ -422,7 +421,7 @@ export default function CommendationAndDisciplineDialog(props) {
               <Grid item xs={1} md={1}></Grid>
               <Grid item xs={1} md={1}></Grid>
               <Grid container item xs={10} md={10}>
-                <Grid item style={{ lineHeight: '2', marginRight: 5 }}>
+                <Grid item style={{ lineHeight: '1.5', marginRight: 5 }}>
                   {' '}
                   <span>3: </span> Mức {typeObj?.name} :
                 </Grid>
