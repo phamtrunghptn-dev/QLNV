@@ -41,6 +41,10 @@ export default function CandidateProfileDialog(props) {
       address: item.id ? item?.address : '',
       recruitDtos: item.id ? item?.recruitDtos : [],
       status: item.id ? item?.status : '',
+      careerGoals: item.id ? item?.career_goals : '',
+      workingExperience: item.id ? item?.workingExperience : '',
+      hobby: item.id ? item?.hobby : '',
+      skill: item.id ? item?.skill : '',
     },
     enableReinitialize: true,
     validateOnChange: false,
@@ -65,6 +69,10 @@ export default function CandidateProfileDialog(props) {
         .required('Vui lòng nhập Số điện thoại!'),
       recruitDtos: Yup.array().nullable().required('Vui lòng nhập trường này'),
       address: Yup.string().required('Vui lòng nhập trường này'),
+      careerGoals: Yup.string().required('Vui lòng nhập trường này'),
+      workingExperience: Yup.string().required('Vui lòng nhập trường này'),
+      hobby: Yup.string().required('Vui lòng nhập trường này'),
+      skill: Yup.string().required('Vui lòng nhập trường này'),
     }),
     onSubmit: (values) => {
       values.id = item?.id;
@@ -295,6 +303,54 @@ export default function CandidateProfileDialog(props) {
                   onChange={formik.handleChange}
                   error={formik.errors.address && formik.touched.address}
                   helperText={formik.errors.address}
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  label="Mục tiêu nghề nghiệp"
+                  variant="outlined"
+                  fullWidth
+                  name="careerGoals"
+                  value={formik.values?.careerGoals}
+                  onChange={formik.handleChange}
+                  error={formik.errors.careerGoals && formik.touched.careerGoals}
+                  helperText={formik.errors.careerGoals}
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  label="Kinh nghiệm làm việc"
+                  variant="outlined"
+                  fullWidth
+                  name="workingExperience"
+                  value={formik.values?.workingExperience}
+                  onChange={formik.handleChange}
+                  error={formik.errors.workingExperience && formik.touched.workingExperience}
+                  helperText={formik.errors.workingExperience}
+                />
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <TextField
+                  label="Sở thích"
+                  variant="outlined"
+                  fullWidth
+                  name="hobby"
+                  value={formik.values?.hobby}
+                  onChange={formik.handleChange}
+                  error={formik.errors.hobby && formik.touched.hobby}
+                  helperText={formik.errors.hobby}
+                />
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <TextField
+                  label="Kỹ năng"
+                  variant="outlined"
+                  fullWidth
+                  name="skill"
+                  value={formik.values?.skill}
+                  onChange={formik.handleChange}
+                  error={formik.errors.skill && formik.touched.skill}
+                  helperText={formik.errors.skill}
                 />
               </Grid>
             </Grid>

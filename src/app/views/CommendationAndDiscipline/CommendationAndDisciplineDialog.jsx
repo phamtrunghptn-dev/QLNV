@@ -22,7 +22,7 @@ import {
 } from './CommendationAndDisciplineService';
 
 export default function CommendationAndDisciplineDialog(props) {
-  const { open, handleClose, item, readOnly } = props;
+  const { open, handleClose, item, readOnly, employee, handleCloseDialog } = props;
   const [typeObj, setTypeObj] = useState('');
   const [method, setMethod] = useState('');
 
@@ -35,8 +35,9 @@ export default function CommendationAndDisciplineDialog(props) {
       type: item?.id ? item?.type : '',
       reason: item?.id ? item?.reason : '',
       rewardDisciplineLevel: item?.id ? item?.rewardDisciplineLevel : '',
-      staffName: item?.id ? item?.staffName : '',
+      staffName: item?.id ? item?.staffName : employee?.fullName || '',
       status: item?.id ? item?.status : '',
+      employeeDto: item?.id ? item?.employeeDto : employee || {},
     },
     enableReinitialize: true,
     validateOnChange: false,
@@ -115,7 +116,7 @@ export default function CommendationAndDisciplineDialog(props) {
   return (
     <Dialog open={open} fullWidth maxWidth={'md'}>
       <DialogTitle style={{ marginBlockEnd: 0, padding: '16px 24px 0' }}>
-        <Box className="icon-close" onClick={handleClose}>
+        <Box className="icon-close" onClick={handleCloseDialog}>
           <IconButton color="error">
             <CloseIcon />
           </IconButton>
@@ -487,7 +488,7 @@ export default function CommendationAndDisciplineDialog(props) {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="secondary" onClick={handleClose}>
+          <Button variant="contained" color="secondary" onClick={handleCloseDialog}>
             Hủy
           </Button>
           {readOnly ? (
@@ -496,7 +497,7 @@ export default function CommendationAndDisciplineDialog(props) {
             </Button>
           ) : (
             <Button type="submit" variant="contained" color="primary" onClick={() => setMethod(1)}>
-              {item.id ? 'Lưu' : 'Thêm'}
+              {item?.id ? 'Lưu' : 'Thêm'}
             </Button>
           )}
         </DialogActions>

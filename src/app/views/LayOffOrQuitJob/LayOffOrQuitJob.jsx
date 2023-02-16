@@ -2,30 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import {
-  getListCommendationAndDiscipline,
-  deleteCommendationAndDiscipline,
-} from './CommendationAndDisciplineService';
+import { getListEmployee } from './LayOffOrQuitJobService';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
-import LoopIcon from '@mui/icons-material/Loop';
-import CommendationAndDisciplineDialog from './CommendationAndDisciplineDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { checkStatus } from 'app/constant';
-import EmployeeTable from './EmployeeTable';
+import LoopIcon from '@mui/icons-material/Loop';
+import QuitJobDialog from './QuitJobDialog';
 
-export default function CommendationAndDiscipline() {
-  const [listCommendationAndDiscipline, setListCommendationAndDiscipline] = useState([]);
-  const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
+export default function LayOffOrQuitJob() {
+  const [listCertificate, setListCertificate] = useState([]);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
-  const [shouldOpenEmployeeTable, setShouldOpenEmployeeTable] = useState(false);
   const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(false);
-
   const columns = [
     {
       title: 'STT',
@@ -50,26 +41,6 @@ export default function CommendationAndDiscipline() {
           >
             <RemoveRedEyeIcon />
           </IconButton>
-          <IconButton
-            color="success"
-            onClick={() => {
-              setShouldOpenDialog(true);
-              setItem(rowData);
-            }}
-            disabled={rowData?.status === 4 || rowData?.status === 5}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            color="error"
-            onClick={() => {
-              setShouldOpenConfirmDialog(true);
-              setItem(rowData);
-            }}
-            disabled={rowData?.status === 4 || rowData?.status === 5}
-          >
-            <DeleteIcon />
-          </IconButton>
         </>
       ),
       cellStyle: {
@@ -78,18 +49,18 @@ export default function CommendationAndDiscipline() {
       },
     },
     {
-      title: 'Số quyết định',
-      field: 'decisionNumber',
-      render: (rowData) => rowData?.decisionNumber,
+      title: 'Mã hồ sơ',
+      field: 'code',
+      render: (rowData) => rowData?.code,
       cellStyle: {
         width: '10%',
         textAlign: 'center',
       },
     },
     {
-      title: 'Họ và tên nhân viên',
-      field: 'staffName',
-      render: (rowData) => rowData?.staffName,
+      title: 'Họ và tên',
+      field: 'fullName',
+      render: (rowData) => rowData?.fullName,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -99,9 +70,9 @@ export default function CommendationAndDiscipline() {
       },
     },
     {
-      title: 'Loại',
-      field: 'type',
-      render: (rowData) => (rowData?.type === 1 ? 'Khen thưởng' : 'Kỷ luật'),
+      title: 'Email',
+      field: 'email',
+      render: (rowData) => rowData?.email,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -111,9 +82,9 @@ export default function CommendationAndDiscipline() {
       },
     },
     {
-      title: 'Ngày quyết định',
-      field: 'day',
-      render: (rowData) => rowData?.day + '/' + rowData?.month + '/' + rowData?.year,
+      title: 'SĐT',
+      field: 'phone',
+      render: (rowData) => rowData?.phone,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -146,11 +117,13 @@ export default function CommendationAndDiscipline() {
   }, []);
 
   const updatePageData = () => {
-    getListCommendationAndDiscipline()
+    getListEmployee()
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListCommendationAndDiscipline(res.data.data.filter((item) => item?.status === 1));
+          setListCertificate(
+            res.data.data.filter((item) => item?.status === 2 && item?.refusalReason)
+          );
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');
@@ -162,44 +135,23 @@ export default function CommendationAndDiscipline() {
       });
   };
 
-  const handleDelete = () => {
-    deleteCommendationAndDiscipline(item?.id).then((res) => {
-      if (res.data.statusCode === 200) {
-        toast.success('Xóa thành công');
-      } else {
-        toast.warning(res.data.message);
-      }
-      handleClose();
-    });
+  const handleClose = () => {
+    setShouldOpenConfirmDialog(false);
+    setShouldOpenViewDialog(false);
+    setItem({});
+    updatePageData();
   };
 
-  const handleClose = () => {
-    setShouldOpenDialog(false);
-    setShouldOpenViewDialog(false);
-    setShouldOpenConfirmDialog(false);
-    setShouldOpenEmployeeTable(false);
-    updatePageData();
-    setItem({});
-  };
   return (
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
           routeSegments={[
-            { name: 'Phê duyệt', path: '/leader' },
-            { name: 'Khen thưởng / Kỷ luật' },
+            { name: 'Lãnh đạo', path: '/leader' },
+            { name: 'Danh sách đơn xin nghỉ việc' },
           ]}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            style={{ margin: '20px 0', padding: '5px 20px' }}
-            onClick={() => setShouldOpenEmployeeTable(true)}
-          >
-            Thêm
-          </Button>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <IconButton
             color="primary"
             onClick={() => {
@@ -211,9 +163,9 @@ export default function CommendationAndDiscipline() {
         </div>
         <div>
           <MaterialTable
-            title="Danh sách quyết định khen thưởng - kỷ luật "
+            title="Danh sách đơn xin nghỉ việc"
             columns={columns}
-            data={listCommendationAndDiscipline}
+            data={listCertificate}
             options={{
               sorting: false,
               maxBodyHeight: '60vh',
@@ -248,28 +200,8 @@ export default function CommendationAndDiscipline() {
           />
         </div>
       </Box>
-      {shouldOpenEmployeeTable && (
-        <EmployeeTable open={shouldOpenEmployeeTable} handleClose={handleClose} />
-      )}
-      {shouldOpenConfirmDialog && (
-        <ConfirmationDialog
-          title="Xác nhận"
-          text="Bạn có muốn xóa quyết định này?"
-          open={shouldOpenConfirmDialog}
-          onConfirmDialogClose={handleClose}
-          onYesClick={handleDelete}
-          Yes="Đồng ý"
-          No="Hủy"
-        />
-      )}
       {shouldOpenViewDialog && (
-        <CommendationAndDisciplineDialog
-          open={shouldOpenViewDialog}
-          readOnly={shouldOpenViewDialog}
-          handleClose={handleClose}
-          item={item}
-          handleCloseDialog={() => setShouldOpenViewDialog(false)}
-        />
+        <QuitJobDialog open={shouldOpenViewDialog} handleClose={handleClose} employee={item} />
       )}
     </>
   );
