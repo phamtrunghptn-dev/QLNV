@@ -21,7 +21,6 @@ import listCommendationAndDisciplineRoute from 'app/views/ListCommendationAndDis
 import updateHappeningRoute from 'app/views/UpdateHappening/UpdateHappeningRoute';
 import layOffOrQuitJobRoute from 'app/views/LayOffOrQuitJob/LayOffOrQuitJobRoute';
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes';
-import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 import NotFound from 'app/views/sessions/NotFound';
 import sessionRoutes from 'app/views/sessions/SessionRoutes';
 import { Navigate } from 'react-router-dom';
@@ -37,7 +36,6 @@ const routes = [
     children: [
       ...dashboardRoutes,
       ...chartsRoute,
-      ...materialRoutes,
       ...departmentRoute,
       ...positionRoute,
       ...certificateRoute,
