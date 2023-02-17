@@ -41,7 +41,7 @@ export default function CandidateProfileDialog(props) {
       address: item.id ? item?.address : '',
       recruitDtos: item.id ? item?.recruitDtos : [],
       status: item.id ? item?.status : '',
-      careerGoals: item.id ? item?.career_goals : '',
+      careerGoals: item.id ? item?.careerGoals : '',
       workingExperience: item.id ? item?.workingExperience : '',
       hobby: item.id ? item?.hobby : '',
       skill: item.id ? item?.skill : '',
@@ -310,6 +310,7 @@ export default function CandidateProfileDialog(props) {
                   label="Mục tiêu nghề nghiệp"
                   variant="outlined"
                   fullWidth
+                  multiline
                   name="careerGoals"
                   value={formik.values?.careerGoals}
                   onChange={formik.handleChange}
@@ -322,6 +323,7 @@ export default function CandidateProfileDialog(props) {
                   label="Kinh nghiệm làm việc"
                   variant="outlined"
                   fullWidth
+                  multiline
                   name="workingExperience"
                   value={formik.values?.workingExperience}
                   onChange={formik.handleChange}
@@ -334,6 +336,7 @@ export default function CandidateProfileDialog(props) {
                   label="Sở thích"
                   variant="outlined"
                   fullWidth
+                  multiline
                   name="hobby"
                   value={formik.values?.hobby}
                   onChange={formik.handleChange}
@@ -346,6 +349,7 @@ export default function CandidateProfileDialog(props) {
                   label="Kỹ năng"
                   variant="outlined"
                   fullWidth
+                  multiline
                   name="skill"
                   value={formik.values?.skill}
                   onChange={formik.handleChange}
