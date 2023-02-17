@@ -186,7 +186,7 @@ export default function CandidateProfileView(props) {
                     Mục tiêu nghề nghiệp:
                   </Grid>
                   <Grid item xs={8} md={8}>
-                    {item?.career_goals || ''}
+                    {item?.careerGoals || ''}
                   </Grid>
                 </Grid>
                 <Grid container item xs={12} md={12} spacing={2}>
