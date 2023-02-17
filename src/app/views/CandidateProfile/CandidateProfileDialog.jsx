@@ -177,13 +177,13 @@ export default function CandidateProfileDialog(props) {
                   error={formik.errors.code && formik.touched.code}
                   helperText={formik.errors.code}
                 />
-                <label for="file-upload" class="custom-file-upload">
+                <label for="file-upload" className="custom-file-upload">
                   <AddIcon />
                 </label>
                 <input
                   type="file"
                   id="file-upload"
-                  name="filename"
+                  className="filename"
                   onChange={(event) => {
                     console.log(event.currentTarget.files[0]);
                     uploadImage(event.currentTarget.files[0]).then((res) => {

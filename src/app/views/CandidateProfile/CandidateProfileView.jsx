@@ -207,7 +207,7 @@ export default function CandidateProfileView(props) {
                 </Grid>
                 <Grid container item xs={12} md={12} spacing={2}>
                   <Grid item style={{ fontWeight: 600 }}>
-                    Sở thích:
+                    Kỹ năng:
                   </Grid>
                   <Grid item xs={8} md={8}>
                     {item?.skill || ''}
