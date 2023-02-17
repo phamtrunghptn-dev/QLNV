@@ -262,6 +262,15 @@ export default function CommendationAndDiscipline() {
           No="Hủy"
         />
       )}
+      {shouldOpenDialog && (
+        <CommendationAndDisciplineDialog
+          open={shouldOpenDialog}
+          handleClose={handleClose}
+          item={item}
+          handleCloseDialog={() => setShouldOpenDialog(false)}
+        />
+      )}
+
       {shouldOpenViewDialog && (
         <CommendationAndDisciplineDialog
           open={shouldOpenViewDialog}
