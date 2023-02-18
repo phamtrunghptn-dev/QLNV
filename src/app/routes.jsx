@@ -20,6 +20,7 @@ import commendationAndDisciplineRoute from 'app/views/CommendationAndDiscipline/
 import listCommendationAndDisciplineRoute from 'app/views/ListCommendationAndDiscipline/ListCommendationAndDisciplineRoute';
 import updateHappeningRoute from 'app/views/UpdateHappening/UpdateHappeningRoute';
 import layOffOrQuitJobRoute from 'app/views/LayOffOrQuitJob/LayOffOrQuitJobRoute';
+import approvePromoteRoute from 'app/views/ApprovePromote/ApprovePromoteRoute';
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes';
 import NotFound from 'app/views/sessions/NotFound';
 import sessionRoutes from 'app/views/sessions/SessionRoutes';
@@ -56,6 +57,11 @@ const routes = [
       ...listCommendationAndDisciplineRoute,
       ...updateHappeningRoute,
       ...layOffOrQuitJobRoute,
+<<<<<<< Updated upstream
+=======
+      ...profileUserRoute,
+      ...approvePromoteRoute,
+>>>>>>> Stashed changes
     ],
   },
   ...sessionRoutes,
