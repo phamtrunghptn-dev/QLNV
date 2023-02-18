@@ -34,6 +34,7 @@ export const navigations = [
       { name: 'Phê duyệt hồ sơ ứng viên', path: '/leader/approval-candidate' },
       { name: 'Phê duyệt hồ sơ nhân viên', path: '/leader/approval-employee' },
       { name: 'QĐ Khen thưởng - Kỷ luật', path: '/leader/commendation-and-discipline' },
+      { name: 'QĐ Tăng lương', path: '/leader/approve-promote' },
       { name: 'QĐ Nghỉ việc', path: '/leader/lay-off-or-quit-job' },
     ],
     role: ['ADMIN', 'LEADER'],

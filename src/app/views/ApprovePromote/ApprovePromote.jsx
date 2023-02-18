@@ -5,19 +5,19 @@ import MaterialTable from 'material-table';
 import {
   getListCommendationAndDiscipline,
   deleteCommendationAndDiscipline,
-} from './CommendationAndDisciplineService';
+} from './ApprovePromoteService';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import LoopIcon from '@mui/icons-material/Loop';
-import CommendationAndDisciplineDialog from './CommendationAndDisciplineDialog';
+// import CommendationAndDisciplineDialog from './CommendationAndDisciplineDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { checkStatus } from 'app/constant';
 import EmployeeTable from './EmployeeTable';
 
-export default function CommendationAndDiscipline() {
+export default function ApprovePromote() {
   const [listCommendationAndDiscipline, setListCommendationAndDiscipline] = useState([]);
   const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
@@ -146,35 +146,31 @@ export default function CommendationAndDiscipline() {
   }, []);
 
   const updatePageData = () => {
-    getListCommendationAndDiscipline()
-      .then((res) => {
-        if (res.data.statusCode === 200) {
-          setLoading(false);
-          setListCommendationAndDiscipline(
-            res.data.data.filter(
-              (item) => item?.status === 1 && (item?.type === 1 || item?.type === 2)
-            )
-          );
-        } else {
-          setLoading(false);
-          toast.warning('Lỗi xác thực!');
-        }
-      })
-      .catch((err) => {
-        toast.error('Có lỗi xảy ra!');
-        setLoading(false);
-      });
+    //   getListCommendationAndDiscipline()
+    //     .then((res) => {
+    //       if (res.data.statusCode === 200) {
+    //         setLoading(false);
+    //         setListCommendationAndDiscipline(res.data.data.filter((item) => item?.status === 1));
+    //       } else {
+    //         setLoading(false);
+    //         toast.warning('Lỗi xác thực!');
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       toast.error('Có lỗi xảy ra!');
+    //       setLoading(false);
+    //     });
   };
 
   const handleDelete = () => {
-    deleteCommendationAndDiscipline(item?.id).then((res) => {
-      if (res.data.statusCode === 200) {
-        toast.success('Xóa thành công');
-      } else {
-        toast.warning(res.data.message);
-      }
-      handleClose();
-    });
+    //   deleteCommendationAndDiscipline(item?.id).then((res) => {
+    //     if (res.data.statusCode === 200) {
+    //       toast.success('Xóa thành công');
+    //     } else {
+    //       toast.warning(res.data.message);
+    //     }
+    //     handleClose();
+    //   });
   };
 
   const handleClose = () => {
@@ -266,24 +262,24 @@ export default function CommendationAndDiscipline() {
           No="Hủy"
         />
       )}
-      {shouldOpenDialog && (
-        <CommendationAndDisciplineDialog
-          open={shouldOpenDialog}
-          handleClose={handleClose}
-          item={item}
-          handleCloseDialog={() => setShouldOpenDialog(false)}
-        />
-      )}
+      {/* {shouldOpenDialog && (
+          <CommendationAndDisciplineDialog
+            open={shouldOpenDialog}
+            handleClose={handleClose}
+            item={item}
+            handleCloseDialog={() => setShouldOpenDialog(false)}
+          />
+        )} */}
 
-      {shouldOpenViewDialog && (
-        <CommendationAndDisciplineDialog
-          open={shouldOpenViewDialog}
-          readOnly={shouldOpenViewDialog}
-          handleClose={handleClose}
-          item={item}
-          handleCloseDialog={() => setShouldOpenViewDialog(false)}
-        />
-      )}
+      {/* {shouldOpenViewDialog && (
+          <CommendationAndDisciplineDialog
+            open={shouldOpenViewDialog}
+            readOnly={shouldOpenViewDialog}
+            handleClose={handleClose}
+            item={item}
+            handleCloseDialog={() => setShouldOpenViewDialog(false)}
+          />
+        )} */}
     </>
   );
 }
