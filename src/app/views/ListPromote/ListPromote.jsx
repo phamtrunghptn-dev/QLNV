@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
-import { checkStatus } from 'app/constant';
+import React, { useEffect, useState } from 'react';
+import { Box, Button } from '@mui/material';
+import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import { getListEmployee } from './ApprovePromoteService';
+import { getListPromote } from './ListPromoteService';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
+import LoopIcon from '@mui/icons-material/Loop';
 import ApprovePromoteDialog from './ApprovePromoteDialog';
+import { checkStatus } from 'app/constant';
 
-export default function EmployeeTable(props) {
-  const { open, handleClose } = props;
-  const [listEmployee, setListEmployee] = useState([]);
-  const [shouldOpenApprovePromoteDialog, setShouldOpenApprovePromoteDialog] = useState();
+export default function ListPromote() {
+  const [listPromote, setListPromote] = useState([]);
+  const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
+  const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -38,8 +37,8 @@ export default function EmployeeTable(props) {
           <IconButton
             color="primary"
             onClick={() => {
+              setShouldOpenViewDialog(true);
               setItem(rowData);
-              setShouldOpenApprovePromoteDialog(true);
             }}
           >
             <RemoveRedEyeIcon />
@@ -52,18 +51,18 @@ export default function EmployeeTable(props) {
       },
     },
     {
-      title: 'Mã hồ sơ',
-      field: 'code',
-      render: (rowData) => rowData?.code,
+      title: 'Số quyết định',
+      field: 'decisionNumber',
+      render: (rowData) => rowData?.decisionNumber,
       cellStyle: {
         width: '10%',
         textAlign: 'center',
       },
     },
     {
-      title: 'Họ và tên',
-      field: 'fullName',
-      render: (rowData) => rowData?.fullName,
+      title: 'Họ và tên nhân viên',
+      field: 'staffName',
+      render: (rowData) => rowData?.staffName,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -73,9 +72,9 @@ export default function EmployeeTable(props) {
       },
     },
     {
-      title: 'Email',
-      field: 'email',
-      render: (rowData) => rowData?.email,
+      title: 'Loại',
+      field: 'type',
+      render: (rowData) => 'Tăng lương',
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -85,9 +84,9 @@ export default function EmployeeTable(props) {
       },
     },
     {
-      title: 'SĐT',
-      field: 'phone',
-      render: (rowData) => rowData?.phone,
+      title: 'Ngày quyết định',
+      field: 'day',
+      render: (rowData) => rowData?.day + '/' + rowData?.month + '/' + rowData?.year,
       cellStyle: {
         width: '10%',
         textAlign: 'left',
@@ -115,48 +114,69 @@ export default function EmployeeTable(props) {
   ];
 
   useEffect(() => {
+    setLoading(true);
     updatePageData();
   }, []);
 
   const updatePageData = () => {
-    getListEmployee()
+    getListPromote()
       .then((res) => {
         if (res.data.statusCode === 200) {
-          setListEmployee(
-            res.data.data.filter((item) => item?.status === 12 || item?.status === 14)
+          setLoading(false);
+          setListPromote(
+            res.data.data.filter(
+              (item) => (item?.status === 4 || item?.status === 5) && item?.type === 3
+            )
           );
         } else {
+          setLoading(false);
           toast.warning('Lỗi xác thực!');
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
+  const handleClose = () => {
+    setShouldOpenViewDialog(false);
+    setShouldOpenConfirmDialog(false);
+    updatePageData();
+    setItem({});
+  };
   return (
     <>
-      <Dialog open={open} fullWidth maxWidth={'lg'}>
-        <DialogTitle>
-          <Box className="icon-close" onClick={handleClose}>
-            <IconButton color="error">
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        </DialogTitle>
-        <DialogContent style={{ padding: '30px 20px 0' }}>
+      <Box style={{ margin: 20 }}>
+        <Breadcrumb
+          routeSegments={[{ name: 'Quản lý', path: '/manage' }, { name: 'Quyết định tăng lương' }]}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              updatePageData();
+            }}
+          >
+            <LoopIcon />
+          </IconButton>
+        </div>
+        <div>
           <MaterialTable
-            title="Danh sách hồ sơ nhân viên"
+            title="Danh sách quyết định tăng lương"
             columns={columns}
-            data={listEmployee}
+            data={listPromote}
             options={{
               sorting: false,
+              maxBodyHeight: '60vh',
               draggable: false,
-              maxBodyHeight: '40vh',
               pageSize: 10,
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
                 textAlign: 'center',
               },
             }}
+            isLoading={loading}
             localization={{
               toolbar: {
                 searchTooltip: 'Tìm kiếm',
@@ -178,19 +198,14 @@ export default function EmployeeTable(props) {
               body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
             }}
           />
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="secondary" onClick={handleClose}>
-            Hủy
-          </Button>
-        </DialogActions>
-      </Dialog>
-      {shouldOpenApprovePromoteDialog && (
+        </div>
+      </Box>
+      {shouldOpenViewDialog && (
         <ApprovePromoteDialog
-          open={shouldOpenApprovePromoteDialog}
-          handleCloseDialog={() => setShouldOpenApprovePromoteDialog(false)}
+          open={shouldOpenViewDialog}
+          readOnly={shouldOpenViewDialog}
           handleClose={handleClose}
-          employee={item}
+          item={item}
         />
       )}
     </>
