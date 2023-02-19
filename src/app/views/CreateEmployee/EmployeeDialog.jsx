@@ -146,23 +146,25 @@ export default function EmployeeDialog(props) {
       nation: Yup.string().required('Vui lòng nhập trường này'),
       religion: Yup.string().required('Vui lòng nhập trường này'),
       address: Yup.string().required('Vui lòng nhập trường này'),
-      numberIdentityCard: Yup.number().typeError('Số CCCD phải là số!'),
-      // .required('Vui lòng nhập trường này'),
-      issuedDateIdentityCard: Yup.date().nullable().typeError('Sai định dạng ngày!'),
-      // .required('Vui lòng nhập trường này'),
-      placeOfGrantIdentityCard: Yup.string(),
-      // .required('Vui lòng nhập trường này'),
-      numberMedicalInsurance: Yup.number().typeError('Số bảo hiểm y tế phải là số!'),
+      numberIdentityCard: Yup.number()
+        .typeError('Số CCCD phải là số!')
+        .required('Vui lòng nhập trường này'),
+      issuedDateIdentityCard: Yup.date()
+        .nullable()
+        .typeError('Sai định dạng ngày!')
+        .required('Vui lòng nhập trường này'),
+      placeOfGrantIdentityCard: Yup.string().required('Vui lòng nhập trường này'),
+      numberMedicalInsurance: Yup.number().nullable().typeError('Số bảo hiểm y tế phải là số!'),
       // .required('Vui lòng nhập trường này'),
       issuedDateMedicalInsurance: Yup.date().nullable().typeError('Sai định dạng ngày!'),
       // .required('Vui lòng nhập trường này'),
-      placeOfIssueMedicalInsurance: Yup.string(),
+      placeOfIssueMedicalInsurance: Yup.string().nullable(),
       // .required('Vui lòng nhập trường này'),
-      numberSocialInsurance: Yup.number().typeError('Số bảo hiểm xã hội phải là số!'),
+      numberSocialInsurance: Yup.number().nullable().typeError('Số bảo hiểm xã hội phải là số!'),
       // .required('Vui lòng nhập trường này'),
       issuedDateSocialInsurance: Yup.date().nullable().typeError('Sai định dạng ngày!'),
       // .required('Vui lòng nhập trường này'),
-      placeOfIssueSocialInsurance: Yup.string(),
+      placeOfIssueSocialInsurance: Yup.string().nullable(),
       // .required('Vui lòng nhập trường này'),
       certificate: Yup.object().nullable().required('Vui lòng chọn trường này'),
       languages: Yup.array().nullable().required('Vui lòng chọn trường này'),
@@ -171,7 +173,7 @@ export default function EmployeeDialog(props) {
     }),
     onSubmit: (values) => {
       values.id = item?.id;
-      values.status = item?.status || method;
+      values.status = method;
       setEmployee(values);
     },
   });
@@ -199,18 +201,18 @@ export default function EmployeeDialog(props) {
             }
           })
           .catch((err) => toast.error('Có lỗi xảy ra!'));
-      } else if (employee.status === 10) {
-        editEmployee(employee)
-          .then((res) => {
-            if (res.data.statusCode === 200) {
-              toast.success('Chỉnh sửa thành công');
-              setEmployee({});
-              handleClose();
-            } else {
-              toast.warning(res.data.message);
-            }
-          })
-          .catch((err) => toast.error('Có lỗi xảy ra!'));
+        // } else if (employee.status === 10) {
+        //   editEmployee(employee)
+        //     .then((res) => {
+        //       if (res.data.statusCode === 200) {
+        //         toast.success('Chỉnh sửa thành công');
+        //         setEmployee({});
+        //         handleClose();
+        //       } else {
+        //         toast.warning(res.data.message);
+        //       }
+        //     })
+        //     .catch((err) => toast.error('Có lỗi xảy ra!'));
       }
     } else {
       if (employee.status === 1) {
