@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import {
-  getListCommendationAndDiscipline,
-  deleteCommendationAndDiscipline,
-} from './ApprovePromoteService';
+import { getListPromote, deletePromote } from './ApprovePromoteService';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import LoopIcon from '@mui/icons-material/Loop';
-// import CommendationAndDisciplineDialog from './CommendationAndDisciplineDialog';
+import ApprovePromoteDialog from './ApprovePromoteDialog';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { checkStatus } from 'app/constant';
 import EmployeeTable from './EmployeeTable';
@@ -146,20 +143,22 @@ export default function ApprovePromote() {
   }, []);
 
   const updatePageData = () => {
-    //   getListCommendationAndDiscipline()
-    //     .then((res) => {
-    //       if (res.data.statusCode === 200) {
-    //         setLoading(false);
-    //         setListCommendationAndDiscipline(res.data.data.filter((item) => item?.status === 1));
-    //       } else {
-    //         setLoading(false);
-    //         toast.warning('Lỗi xác thực!');
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       toast.error('Có lỗi xảy ra!');
-    //       setLoading(false);
-    //     });
+    getListPromote()
+      .then((res) => {
+        if (res.data.statusCode === 200) {
+          setLoading(false);
+          setListCommendationAndDiscipline(
+            res.data.data.filter((item) => item?.status === 1 && item?.type === 3)
+          );
+        } else {
+          setLoading(false);
+          toast.warning('Lỗi xác thực!');
+        }
+      })
+      .catch((err) => {
+        toast.error('Có lỗi xảy ra!');
+        setLoading(false);
+      });
   };
 
   const handleDelete = () => {
@@ -185,10 +184,7 @@ export default function ApprovePromote() {
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[
-            { name: 'Phê duyệt', path: '/leader' },
-            { name: 'Khen thưởng / Kỷ luật' },
-          ]}
+          routeSegments={[{ name: 'Phê duyệt', path: '/leader' }, { name: 'Tăng lương' }]}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
@@ -211,7 +207,7 @@ export default function ApprovePromote() {
         </div>
         <div>
           <MaterialTable
-            title="Danh sách quyết định khen thưởng - kỷ luật "
+            title="Danh sách quyết định Tăng lương "
             columns={columns}
             data={listCommendationAndDiscipline}
             options={{
@@ -262,24 +258,24 @@ export default function ApprovePromote() {
           No="Hủy"
         />
       )}
-      {/* {shouldOpenDialog && (
-          <CommendationAndDisciplineDialog
-            open={shouldOpenDialog}
-            handleClose={handleClose}
-            item={item}
-            handleCloseDialog={() => setShouldOpenDialog(false)}
-          />
-        )} */}
+      {shouldOpenDialog && (
+        <ApprovePromoteDialog
+          open={shouldOpenDialog}
+          handleClose={handleClose}
+          item={item}
+          handleCloseDialog={() => setShouldOpenDialog(false)}
+        />
+      )}
 
-      {/* {shouldOpenViewDialog && (
-          <CommendationAndDisciplineDialog
-            open={shouldOpenViewDialog}
-            readOnly={shouldOpenViewDialog}
-            handleClose={handleClose}
-            item={item}
-            handleCloseDialog={() => setShouldOpenViewDialog(false)}
-          />
-        )} */}
+      {shouldOpenViewDialog && (
+        <ApprovePromoteDialog
+          open={shouldOpenViewDialog}
+          readOnly={shouldOpenViewDialog}
+          handleClose={handleClose}
+          item={item}
+          handleCloseDialog={() => setShouldOpenViewDialog(false)}
+        />
+      )}
     </>
   );
 }
