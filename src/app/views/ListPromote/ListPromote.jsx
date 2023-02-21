@@ -15,7 +15,6 @@ import { checkStatus } from 'app/constant';
 export default function ListPromote() {
   const [listPromote, setListPromote] = useState([]);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
-  const [shouldOpenConfirmDialog, setShouldOpenConfirmDialog] = useState(false);
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -141,7 +140,6 @@ export default function ListPromote() {
 
   const handleClose = () => {
     setShouldOpenViewDialog(false);
-    setShouldOpenConfirmDialog(false);
     updatePageData();
     setItem({});
   };
@@ -205,6 +203,7 @@ export default function ListPromote() {
           open={shouldOpenViewDialog}
           readOnly={shouldOpenViewDialog}
           handleClose={handleClose}
+          handleCloseDialog={() => setShouldOpenViewDialog(false)}
           item={item}
         />
       )}
