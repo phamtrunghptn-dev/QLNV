@@ -1,21 +1,20 @@
 import { Card, Grid, styled, useTheme } from '@mui/material';
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import Campaigns from './shared/Campaigns';
+import LineChart from './shared/LineChart';
+import ComparisonChart from './shared/ComparisonChart';
 import DoughnutChart from './shared/Doughnut';
 import RowCards from './shared/RowCards';
 import StatCards from './shared/StatCards';
 import StatCards2 from './shared/StatCards2';
 import TopSellingTable from './shared/TopSellingTable';
 import UpgradeCard from './shared/UpgradeCard';
-<<<<<<< Updated upstream
-=======
 import {
   getPersonnelChangeReport,
   getMonthlyEmployeeCountReport,
   getEmployeeAllocationRatioByDepartment,
 } from './AnalyticsService';
 import { toast } from 'react-toastify';
->>>>>>> Stashed changes
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -45,13 +44,12 @@ const H4 = styled('h4')(({ theme }) => ({
 const Analytics = () => {
   const { palette } = useTheme();
 
-<<<<<<< Updated upstream
-=======
   const [personnelChangeReport, setPersonnelChangeReport] = useState([]);
   const [monthlyEmployeeCountReport, setMonthlyEmployeeCountReport] = useState([]);
   const [employeeAllocationRatioByDepartment, setEmployeeAllocationRatioByDepartment] = useState(
     []
   );
+
 
   useEffect(() => {
     getPersonnelChangeReport()
@@ -85,35 +83,33 @@ const Analytics = () => {
       .catch((err) => toast.error('Có lỗi xảy ra'));
   }, []);
 
->>>>>>> Stashed changes
   return (
     <Fragment>
       <ContentBox className="analytics">
         <Grid container spacing={3}>
-          <Grid item lg={8} md={8} sm={12} xs={12}>
-            <StatCards />
-            <TopSellingTable />
-            <StatCards2 />
-
-            <H4>Ongoing Projects</H4>
-            <RowCards />
-          </Grid>
-
-          <Grid item lg={4} md={4} sm={12} xs={12}>
+          <Grid item lg={12} md={12} sm={12} xs={12}>
             <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Traffic Sources</Title>
-              <SubTitle>Last 30 days</SubTitle>
-
-              <DoughnutChart
-                height="300px"
-                color={[palette.primary.dark, palette.primary.main, palette.primary.light]}
+              <Title>Biến động nhân sự năm 2023</Title>
+              <SubTitle>Công ty Oceantech</SubTitle>
+              <LineChart
+                height="350px"
+                color={[palette.primary.main, palette.secondary.main]}
+                data={personnelChangeReport}
               />
             </Card>
-<<<<<<< Updated upstream
+          </Grid>
 
-            <UpgradeCard />
-            <Campaigns />
-=======
+          <Grid item lg={12} md={12} sm={12} xs={12}>
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <Title>Số lượng nhân sự năm 2023</Title>
+              <SubTitle>Công ty Oceantech</SubTitle>
+
+              <ComparisonChart
+                height="300px"
+                color={[palette.primary.dark]}
+                data={monthlyEmployeeCountReport[0]}
+              />
+            </Card>
           </Grid>
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Card sx={{ px: 3, py: 2, mb: 3 }}>
@@ -139,7 +135,7 @@ const Analytics = () => {
                 data={employeeAllocationRatioByDepartment}
               />
             </Card>
->>>>>>> Stashed changes
+          </Grid>
           </Grid>
         </Grid>
       </ContentBox>
