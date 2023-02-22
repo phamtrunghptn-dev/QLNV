@@ -165,7 +165,9 @@ export default function CandidateProfileView(props) {
                         Thời gian hẹn:
                       </Grid>
                       <Grid item xs={8} md={8}>
-                        {moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')}
+                        {candidate?.interviewDate
+                          ? moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')
+                          : ''}
                       </Grid>
                     </Grid>
                   </>
