@@ -9,6 +9,7 @@ import StatCards from './shared/StatCards';
 import StatCards2 from './shared/StatCards2';
 import TopSellingTable from './shared/TopSellingTable';
 import UpgradeCard from './shared/UpgradeCard';
+import { useState, useEffect } from 'react';
 import {
   getPersonnelChangeReport,
   getMonthlyEmployeeCountReport,
@@ -43,13 +44,12 @@ const H4 = styled('h4')(({ theme }) => ({
 
 const Analytics = () => {
   const { palette } = useTheme();
-
+  
   const [personnelChangeReport, setPersonnelChangeReport] = useState([]);
   const [monthlyEmployeeCountReport, setMonthlyEmployeeCountReport] = useState([]);
   const [employeeAllocationRatioByDepartment, setEmployeeAllocationRatioByDepartment] = useState(
     []
   );
-
 
   useEffect(() => {
     getPersonnelChangeReport()
@@ -110,6 +110,7 @@ const Analytics = () => {
                 data={monthlyEmployeeCountReport[0]}
               />
             </Card>
+
           </Grid>
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Card sx={{ px: 3, py: 2, mb: 3 }}>
@@ -135,7 +136,6 @@ const Analytics = () => {
                 data={employeeAllocationRatioByDepartment}
               />
             </Card>
-          </Grid>
           </Grid>
         </Grid>
       </ContentBox>
