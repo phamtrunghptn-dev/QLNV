@@ -88,30 +88,6 @@ const Analytics = () => {
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Biến động nhân sự năm 2023</Title>
-              <SubTitle>Công ty Oceantech</SubTitle>
-              <LineChart
-                height="350px"
-                color={[palette.primary.main, palette.secondary.main]}
-                data={personnelChangeReport}
-              />
-            </Card>
-          </Grid>
-
-          <Grid item lg={12} md={12} sm={12} xs={12}>
-            <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Số lượng nhân sự năm 2023</Title>
-              <SubTitle>Công ty Oceantech</SubTitle>
-
-              <ComparisonChart
-                height="300px"
-                color={[palette.primary.dark]}
-                data={monthlyEmployeeCountReport[0]}
-              />
-            </Card>
-          </Grid>
-          <Grid item lg={12} md={12} sm={12} xs={12}>
-            <Card sx={{ px: 3, py: 2, mb: 3 }}>
               <Title>Tỉ lệ nhân sự phân bổ theo các phòng ban năm 2023</Title>
               <SubTitle>Công ty Oceantech</SubTitle>
 
@@ -132,6 +108,30 @@ const Analytics = () => {
                   '#A7727D',
                 ]}
                 data={employeeAllocationRatioByDepartment}
+              />
+            </Card>
+          </Grid>
+          <Grid item lg={12} md={12} sm={12} xs={12}>
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <Title>Biến động nhân sự năm 2023</Title>
+              <SubTitle>Công ty Oceantech</SubTitle>
+              <LineChart
+                height="350px"
+                color={[palette.primary.main, palette.secondary.main]}
+                data={personnelChangeReport}
+              />
+            </Card>
+          </Grid>
+
+          <Grid item lg={12} md={12} sm={12} xs={12}>
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <Title>Số lượng nhân sự năm 2023</Title>
+              <SubTitle>Công ty Oceantech</SubTitle>
+
+              <ComparisonChart
+                height="300px"
+                color={[palette.primary.dark]}
+                data={monthlyEmployeeCountReport[0]}
               />
             </Card>
           </Grid>
