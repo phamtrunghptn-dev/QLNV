@@ -9,7 +9,11 @@ import StatCards from './shared/StatCards';
 import StatCards2 from './shared/StatCards2';
 import TopSellingTable from './shared/TopSellingTable';
 import UpgradeCard from './shared/UpgradeCard';
-import { getPersonnelChangeReport, getMonthlyEmployeeCountReport } from './AnalyticsService';
+import {
+  getPersonnelChangeReport,
+  getMonthlyEmployeeCountReport,
+  getEmployeeAllocationRatioByDepartment,
+} from './AnalyticsService';
 import { toast } from 'react-toastify';
 
 const ContentBox = styled('div')(({ theme }) => ({
@@ -42,6 +46,10 @@ const Analytics = () => {
 
   const [personnelChangeReport, setPersonnelChangeReport] = useState([]);
   const [monthlyEmployeeCountReport, setMonthlyEmployeeCountReport] = useState([]);
+  const [employeeAllocationRatioByDepartment, setEmployeeAllocationRatioByDepartment] = useState(
+    []
+  );
+
 
   useEffect(() => {
     getPersonnelChangeReport()
@@ -58,6 +66,16 @@ const Analytics = () => {
       .then((res) => {
         if (res?.data?.statusCode === 200) {
           setMonthlyEmployeeCountReport(res?.data?.data);
+        } else {
+          toast.warning(res?.data?.message);
+        }
+      })
+      .catch((err) => toast.error('Có lỗi xảy ra'));
+
+    getEmployeeAllocationRatioByDepartment()
+      .then((res) => {
+        if (res?.data?.statusCode === 200) {
+          setEmployeeAllocationRatioByDepartment(res?.data?.data);
         } else {
           toast.warning(res?.data?.message);
         }
@@ -95,11 +113,29 @@ const Analytics = () => {
           </Grid>
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Số lượng nhân sự năm 2023</Title>
+              <Title>Tỉ lệ nhân sự phân bổ theo các phòng ban năm 2023</Title>
               <SubTitle>Công ty Oceantech</SubTitle>
 
-              <DoughnutChart height="300px" color={[palette.primary.dark]} />
+              <DoughnutChart
+                height="500px"
+                color={[
+                  '#F5EAEA',
+                  '#FFB84C',
+                  '#F16767',
+                  '#A459D1',
+                  '#4D455D',
+                  '#E96479',
+                  '#F5E9CF',
+                  '#7DB9B6',
+                  '#F9F54B',
+                  '#8BF5FA',
+                  '#F2CD5C',
+                  '#A7727D',
+                ]}
+                data={employeeAllocationRatioByDepartment}
+              />
             </Card>
+          </Grid>
           </Grid>
         </Grid>
       </ContentBox>
