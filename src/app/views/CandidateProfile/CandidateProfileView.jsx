@@ -13,6 +13,8 @@ import MakeAppointment from './MakeAppointment';
 import RefuseDialog from './RefuseDialog';
 import { toast } from 'react-toastify';
 import { editCandidate } from './CandidateProfileService';
+import TextField from '@mui/material/TextField';
+import './Candidate.scss';
 
 export default function CandidateProfileView(props) {
   const { open, handleClose, item } = props;
@@ -62,10 +64,10 @@ export default function CandidateProfileView(props) {
             </IconButton>
           </Box>
         </DialogTitle>
-        <DialogContent style={{ margin: '20px', fontSize: 16, overflowX: 'hidden' }}>
+        <DialogContent style={{ margin: '20px', fontSize: 15, overflowX: 'hidden' }}>
           <Grid container>
-            <Grid container spacing={2} style={{ marginTop: 5 }}>
-              <Grid container item xs={8} md={8} spacing={2} style={{ height: 200 }}>
+            <Grid container spacing={1} style={{ marginTop: 5 }}>
+              <Grid container item xs={8} md={8} spacing={1} style={{ height: 200 }}>
                 <Grid item style={{ fontWeight: 600 }}>
                   Mã hồ sơ:
                 </Grid>
@@ -117,8 +119,8 @@ export default function CandidateProfileView(props) {
                   />
                 </Grid>
               </Grid>
-              <Grid container item xs={8} md={8} spacing={2}>
-                <Grid container item xs={12} md={12} spacing={2}>
+              <Grid container item xs={12} md={12} spacing={1}>
+                <Grid container item xs={12} md={12} spacing={1}>
                   <Grid item style={{ fontWeight: 600 }}>
                     Địa chỉ:
                   </Grid>
@@ -126,7 +128,7 @@ export default function CandidateProfileView(props) {
                     {candidate.address}
                   </Grid>
                 </Grid>
-                <Grid container item xs={6} md={6} spacing={2}>
+                <Grid container item xs={6} md={6} spacing={1}>
                   <Grid item style={{ fontWeight: 600 }}>
                     Trình độ học vấn:
                   </Grid>
@@ -134,7 +136,7 @@ export default function CandidateProfileView(props) {
                     {candidate.education}
                   </Grid>
                 </Grid>
-                <Grid container item xs={10} md={10} spacing={2}>
+                <Grid container item xs={10} md={10} spacing={1}>
                   <Grid item style={{ fontWeight: 600 }}>
                     Ngành:
                   </Grid>
@@ -142,7 +144,7 @@ export default function CandidateProfileView(props) {
                     {candidate.major}
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={12} spacing={2}>
+                <Grid container item xs={12} md={12} spacing={1}>
                   <Grid item style={{ fontWeight: 600 }}>
                     Ứng tuyển vị trí:
                   </Grid>
@@ -152,7 +154,7 @@ export default function CandidateProfileView(props) {
                 </Grid>
                 {candidate?.status === 18 ? (
                   <>
-                    <Grid container item xs={12} md={12} spacing={2}>
+                    <Grid container item xs={12} md={12} spacing={1}>
                       <Grid item style={{ fontWeight: 600 }}>
                         Người hẹn:
                       </Grid>
@@ -160,12 +162,14 @@ export default function CandidateProfileView(props) {
                         {candidate?.interviewer}
                       </Grid>
                     </Grid>
-                    <Grid container item xs={12} md={12} spacing={2}>
+                    <Grid container item xs={12} md={12} spacing={1}>
                       <Grid item style={{ fontWeight: 600 }}>
                         Thời gian hẹn:
                       </Grid>
                       <Grid item xs={8} md={8}>
-                        {moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')}
+                        {candidate?.interviewDate
+                          ? moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')
+                          : ''}
                       </Grid>
                     </Grid>
                   </>
@@ -181,36 +185,80 @@ export default function CandidateProfileView(props) {
                 ) : (
                   ''
                 )}
-                <Grid container item xs={12} md={12} spacing={2}>
-                  <Grid item style={{ fontWeight: 600 }}>
+                <Grid container item xs={12} md={12} spacing={1}>
+                  <Grid item xs={12} style={{ fontWeight: 600 }}>
                     Mục tiêu nghề nghiệp:
                   </Grid>
-                  <Grid item xs={8} md={8}>
-                    {item?.careerGoals || ''}
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      variant="standard"
+                      fullWidth
+                      className="font-15"
+                      multiline
+                      name="careerGoals"
+                      value={item?.careerGoals || ''}
+                      InputProps={{
+                        readOnly: true,
+                        disableUnderline: true,
+                      }}
+                    />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={12} spacing={2}>
-                  <Grid item style={{ fontWeight: 600 }}>
+                <Grid container item xs={12} md={12} spacing={1}>
+                  <Grid item xs={12} style={{ fontWeight: 600 }}>
                     Kinh nghiệm làm việc:
                   </Grid>
-                  <Grid item xs={8} md={8}>
-                    {item?.careerGoals || ''}
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      variant="standard"
+                      fullWidth
+                      className="font-15"
+                      multiline
+                      name="workingExperience"
+                      value={item?.workingExperience || ''}
+                      InputProps={{
+                        readOnly: true,
+                        disableUnderline: true,
+                      }}
+                    />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={12} spacing={2}>
+                <Grid container item xs={12} md={12} spacing={1}>
                   <Grid item style={{ fontWeight: 600 }}>
                     Sở thích:
                   </Grid>
-                  <Grid item xs={8} md={8}>
-                    {item?.hobby || ''}
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      variant="standard"
+                      fullWidth
+                      className="font-15"
+                      multiline
+                      name="hobby"
+                      value={item?.hobby || ''}
+                      InputProps={{
+                        readOnly: true,
+                        disableUnderline: true,
+                      }}
+                    />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={12} spacing={2}>
-                  <Grid item style={{ fontWeight: 600 }}>
+                <Grid container item xs={12} md={12} spacing={1}>
+                  <Grid item xs={12} style={{ fontWeight: 600 }}>
                     Kỹ năng:
                   </Grid>
-                  <Grid item xs={8} md={8}>
-                    {item?.skill || ''}
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      variant="standard"
+                      fullWidth
+                      className="font-15"
+                      multiline
+                      name="skill"
+                      value={item?.skill || ''}
+                      InputProps={{
+                        readOnly: true,
+                        disableUnderline: true,
+                      }}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
