@@ -1,6 +1,6 @@
-import { useTheme } from '@mui/system';
-import ReactEcharts from 'echarts-for-react';
-import { useState, useEffect } from 'react';
+import { useTheme } from "@mui/system";
+import ReactEcharts from "echarts-for-react";
+import { useState, useEffect } from "react";
 
 const LineChart = ({ height, color = [], data = [] }) => {
   const theme = useTheme();
@@ -12,7 +12,7 @@ const LineChart = ({ height, color = [], data = [] }) => {
     data.map((item) => {
       newList.push({
         data: item?.value,
-        type: 'line',
+        type: "line",
         stack: item?.name,
         name: item?.name,
         smooth: true,
@@ -24,44 +24,52 @@ const LineChart = ({ height, color = [], data = [] }) => {
   }, [data]);
 
   const option = {
-    grid: { top: '10%', bottom: '10%', left: '5%', right: '5%' },
+    grid: { top: "10%", bottom: "10%", left: "6%", right: "5%" },
     legend: {
       itemGap: 20,
-      icon: 'circle',
-      textStyle: { color: theme.palette.text.secondary, fontSize: 13, fontFamily: 'roboto' },
+      icon: "circle",
+      textStyle: {
+        color: theme.palette.text.secondary,
+        fontSize: 13,
+        fontFamily: "roboto",
+      },
     },
     xAxis: {
-      type: 'category',
+      type: "category",
       data: [
-        'Tháng 1',
-        'Tháng 2',
-        'Tháng 3',
-        'Tháng 4',
-        'Tháng 5',
-        'Tháng 6',
-        'Tháng 7',
-        'Tháng 8',
-        'Tháng 9',
-        'Tháng 10',
-        'Tháng 11',
-        'Tháng 12',
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8",
+        "T9",
+        "T10",
+        "T11",
+        "T12",
       ],
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
         fontSize: 14,
-        fontFamily: 'roboto',
+        fontFamily: "roboto",
         color: theme.palette.text.secondary,
       },
     },
     yAxis: {
-      type: 'value',
+      type: "value",
       axisLine: { show: false },
       axisTick: { show: false },
       splitLine: {
         lineStyle: { color: theme.palette.text.secondary, opacity: 0.15 },
       },
-      axisLabel: { color: theme.palette.text.secondary, fontSize: 13, fontFamily: 'roboto' },
+      axisLabel: {
+        color: theme.palette.text.secondary,
+        fontSize: 13,
+        fontFamily: "roboto",
+      },
     },
     series: list,
     // [
@@ -86,7 +94,12 @@ const LineChart = ({ height, color = [], data = [] }) => {
     // ],
   };
 
-  return <ReactEcharts style={{ height: height }} option={{ ...option, color: [...color] }} />;
+  return (
+    <ReactEcharts
+      style={{ height: height }}
+      option={{ ...option, color: [...color] }}
+    />
+  );
 };
 
 export default LineChart;

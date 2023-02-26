@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
-import Grid from '@mui/material/Grid';
-import moment from 'moment';
-import MakeAppointment from './MakeAppointment';
-import RefuseDialog from './RefuseDialog';
-import { toast } from 'react-toastify';
-import { editCandidate } from './CandidateProfileService';
-import TextField from '@mui/material/TextField';
-import './Candidate.scss';
+import React, { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import CloseIcon from "@mui/icons-material/Close";
+import Grid from "@mui/material/Grid";
+import moment from "moment";
+import MakeAppointment from "./MakeAppointment";
+import RefuseDialog from "./RefuseDialog";
+import { toast } from "react-toastify";
+import { editCandidate } from "./CandidateProfileService";
+import TextField from "@mui/material/TextField";
+import "./Candidate.scss";
 
 export default function CandidateProfileView(props) {
   const { open, handleClose, item } = props;
 
   const [candidate, setCandidate] = useState({});
-  const [shouldOpenMakeApointmentDialog, setShouldOpenMakeApointmentDialog] = useState(false);
+  const [shouldOpenMakeApointmentDialog, setShouldOpenMakeApointmentDialog] =
+    useState(false);
   const [shouldOpenRefuseDialog, setShouldOpenRefuseDialog] = useState(false);
 
   useEffect(() => {
@@ -31,32 +32,32 @@ export default function CandidateProfileView(props) {
     editCandidate(candidate)
       .then((res) => {
         if (res.data.statusCode === 200) {
-          toast.success('Hẹn lịch phỏng vấn thành công');
+          toast.success("Hẹn lịch phỏng vấn thành công");
           handleClose();
         } else {
-          toast.warning('Lỗi xác thực');
+          toast.warning("Lỗi xác thực");
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra'));
+      .catch((err) => toast.error("Có lỗi xảy ra"));
   };
 
   const handleRefuse = () => {
     editCandidate(candidate)
       .then((res) => {
         if (res.data.statusCode === 200) {
-          toast.success('Đã từ chối hồ sơ ứng viên này');
+          toast.success("Đã từ chối hồ sơ ứng viên này");
           handleClose();
         } else {
           toast.warning(res.data.message);
         }
       })
-      .catch((err) => toast.error('Có lỗi xảy ra!'));
+      .catch((err) => toast.error("Có lỗi xảy ra!"));
   };
 
   return (
     <>
-      <Dialog open={open} fullWidth maxWidth={'md'}>
-        <DialogTitle style={{ marginBlockEnd: 0, padding: '16px 24px 0' }}>
+      <Dialog open={open} fullWidth maxWidth={"md"}>
+        <DialogTitle style={{ marginBlockEnd: 0, padding: "16px 24px 0" }}>
           Hồ sơ ứng viên
           <Box className="icon-close" onClick={handleClose}>
             <IconButton color="error">
@@ -64,10 +65,19 @@ export default function CandidateProfileView(props) {
             </IconButton>
           </Box>
         </DialogTitle>
-        <DialogContent style={{ margin: '20px', fontSize: 15, overflowX: 'hidden' }}>
+        <DialogContent
+          style={{ margin: "20px", fontSize: 15, overflowX: "hidden" }}
+        >
           <Grid container>
             <Grid container spacing={1} style={{ marginTop: 5 }}>
-              <Grid container item xs={8} md={8} spacing={1} style={{ height: 200 }}>
+              <Grid
+                container
+                item
+                xs={8}
+                md={8}
+                spacing={1}
+                style={{ height: 200 }}
+              >
                 <Grid item style={{ fontWeight: 600 }}>
                   Mã hồ sơ:
                 </Grid>
@@ -90,7 +100,7 @@ export default function CandidateProfileView(props) {
                   Ngày sinh:
                 </Grid>
                 <Grid item xs={6} md={6}>
-                  {moment(candidate.dateOfBirth).format('DD/MM/YYYY')}
+                  {moment(candidate.dateOfBirth).format("DD/MM/YYYY")}
                 </Grid>
                 <Grid item style={{ fontWeight: 600 }}>
                   Số điện thoại:
@@ -106,14 +116,14 @@ export default function CandidateProfileView(props) {
                 </Grid>
               </Grid>
               <Grid container item xs={4} md={4} style={{ height: 200 }}>
-                <Grid item xs={12} style={{ height: '100%' }}>
+                <Grid item xs={12} style={{ height: "100%" }}>
                   <img
                     src={candidate?.image}
                     alt=""
                     style={{
-                      height: '100%',
-                      float: 'right',
-                      border: '1px solid #ccc',
+                      height: "100%",
+                      float: "right",
+                      border: "1px solid #ccc",
                       borderRadius: 10,
                     }}
                   />
@@ -149,7 +159,7 @@ export default function CandidateProfileView(props) {
                     Ứng tuyển vị trí:
                   </Grid>
                   <Grid item xs={8} md={8}>
-                    {item?.recruitDtos[0]?.titleRecruit || ''}
+                    {item?.recruitDtos[0]?.titleRecruit || ""}
                   </Grid>
                 </Grid>
                 {candidate?.status === 18 ? (
@@ -168,8 +178,10 @@ export default function CandidateProfileView(props) {
                       </Grid>
                       <Grid item xs={8} md={8}>
                         {candidate?.interviewDate
-                          ? moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')
-                          : ''}
+                          ? moment(candidate?.interviewDate).format(
+                              "DD/MM/YYYY hh:mm A"
+                            )
+                          : ""}
                       </Grid>
                     </Grid>
                   </>
@@ -183,7 +195,7 @@ export default function CandidateProfileView(props) {
                     </Grid>
                   </Grid>
                 ) : (
-                  ''
+                  ""
                 )}
                 <Grid container item xs={12} md={12} spacing={1}>
                   <Grid item xs={12} style={{ fontWeight: 600 }}>
@@ -196,7 +208,7 @@ export default function CandidateProfileView(props) {
                       className="font-15"
                       multiline
                       name="careerGoals"
-                      value={item?.careerGoals || ''}
+                      value={item?.careerGoals || ""}
                       InputProps={{
                         readOnly: true,
                         disableUnderline: true,
@@ -215,7 +227,7 @@ export default function CandidateProfileView(props) {
                       className="font-15"
                       multiline
                       name="workingExperience"
-                      value={item?.workingExperience || ''}
+                      value={item?.workingExperience || ""}
                       InputProps={{
                         readOnly: true,
                         disableUnderline: true,
@@ -234,7 +246,7 @@ export default function CandidateProfileView(props) {
                       className="font-15"
                       multiline
                       name="hobby"
-                      value={item?.hobby || ''}
+                      value={item?.hobby || ""}
                       InputProps={{
                         readOnly: true,
                         disableUnderline: true,
@@ -253,7 +265,7 @@ export default function CandidateProfileView(props) {
                       className="font-15"
                       multiline
                       name="skill"
-                      value={item?.skill || ''}
+                      value={item?.skill || ""}
                       InputProps={{
                         readOnly: true,
                         disableUnderline: true,
@@ -274,7 +286,8 @@ export default function CandidateProfileView(props) {
               candidate?.status === 18 ||
               candidate?.status === 6 ||
               candidate?.status === 8 ||
-              candidate?.status === 9
+              candidate?.status === 9 ||
+              candidate?.status === 19
             }
           >
             Hẹn phỏng vấn
@@ -287,7 +300,8 @@ export default function CandidateProfileView(props) {
               candidate?.status === 18 ||
               candidate?.status === 6 ||
               candidate?.status === 8 ||
-              candidate?.status === 9
+              candidate?.status === 9 ||
+              candidate?.status === 19
             }
           >
             Từ chối
