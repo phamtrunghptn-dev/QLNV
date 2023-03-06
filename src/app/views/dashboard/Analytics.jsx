@@ -151,7 +151,10 @@ const Analytics = () => {
           let blob = new Blob([res.data], {
             type: `application/vnd.ms-excel`,
           });
-          saveAs(blob, 'Danh sách nhân viên sinh nhật trong tháng.xlsx');
+          saveAs(
+            blob,
+            `Danh sách nhân viên sinh nhật tháng (${startMonthObj?.value} - ${endMonthObj?.value}) .xlsx`
+          );
         })
         .catch((err) => {
           toast.error('Xuất file thất bại');
@@ -224,11 +227,73 @@ const Analytics = () => {
               />
             </Card>
           </Grid>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={12} md={12} sm={12} xs={12}>
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <Title>Danh sách nhân viên có hợp đồng sắp hết hạn</Title>
+              <Grid container width="100%" style={{ margin: '20px 0' }}>
+                <Grid item xs={3.5} style={{ border: '1px solid #f1c40f' }}>
+                  <Checkbox
+                    defaultChecked
+                    id="1"
+                    checked={arrExpireContract.includes(1)}
+                    onChange={hanldeChangeCheckBox}
+                    sx={{
+                      color: '#f1c40f',
+                      '&.Mui-checked': {
+                        color: '#f1c40f',
+                      },
+                    }}
+                  />
+                  <span style={{ color: '#f1c40f' }}>Sắp hết hạn</span>
+                </Grid>
+                <Grid item xs={3.5} style={{ border: '1px solid #ff9e43', margin: '0 5px' }}>
+                  <Checkbox
+                    id="2"
+                    checked={arrExpireContract.includes(2)}
+                    onChange={hanldeChangeCheckBox}
+                    sx={{
+                      color: '#ff9e43',
+                      '&.Mui-checked': {
+                        color: '#ff9e43',
+                      },
+                    }}
+                  />
+                  <span style={{ color: '#ff9e43' }}>Đến hạn</span>
+                </Grid>
+                <Grid item xs={3.5} style={{ border: '1px solid #f44336' }}>
+                  <Checkbox
+                    id="3"
+                    checked={arrExpireContract.includes(3)}
+                    onChange={hanldeChangeCheckBox}
+                    sx={{
+                      color: '#f44336',
+                      '&.Mui-checked': {
+                        color: '#f44336',
+                      },
+                    }}
+                  />
+                  <span style={{ color: '#f44336' }}>Quá hạn</span>
+                </Grid>
+                {/* <Grid item xs={3.5}></Grid> */}
+                <Grid item xs={0.5} style={{ marginLeft: '10px' }}>
+                  <Tooltip title="Xuất file Excel" onClick={() => handleExportFileExcel(2)}>
+                    <IconButton color="primary">
+                      <FileDownloadIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              </Grid>
+              <EmployeesAboutToExpireContract
+                listEmployeesAboutToExpireContract={listEmployeesAboutToExpireContract}
+                loading={loading2}
+              />
+            </Card>
+          </Grid>
+          <Grid item lg={12} md={12} sm={12} xs={12}>
             <Card sx={{ px: 3, py: 2, mb: 3 }}>
               <Title>Danh sách nhân viên sinh nhật trong tháng</Title>
               <Grid container width="100%" style={{ margin: '20px 0' }}>
-                <Grid item xs={2.5}>
+                <Grid item xs={2}>
                   <Autocomplete
                     options={months}
                     getOptionLabel={(option) => option.name}
@@ -244,7 +309,7 @@ const Analytics = () => {
                 <Grid item style={{ lineHeight: 3, margin: '0 5px' }}>
                   đến
                 </Grid>
-                <Grid item xs={2.5}>
+                <Grid item xs={2}>
                   <Autocomplete
                     options={months}
                     getOptionLabel={(option) => option.name}
@@ -262,7 +327,7 @@ const Analytics = () => {
                     Lọc
                   </Button>
                 </Grid>
-                <Grid item xs={4.5}></Grid>
+                <Grid item xs={6}></Grid>
                 <Grid item xs={0.5}>
                   <Tooltip title="Xuất file Excel">
                     <IconButton color="primary" onClick={() => handleExportFileExcel(1)}>
@@ -274,68 +339,6 @@ const Analytics = () => {
               <EmployeeBirthdayInRange
                 listEmployeeBirthdayInRange={listEmployeeBirthdayInRange}
                 loading={loading1}
-              />
-            </Card>
-          </Grid>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Danh sách nhân viên có hợp đồng sắp hết hạn</Title>
-              <Grid container width="100%" style={{ margin: '20px 0' }}>
-                <Grid item xs={2.5} style={{ border: '1px solid #f1c40f' }}>
-                  <Checkbox
-                    defaultChecked
-                    id="1"
-                    checked={arrExpireContract.includes(1)}
-                    onChange={hanldeChangeCheckBox}
-                    sx={{
-                      color: '#f1c40f',
-                      '&.Mui-checked': {
-                        color: '#f1c40f',
-                      },
-                    }}
-                  />
-                  <span style={{ color: '#f1c40f' }}>Sắp hết hạn</span>
-                </Grid>
-                <Grid item xs={2.5} style={{ border: '1px solid #ff9e43', margin: '0 5px' }}>
-                  <Checkbox
-                    id="2"
-                    checked={arrExpireContract.includes(2)}
-                    onChange={hanldeChangeCheckBox}
-                    sx={{
-                      color: '#ff9e43',
-                      '&.Mui-checked': {
-                        color: '#ff9e43',
-                      },
-                    }}
-                  />
-                  <span style={{ color: '#ff9e43' }}>Đến hạn</span>
-                </Grid>
-                <Grid item xs={2.5} style={{ border: '1px solid #f44336' }}>
-                  <Checkbox
-                    id="3"
-                    checked={arrExpireContract.includes(3)}
-                    onChange={hanldeChangeCheckBox}
-                    sx={{
-                      color: '#f44336',
-                      '&.Mui-checked': {
-                        color: '#f44336',
-                      },
-                    }}
-                  />
-                  <span style={{ color: '#f44336' }}>Quá hạn</span>
-                </Grid>
-                <Grid item xs={3.5}></Grid>
-                <Grid item xs={0.5}>
-                  <Tooltip title="Xuất file Excel" onClick={() => handleExportFileExcel(2)}>
-                    <IconButton color="primary">
-                      <FileDownloadIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Grid>
-              </Grid>
-              <EmployeesAboutToExpireContract
-                listEmployeesAboutToExpireContract={listEmployeesAboutToExpireContract}
-                loading={loading2}
               />
             </Card>
           </Grid>
