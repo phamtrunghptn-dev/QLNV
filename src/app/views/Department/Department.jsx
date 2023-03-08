@@ -66,7 +66,7 @@ export default function Department() {
         </>
       ),
       cellStyle: {
-        width: '10%',
+        width: '4%',
         textAlign: 'center',
       },
     },

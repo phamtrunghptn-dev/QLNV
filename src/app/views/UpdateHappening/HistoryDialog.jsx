@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 export default function HistoryDialog(props) {
-  const { item } = props;
+  const { list } = props;
   return (
     <>
       <table style={{ width: '100%' }} className="table">
@@ -15,7 +15,7 @@ export default function HistoryDialog(props) {
           <th style={{ textAlign: 'center', width: '10%' }}>Phòng ban làm việc</th>
           <th style={{ textAlign: 'center', width: '20%' }}>Lý do</th>
         </tr>
-        {item?.employeeHistories.map((item, index) => (
+        {list.map((item, index) => (
           <>
             <tr className="tr">
               <td style={{ textAlign: 'center' }}>{index + 1}</td>
