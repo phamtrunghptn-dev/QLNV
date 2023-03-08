@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 export const API = 'http://14.225.205.11:8888';
+
+//export const API = 'http://localhost:8888';
 export const checkStatus = (value) => {
   let message;
   let color;
