@@ -66,7 +66,7 @@ export default function Department() {
         </>
       ),
       cellStyle: {
-        width: '4%',
+        width: '5%',
         textAlign: 'center',
       },
     },
@@ -84,7 +84,7 @@ export default function Department() {
       field: 'name',
       render: (rowData) => rowData.name,
       cellStyle: {
-        width: '10%',
+        width: '7%',
         textAlign: 'left',
       },
       headerStyle: {
