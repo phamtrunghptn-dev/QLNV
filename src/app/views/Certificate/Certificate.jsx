@@ -66,7 +66,7 @@ export default function Certificate() {
         </>
       ),
       cellStyle: {
-        width: '10%',
+        width: '7%',
         textAlign: 'center',
       },
     },
@@ -75,7 +75,7 @@ export default function Certificate() {
       field: 'code',
       render: (rowData) => rowData?.code,
       cellStyle: {
-        width: '10%',
+        width: '5%',
         textAlign: 'center',
       },
     },

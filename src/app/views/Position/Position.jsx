@@ -66,7 +66,7 @@ export default function Position() {
         </>
       ),
       cellStyle: {
-        width: '10%',
+        width: '5%',
         textAlign: 'center',
       },
     },
@@ -84,7 +84,7 @@ export default function Position() {
       field: 'name',
       render: (rowData) => rowData.name,
       cellStyle: {
-        width: '10%',
+        width: '7%',
         textAlign: 'left',
       },
       headerStyle: {

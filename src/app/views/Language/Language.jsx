@@ -66,7 +66,7 @@ export default function Language() {
         </>
       ),
       cellStyle: {
-        width: '10%',
+        width: '7%',
         textAlign: 'center',
       },
     },
@@ -75,7 +75,7 @@ export default function Language() {
       field: 'code',
       render: (rowData) => rowData?.code,
       cellStyle: {
-        width: '7%',
+        width: '5%',
         textAlign: 'center',
       },
     },
@@ -84,7 +84,7 @@ export default function Language() {
       field: 'name',
       render: (rowData) => rowData?.name,
       cellStyle: {
-        width: '15%',
+        width: '10%',
         textAlign: 'left',
       },
       headerStyle: {
