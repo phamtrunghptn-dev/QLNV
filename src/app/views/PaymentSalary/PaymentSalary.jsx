@@ -8,6 +8,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import PaymentSalaryTable from './PaymentSalaryTable';
 import LoopIcon from '@mui/icons-material/Loop';
+import { colorTable } from 'app/constant';
 
 export default function PaymentSalary() {
   const [listEmployee, setListEmployee] = useState([]);
@@ -150,6 +151,12 @@ export default function PaymentSalary() {
               draggable: false,
               headerStyle: {
                 textAlign: 'center',
+                backgroundColor: colorTable.HEADER,
+                color: colorTable.TEXTHEADER,
+              },
+              rowStyle: {
+                backgroundColor: colorTable.ROW,
+                color: colorTable.TEXTROW,
               },
             }}
             isLoading={loading}

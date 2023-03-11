@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MaterialTable from 'material-table';
 import moment from 'moment';
+import { colorTable } from 'app/constant';
 
 export default function EmployeesAboutToExpireContract(props) {
   const { listEmployeesAboutToExpireContract, loading } = props;
@@ -90,6 +91,12 @@ export default function EmployeesAboutToExpireContract(props) {
           pageSizeOptions: [10, 20, 50],
           headerStyle: {
             textAlign: 'center',
+            backgroundColor: colorTable.HEADER,
+            color: colorTable.TEXTHEADER,
+          },
+          rowStyle: {
+            backgroundColor: colorTable.ROW,
+            color: colorTable.TEXTROW,
           },
         }}
         isLoading={loading}

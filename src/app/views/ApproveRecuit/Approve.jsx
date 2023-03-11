@@ -10,7 +10,7 @@ import ConfirmationDialog from '../../components/ConfirmationDialog';
 import { checkStatus } from 'app/constant';
 import RecruitView from './RecruitView';
 import LoopIcon from '@mui/icons-material/Loop';
-
+import { colorTable } from 'app/constant';
 export default function Approve() {
   const [listCertificate, setListCertificate] = useState([]);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
@@ -177,6 +177,12 @@ export default function Approve() {
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
                 textAlign: 'center',
+                backgroundColor: colorTable.HEADER,
+                color: colorTable.TEXTHEADER,
+              },
+              rowStyle: {
+                backgroundColor: colorTable.ROW,
+                color: colorTable.TEXTROW,
               },
             }}
             isLoading={loading}

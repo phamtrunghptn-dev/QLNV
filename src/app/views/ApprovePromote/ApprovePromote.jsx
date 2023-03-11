@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button } from "@mui/material";
-import { Breadcrumb } from "app/components";
-import MaterialTable from "material-table";
-import { getListPromote, deletePromote } from "./ApprovePromoteService";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { toast } from "react-toastify";
-import LoopIcon from "@mui/icons-material/Loop";
-import ApprovePromoteDialog from "./ApprovePromoteDialog";
-import ConfirmationDialog from "../../components/ConfirmationDialog";
-import { checkStatus } from "app/constant";
-import EmployeeTable from "./EmployeeTable";
-
+import React, { useEffect, useState } from 'react';
+import { Box, Button } from '@mui/material';
+import { Breadcrumb } from 'app/components';
+import MaterialTable from 'material-table';
+import { getListPromote, deletePromote } from './ApprovePromoteService';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { toast } from 'react-toastify';
+import LoopIcon from '@mui/icons-material/Loop';
+import ApprovePromoteDialog from './ApprovePromoteDialog';
+import ConfirmationDialog from '../../components/ConfirmationDialog';
+import { checkStatus } from 'app/constant';
+import EmployeeTable from './EmployeeTable';
+import { colorTable } from 'app/constant';
 export default function ApprovePromote() {
-  const [listCommendationAndDiscipline, setListCommendationAndDiscipline] =
-    useState([]);
+  const [listCommendationAndDiscipline, setListCommendationAndDiscipline] = useState([]);
   const [shouldOpenDialog, setShouldOpenDialog] = useState(false);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
   const [shouldOpenEmployeeTable, setShouldOpenEmployeeTable] = useState(false);
@@ -26,17 +25,17 @@ export default function ApprovePromote() {
 
   const columns = [
     {
-      title: "STT",
-      field: "STT",
+      title: 'STT',
+      field: 'STT',
       render: (rowData) => rowData.tableData.id + 1,
       cellStyle: {
-        width: "3%",
-        textAlign: "center",
+        width: '3%',
+        textAlign: 'center',
       },
     },
     {
-      title: "Thao tác",
-      field: "action",
+      title: 'Thao tác',
+      field: 'action',
       render: (rowData) => (
         <>
           <IconButton
@@ -71,70 +70,69 @@ export default function ApprovePromote() {
         </>
       ),
       cellStyle: {
-        width: "10%",
-        textAlign: "center",
+        width: '10%',
+        textAlign: 'center',
       },
     },
     {
-      title: "Số quyết định",
-      field: "decisionNumber",
+      title: 'Số quyết định',
+      field: 'decisionNumber',
       render: (rowData) => rowData?.decisionNumber,
       cellStyle: {
-        width: "10%",
-        textAlign: "center",
+        width: '10%',
+        textAlign: 'center',
       },
     },
     {
-      title: "Họ và tên nhân viên",
-      field: "staffName",
+      title: 'Họ và tên nhân viên',
+      field: 'staffName',
       render: (rowData) => rowData?.staffName,
       cellStyle: {
-        width: "10%",
-        textAlign: "left",
+        width: '10%',
+        textAlign: 'left',
       },
       headerStyle: {
-        textAlign: "left",
+        textAlign: 'left',
       },
     },
     {
-      title: "Loại",
-      field: "type",
-      render: (rowData) => (rowData?.type === 3 ? "Tăng lương" : ""),
+      title: 'Loại',
+      field: 'type',
+      render: (rowData) => (rowData?.type === 3 ? 'Tăng lương' : ''),
       cellStyle: {
-        width: "10%",
-        textAlign: "left",
+        width: '10%',
+        textAlign: 'left',
       },
       headerStyle: {
-        textAlign: "left",
+        textAlign: 'left',
       },
     },
     {
-      title: "Ngày quyết định",
-      field: "day",
-      render: (rowData) =>
-        rowData?.day + "/" + rowData?.month + "/" + rowData?.year,
+      title: 'Ngày quyết định',
+      field: 'day',
+      render: (rowData) => rowData?.day + '/' + rowData?.month + '/' + rowData?.year,
       cellStyle: {
-        width: "10%",
-        textAlign: "left",
+        width: '10%',
+        textAlign: 'left',
       },
       headerStyle: {
-        textAlign: "left",
+        textAlign: 'left',
       },
     },
     {
-      title: "Trạng thái",
-      field: "status",
+      title: 'Trạng thái',
+      field: 'status',
       render: (rowData) => {
         let message = checkStatus(rowData.status).message;
         let color = checkStatus(rowData.status).color;
         return <div className={color}>{message}</div>;
       },
       cellStyle: {
-        width: "10%",
-        textAlign: "left",
+        width: '10%',
+        textAlign: 'left',
       },
       headerStyle: {
-        textAlign: "left",
+        textAlign: 'left',
       },
     },
   ];
@@ -150,30 +148,28 @@ export default function ApprovePromote() {
         if (res.data.statusCode === 200) {
           setLoading(false);
           setListCommendationAndDiscipline(
-            res.data.data.filter(
-              (item) => item?.status === 1 && item?.type === 3
-            )
+            res.data.data.filter((item) => item?.status === 1 && item?.type === 3)
           );
         } else {
           setLoading(false);
-          toast.warning("Lỗi xác thực!");
+          toast.warning('Lỗi xác thực!');
         }
       })
       .catch((err) => {
-        toast.error("Có lỗi xảy ra!");
+        toast.error('Có lỗi xảy ra!');
         setLoading(false);
       });
   };
 
   const handleDelete = () => {
-    //   deleteCommendationAndDiscipline(item?.id).then((res) => {
-    //     if (res.data.statusCode === 200) {
-    //       toast.success('Xóa thành công');
-    //     } else {
-    //       toast.warning(res.data.message);
-    //     }
-    //     handleClose();
-    //   });
+    deletePromote(item?.id).then((res) => {
+      if (res.data.statusCode === 200) {
+        toast.success('Xóa thành công');
+      } else {
+        toast.warning(res.data.message);
+      }
+      handleClose();
+    });
   };
 
   const handleClose = () => {
@@ -188,17 +184,14 @@ export default function ApprovePromote() {
     <>
       <Box style={{ margin: 20 }}>
         <Breadcrumb
-          routeSegments={[
-            { name: "Phê duyệt", path: "/leader" },
-            { name: "Tăng lương" },
-          ]}
+          routeSegments={[{ name: 'Phê duyệt', path: '/leader' }, { name: 'Tăng lương' }]}
         />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             variant="contained"
             color="primary"
             size="medium"
-            style={{ margin: "20px 0", padding: "5px 20px" }}
+            style={{ margin: '20px 0', padding: '5px 20px' }}
             onClick={() => setShouldOpenEmployeeTable(true)}
           >
             Thêm
@@ -219,43 +212,46 @@ export default function ApprovePromote() {
             data={listCommendationAndDiscipline}
             options={{
               sorting: false,
-              maxBodyHeight: "60vh",
+              maxBodyHeight: '60vh',
               draggable: false,
               pageSize: 10,
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
-                textAlign: "center",
+                textAlign: 'center',
+                backgroundColor: colorTable.HEADER,
+                color: colorTable.TEXTHEADER,
+              },
+              rowStyle: {
+                backgroundColor: colorTable.ROW,
+                color: colorTable.TEXTROW,
               },
             }}
             isLoading={loading}
             localization={{
               toolbar: {
-                searchTooltip: "Tìm kiếm",
-                searchPlaceholder: "Tìm kiếm",
+                searchTooltip: 'Tìm kiếm',
+                searchPlaceholder: 'Tìm kiếm',
               },
               pagination: {
-                labelDisplayedRows: "{from}-{to} của {count}",
-                labelRowsSelect: "hàng",
-                labelRowsPerPage: "Số hàng mỗi trang:",
-                firstAriaLabel: "Trang đầu",
-                firstTooltip: "Trang đầu",
-                previousAriaLabel: "Trang trước",
-                previousTooltip: "Trang trước",
-                nextAriaLabel: "Trang sau",
-                nextTooltip: "Trang sau",
-                lastAriaLabel: "Trang cuối",
-                lastTooltip: "Trang cuối",
+                labelDisplayedRows: '{from}-{to} của {count}',
+                labelRowsSelect: 'hàng',
+                labelRowsPerPage: 'Số hàng mỗi trang:',
+                firstAriaLabel: 'Trang đầu',
+                firstTooltip: 'Trang đầu',
+                previousAriaLabel: 'Trang trước',
+                previousTooltip: 'Trang trước',
+                nextAriaLabel: 'Trang sau',
+                nextTooltip: 'Trang sau',
+                lastAriaLabel: 'Trang cuối',
+                lastTooltip: 'Trang cuối',
               },
-              body: { emptyDataSourceMessage: "Không có bản ghi nào" },
+              body: { emptyDataSourceMessage: 'Không có bản ghi nào' },
             }}
           />
         </div>
       </Box>
       {shouldOpenEmployeeTable && (
-        <EmployeeTable
-          open={shouldOpenEmployeeTable}
-          handleClose={handleClose}
-        />
+        <EmployeeTable open={shouldOpenEmployeeTable} handleClose={handleClose} />
       )}
       {shouldOpenConfirmDialog && (
         <ConfirmationDialog
@@ -263,7 +259,7 @@ export default function ApprovePromote() {
           text="Bạn có muốn xóa quyết định này?"
           open={shouldOpenConfirmDialog}
           onConfirmDialogClose={handleClose}
-          onYesClick={handleDelete}
+          onYesClick={() => handleDelete()}
           Yes="Đồng ý"
           No="Hủy"
         />

@@ -81,7 +81,7 @@ export const checkStatus = (value) => {
       break;
     case 19:
       message = 'Chuyển đổi hồ sơ ứng viên';
-      color = 'status-approved';
+      color = 'status-transfer';
       break;
     default:
       message = 'Không trạng thái';
@@ -140,6 +140,13 @@ export const trangThaiKeHoanhTD = [
 ];
 
 export const quyetDinh = [
-  { name: 'Khen thưởng', value: 1 },
-  { name: 'Kỷ luật', value: 2 },
+  { name: 'Khen thưởng', value: 2 },
+  { name: 'Kỷ luật', value: 1 },
 ];
+
+export const colorTable = {
+  HEADER: '#539165',
+  ROW: '#F9F9F9',
+  TEXTHEADER: '#FFF',
+  TEXTROW: '#000',
+};

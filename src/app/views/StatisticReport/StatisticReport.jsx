@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
 import LoopIcon from '@mui/icons-material/Loop';
+import { colorTable } from 'app/constant';
 
 export default function StatisticReport() {
   const [listPersonnelChangeReport, setListPersonnelChangeReport] = useState([]);
@@ -296,11 +297,12 @@ export default function StatisticReport() {
               draggable: false,
               headerStyle: {
                 textAlign: 'center',
-                backgroundColor: '#539165',
-                color: '#FFF',
+                backgroundColor: colorTable.HEADER,
+                color: colorTable.TEXTHEADER,
               },
               rowStyle: {
-                backgroundColor: '#EDF1D6',
+                backgroundColor: colorTable.ROW,
+                color: colorTable.TEXTROW,
               },
             }}
             isLoading={loading1}
@@ -333,11 +335,12 @@ export default function StatisticReport() {
               draggable: false,
               headerStyle: {
                 textAlign: 'center',
-                backgroundColor: '#539165',
-                color: '#FFF',
+                backgroundColor: colorTable.HEADER,
+                color: colorTable.TEXTHEADER,
               },
               rowStyle: {
-                backgroundColor: '#EDF1D6',
+                backgroundColor: colorTable.ROW,
+                color: colorTable.TEXTROW,
               },
             }}
             isLoading={loading2}

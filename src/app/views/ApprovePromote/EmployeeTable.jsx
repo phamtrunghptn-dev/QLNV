@@ -13,7 +13,7 @@ import MaterialTable from 'material-table';
 import { getListEmployee } from './ApprovePromoteService';
 import { toast } from 'react-toastify';
 import ApprovePromoteDialog from './ApprovePromoteDialog';
-
+import { colorTable } from 'app/constant';
 export default function EmployeeTable(props) {
   const { open, handleClose } = props;
   const [listEmployee, setListEmployee] = useState([]);
@@ -155,6 +155,12 @@ export default function EmployeeTable(props) {
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
                 textAlign: 'center',
+                backgroundColor: colorTable.HEADER,
+                color: colorTable.TEXTHEADER,
+              },
+              rowStyle: {
+                backgroundColor: colorTable.ROW,
+                color: colorTable.TEXTROW,
               },
             }}
             localization={{
