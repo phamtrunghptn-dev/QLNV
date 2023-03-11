@@ -594,9 +594,6 @@ export default function ContractDialog(props) {
                 <Button variant="contained" color="primary" onClick={handlePrint}>
                   In
                 </Button>
-                <Button variant="contained" color="primary" onClick={handlePrint}>
-                  Gia hạn hợp đồng
-                </Button>
               </>
             ) : (
               <Button type="submit" variant="contained" color="primary">

@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import LoopIcon from '@mui/icons-material/Loop';
 import ApprovePromoteDialog from './ApprovePromoteDialog';
 import { checkStatus } from 'app/constant';
-
+import { colorTable } from 'app/constant';
 export default function ListPromote() {
   const [listPromote, setListPromote] = useState([]);
   const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
@@ -172,6 +172,12 @@ export default function ListPromote() {
               pageSizeOptions: [10, 20, 50],
               headerStyle: {
                 textAlign: 'center',
+                backgroundColor: colorTable.HEADER,
+                color: colorTable.TEXTHEADER,
+              },
+              rowStyle: {
+                backgroundColor: colorTable.ROW,
+                color: colorTable.TEXTROW,
               },
             }}
             isLoading={loading}
