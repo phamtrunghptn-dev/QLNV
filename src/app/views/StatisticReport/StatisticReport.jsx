@@ -209,7 +209,6 @@ export default function StatisticReport() {
   useEffect(() => {
     setLoading1(true);
     setLoading2(true);
-    updatePageData1();
   }, []);
 
   useEffect(() => {

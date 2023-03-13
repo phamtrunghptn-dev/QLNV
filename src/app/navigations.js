@@ -57,7 +57,7 @@ export const navigations = [
     children: [
       { name: 'Tính lương', path: '/payment-salary' },
       { name: 'QĐ Khen thưởng - Kỷ luật', path: '/commendation-and-discipline' },
-      { name: 'Báo cáo thống kê', path: '/session/signin' },
+      { name: 'Báo cáo thống kê', path: '/manage-payment/statistic-report' },
     ],
     role: ['ADMIN', 'ACCOUNTANCY'],
   },
