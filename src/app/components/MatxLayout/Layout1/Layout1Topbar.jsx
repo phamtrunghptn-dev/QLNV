@@ -1,6 +1,6 @@
 import { Avatar, Hidden, Icon, IconButton, MenuItem, useMediaQuery } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
-import { MatxMenu, MatxSearchBox } from 'app/components';
+import { MatxMenu } from 'app/components';
 import { themeShadows } from 'app/components/MatxTheme/themeColors';
 import { NotificationProvider } from 'app/contexts/NotificationContext';
 import useAuth from 'app/hooks/useAuth';
@@ -9,7 +9,6 @@ import { topBarHeight } from 'app/utils/constant';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Span } from '../../../components/Typography';
-import ShoppingCart from '../../ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({

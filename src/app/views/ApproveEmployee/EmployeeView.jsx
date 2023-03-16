@@ -13,8 +13,8 @@ import { editEmployee } from './ApproveEmployeeService';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import RequestDialog from './RequestDialog';
 import './EmployeeView.scss';
-// import ContractDialog from './ContractDialog';
 import { toast } from 'react-toastify';
+import { color } from 'app/constant';
 
 export default function EmployeeView(props) {
   const { open, handleClose, item, setItem } = props;
@@ -53,14 +53,14 @@ export default function EmployeeView(props) {
   return (
     <>
       <Dialog open={open} fullWidth maxWidth={'md'}>
-        <DialogTitle sx={{ bgcolor: '#EDF1D6' }}>
+        <DialogTitle sx={{ bgcolor: color.DIALOG }}>
           <Box className="icon-close" onClick={handleClose}>
             <IconButton color="error">
               <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
-        <DialogContent style={{ padding: '30px 60px 30px' }} sx={{ bgcolor: '#EDF1D6' }}>
+        <DialogContent style={{ padding: '30px 60px 30px' }} sx={{ bgcolor: color.DIALOG }}>
           <Grid
             container
             spacing={2}
@@ -335,7 +335,7 @@ export default function EmployeeView(props) {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ bgcolor: '#EDF1D6' }}>
+        <DialogActions sx={{ bgcolor: color.DIALOG }}>
           <Button variant="contained" color="secondary" onClick={handleClose}>
             Hủy
           </Button>
@@ -355,14 +355,6 @@ export default function EmployeeView(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* {shouldOpenContractDialog && (
-        <ContractDialog
-          open={shouldOpenContractDialog}
-          item={item}
-          setItem={setItem}
-          handleCloseDialog={() => setShouldOpenContractDialog(false)}
-        />
-      )} */}
       {shouldOpenConfirmDialog && (
         <ConfirmationDialog
           title="Xác nhận"
