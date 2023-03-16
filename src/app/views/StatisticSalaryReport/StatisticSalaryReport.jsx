@@ -140,7 +140,7 @@ export default function StatisticSalaryReport() {
 
                 <ComparisonChart
                   height="350px"
-                  color={[palette.primary.dark]}
+                  color={['#5D9C59']}
                   data={listSalaryCalculateTotalSalaryByMonth}
                 />
               </Card>
@@ -153,10 +153,10 @@ export default function StatisticSalaryReport() {
                 <DoughnutChart
                   height="500px"
                   color={[
-                    '#FFB84C',
-                    '#F16767',
-                    '#A459D1',
-                    '#4D455D',
+                    '#C69749',
+                    '#CFFF8D',
+                    '#D0B8A8',
+                    '#E3C770',
                     '#E96479',
                     '#F5E9CF',
                     '#7DB9B6',

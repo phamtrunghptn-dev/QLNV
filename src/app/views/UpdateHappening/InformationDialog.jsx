@@ -55,6 +55,8 @@ export default function InformationDialog(props) {
       .catch((err) => toast.error('Có lỗi xảy ra'));
   }, []);
 
+  console.log('long lon', item);
+
   const formik = useFormik({
     initialValues: {
       code: item?.id ? item?.code : '',
@@ -212,7 +214,7 @@ export default function InformationDialog(props) {
           </Grid>
           <Grid item xs={3} md={3}>
             <TextField
-              label="Ảnh ứng viên"
+              label="Ảnh nhân viên"
               type="text"
               style={{ width: '82%' }}
               name="imageName"

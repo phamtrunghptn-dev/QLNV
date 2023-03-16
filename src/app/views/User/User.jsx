@@ -57,17 +57,21 @@ export default function User() {
         width: '5%',
         textAlign: 'center',
       },
+      headerStyle: {
+        width: '5%',
+        textAlign: 'center',
+      },
     },
     {
       title: 'Tên người dùng',
       field: 'fullName',
       render: (rowData) => rowData?.fullName,
       cellStyle: {
-        width: '7%',
-        textAlign: 'left',
+        width: '10%',
+        textAlign: 'center',
       },
       headerStyle: {
-        textAlign: 'left',
+        textAlign: 'center',
       },
     },
     {
@@ -75,7 +79,7 @@ export default function User() {
       field: 'userName',
       render: (rowData) => rowData?.userName,
       cellStyle: {
-        width: '7%',
+        width: '10%',
         textAlign: 'center',
       },
       headerStyle: {
@@ -87,7 +91,19 @@ export default function User() {
       field: 'email',
       render: (rowData) => rowData?.email,
       cellStyle: {
-        width: '7%',
+        width: '10%',
+        textAlign: 'center',
+      },
+      headerStyle: {
+        textAlign: 'center',
+      },
+    },
+    {
+      title: 'Số điện thoại',
+      field: 'email',
+      render: (rowData) => rowData?.phone,
+      cellStyle: {
+        width: '10%',
         textAlign: 'center',
       },
       headerStyle: {

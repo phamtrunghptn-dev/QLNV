@@ -3,3 +3,16 @@
     font-size: 50px;
   }
 }
+
+.custom-file-upload {
+  // width: 18%;
+  // border: 1px solid #ccc;
+  // border-radius: 5px;
+  display: inline-block;
+  // padding: 10px 4px;
+  cursor: pointer;
+}
+
+.custom-file-upload :hover {
+  opacity: 0.8;
+}
