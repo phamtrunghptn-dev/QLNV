@@ -13,6 +13,7 @@ import { editEmployee } from './EmployeeService';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import './EmployeeView.scss';
 import { toast } from 'react-toastify';
+import { color } from 'app/constant';
 
 export default function EmployeeView(props) {
   const { open, handleClose, item, setItem } = props;
@@ -39,14 +40,14 @@ export default function EmployeeView(props) {
   return (
     <>
       <Dialog open={open} fullWidth maxWidth={'md'}>
-        <DialogTitle sx={{ bgcolor: '#FFFFE8' }}>
+        <DialogTitle sx={{ bgcolor: color.DIALOG }}>
           <Box className="icon-close" onClick={handleClose}>
             <IconButton color="error">
               <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
-        <DialogContent style={{ padding: '30px 60px 30px' }} sx={{ bgcolor: '#FFFFE8' }}>
+        <DialogContent style={{ padding: '30px 60px 30px' }} sx={{ bgcolor: color.DIALOG }}>
           <Grid
             container
             spacing={2}
@@ -321,7 +322,7 @@ export default function EmployeeView(props) {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ bgcolor: '#FFFFE8' }}>
+        <DialogActions sx={{ bgcolor: color.DIALOG }}>
           <Button variant="contained" color="secondary" onClick={handleClose}>
             Hủy
           </Button>

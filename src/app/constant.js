@@ -150,3 +150,7 @@ export const colorTable = {
   TEXTHEADER: '#FFF',
   TEXTROW: '#000',
 };
+
+export const color = {
+  DIALOG: '#EDF1D6',
+};

@@ -68,40 +68,43 @@ export default function CandidateProfileView(props) {
           <Grid container>
             <Grid container spacing={1} style={{ marginTop: 5 }}>
               <Grid container item xs={8} md={8} spacing={1} style={{ height: 200 }}>
-                <Grid item style={{ fontWeight: 600 }}>
+                <Grid item xs={12} md={12} style={{ fontWeight: 600, textTransform: 'uppercase' }}>
+                  I. Thông tin cá nhân
+                </Grid>
+                <Grid item style={{ fontWeight: 600 }} className="ml-20" xs={4} md={4}>
                   Mã hồ sơ:
                 </Grid>
-                <Grid item xs={8} md={8}>
+                <Grid item xs={7} md={7}>
                   {candidate.code}
                 </Grid>
-                <Grid item style={{ fontWeight: 600 }}>
+                <Grid item style={{ fontWeight: 600 }} className="ml-20" xs={4} md={4}>
                   Họ và tên ứng viên:
                 </Grid>
-                <Grid item xs={8} md={8}>
+                <Grid item xs={7} md={7}>
                   {candidate.fullName}
                 </Grid>
-                <Grid item style={{ fontWeight: 600 }}>
+                <Grid item style={{ fontWeight: 600 }} className="ml-20" xs={4} md={4}>
                   Tuổi:
                 </Grid>
-                <Grid item xs={2} md={2}>
+                <Grid item xs={7} md={7}>
                   {candidate.age}
                 </Grid>
-                <Grid item style={{ fontWeight: 600 }}>
+                <Grid item style={{ fontWeight: 600 }} className="ml-20" xs={4} md={4}>
                   Ngày sinh:
                 </Grid>
-                <Grid item xs={6} md={6}>
+                <Grid item xs={7} md={7}>
                   {moment(candidate.dateOfBirth).format('DD/MM/YYYY')}
                 </Grid>
-                <Grid item style={{ fontWeight: 600 }}>
+                <Grid item style={{ fontWeight: 600 }} className="ml-20" xs={4} md={4}>
                   Số điện thoại:
                 </Grid>
-                <Grid item xs={9} md={9}>
+                <Grid item xs={7} md={7}>
                   {candidate.phone}
                 </Grid>
-                <Grid item style={{ fontWeight: 600 }}>
+                <Grid item style={{ fontWeight: 600 }} className="ml-20" xs={4} md={4}>
                   Email:
                 </Grid>
-                <Grid item xs={8} md={8}>
+                <Grid item xs={7} md={7}>
                   {candidate.email}
                 </Grid>
               </Grid>
@@ -120,76 +123,39 @@ export default function CandidateProfileView(props) {
                 </Grid>
               </Grid>
               <Grid container item xs={12} md={12} spacing={1}>
-                <Grid container item xs={12} md={12} spacing={1}>
-                  <Grid item style={{ fontWeight: 600 }}>
+                <Grid container item xs={12} md={12} spacing={1} style={{ marginTop: '5px' }}>
+                  <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
                     Địa chỉ:
                   </Grid>
-                  <Grid item xs={10} md={10}>
+                  <Grid item xs={7} md={7}>
                     {candidate.address}
                   </Grid>
                 </Grid>
-                <Grid container item xs={6} md={6} spacing={1}>
-                  <Grid item style={{ fontWeight: 600 }}>
+                <Grid container item xs={12} md={12} spacing={1}>
+                  <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
                     Trình độ học vấn:
                   </Grid>
-                  <Grid item xs={5} md={5}>
+                  <Grid item xs={7} md={7}>
                     {candidate.education}
                   </Grid>
                 </Grid>
-                <Grid container item xs={10} md={10} spacing={1}>
-                  <Grid item style={{ fontWeight: 600 }}>
+                <Grid container item xs={12} md={12} spacing={1}>
+                  <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
                     Ngành:
                   </Grid>
-                  <Grid item xs={10} md={10}>
+                  <Grid item xs={7} md={7}>
                     {candidate.major}
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={12} spacing={1}>
-                  <Grid item style={{ fontWeight: 600 }}>
-                    Ứng tuyển vị trí:
-                  </Grid>
-                  <Grid item xs={8} md={8}>
-                    {item?.titleRecruit || ''}
-                  </Grid>
+
+                <Grid item xs={12} md={12} style={{ fontWeight: 600, textTransform: 'uppercase' }}>
+                  II. Mục tiêu nghề nghiệp, kinh nghiệm làm việc
                 </Grid>
-                {candidate?.status === 18 ? (
-                  <>
-                    <Grid container item xs={12} md={12} spacing={1}>
-                      <Grid item style={{ fontWeight: 600 }}>
-                        Người hẹn:
-                      </Grid>
-                      <Grid item xs={8} md={8}>
-                        {candidate?.interviewer}
-                      </Grid>
-                    </Grid>
-                    <Grid container item xs={12} md={12} spacing={1}>
-                      <Grid item style={{ fontWeight: 600 }}>
-                        Thời gian hẹn:
-                      </Grid>
-                      <Grid item xs={8} md={8}>
-                        {candidate?.interviewDate
-                          ? moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')
-                          : ''}
-                      </Grid>
-                    </Grid>
-                  </>
-                ) : candidate?.status === 6 || candidate?.status === 9 ? (
-                  <Grid container item xs={12} md={12} spacing={2}>
-                    <Grid item style={{ fontWeight: 600 }}>
-                      Lý do:
-                    </Grid>
-                    <Grid item xs={8} md={8}>
-                      {candidate?.refusalReason}
-                    </Grid>
-                  </Grid>
-                ) : (
-                  ''
-                )}
                 <Grid container item xs={12} md={12} spacing={1}>
-                  <Grid item xs={12} style={{ fontWeight: 600 }}>
+                  <Grid item xs={12} style={{ fontWeight: 600 }} className="ml-20">
                     Mục tiêu nghề nghiệp:
                   </Grid>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} className="ml-20">
                     <TextField
                       variant="standard"
                       fullWidth
@@ -205,10 +171,10 @@ export default function CandidateProfileView(props) {
                   </Grid>
                 </Grid>
                 <Grid container item xs={12} md={12} spacing={1}>
-                  <Grid item xs={12} style={{ fontWeight: 600 }}>
+                  <Grid item xs={12} style={{ fontWeight: 600 }} className="ml-20">
                     Kinh nghiệm làm việc:
                   </Grid>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} className="ml-20">
                     <TextField
                       variant="standard"
                       fullWidth
@@ -223,11 +189,14 @@ export default function CandidateProfileView(props) {
                     />
                   </Grid>
                 </Grid>
+                <Grid item xs={12} md={12} style={{ fontWeight: 600, textTransform: 'uppercase' }}>
+                  III. Thông tin khác
+                </Grid>
                 <Grid container item xs={12} md={12} spacing={1}>
-                  <Grid item style={{ fontWeight: 600 }}>
+                  <Grid item style={{ fontWeight: 600 }} className="ml-20">
                     Sở thích:
                   </Grid>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} className="ml-20">
                     <TextField
                       variant="standard"
                       fullWidth
@@ -243,10 +212,10 @@ export default function CandidateProfileView(props) {
                   </Grid>
                 </Grid>
                 <Grid container item xs={12} md={12} spacing={1}>
-                  <Grid item xs={12} style={{ fontWeight: 600 }}>
+                  <Grid item xs={12} style={{ fontWeight: 600 }} className="ml-20">
                     Kỹ năng:
                   </Grid>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} className="ml-20">
                     <TextField
                       variant="standard"
                       fullWidth
@@ -261,6 +230,66 @@ export default function CandidateProfileView(props) {
                     />
                   </Grid>
                 </Grid>
+                {candidate?.status === 18 ? (
+                  <>
+                    <Grid
+                      item
+                      xs={12}
+                      md={12}
+                      style={{ fontWeight: 600, textTransform: 'uppercase' }}
+                    >
+                      IV. Thông tin cuộc hẹn phỏng vấn
+                    </Grid>
+                    <Grid container item xs={12} md={12} spacing={1}>
+                      <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
+                        Người hẹn:
+                      </Grid>
+                      <Grid item xs={7} md={7}>
+                        {candidate?.interviewer}
+                      </Grid>
+                    </Grid>
+                    <Grid container item xs={12} md={12} spacing={1}>
+                      <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
+                        Thời gian hẹn:
+                      </Grid>
+                      <Grid item xs={7} md={7}>
+                        {moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')}
+                      </Grid>
+                    </Grid>
+                    <Grid container item xs={12} md={12} spacing={1}>
+                      <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
+                        Ứng tuyển vị trí:
+                      </Grid>
+                      <Grid item xs={7} md={7}>
+                        {item?.titleRecruit || ''}
+                      </Grid>
+                    </Grid>
+                  </>
+                ) : candidate?.status === 6 || candidate?.status === 9 ? (
+                  <>
+                    <Grid
+                      item
+                      xs={12}
+                      md={12}
+                      style={{ fontWeight: 600, textTransform: 'uppercase' }}
+                    >
+                      IV.{' '}
+                      {candidate?.status === 6
+                        ? 'Lý do không đi phỏng vấn'
+                        : 'Lý do không đạt phỏng vấn'}
+                    </Grid>
+                    <Grid container item xs={12} md={12} spacing={1}>
+                      <Grid item style={{ fontWeight: 600 }} className="ml-20">
+                        Lý do:
+                      </Grid>
+                      <Grid item xs={7} md={7}>
+                        {candidate?.refusalReason}
+                      </Grid>
+                    </Grid>
+                  </>
+                ) : (
+                  ''
+                )}
               </Grid>
             </Grid>
           </Grid>
