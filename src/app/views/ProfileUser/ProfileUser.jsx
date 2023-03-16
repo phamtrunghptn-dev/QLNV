@@ -185,7 +185,7 @@ export default function ProfileUser() {
                 <img
                   src={formik.values?.avatar || profile?.avatar}
                   alt=""
-                  style={{ width: '80%', height: '80%' }}
+                  style={{ width: '70%', height: '70%' }}
                 />
               ) : (
                 <img
@@ -196,22 +196,22 @@ export default function ProfileUser() {
               )}
             </CardContent>
             <CardActions style={{ justifyContent: 'center' }} className="icon">
-              <IconButton>
-                <label for="file-upload" class="custom-file-upload">
-                  <AddCircleIcon />
-                </label>
-                <input
-                  style={{ display: 'none' }}
-                  type="file"
-                  id="file-upload"
-                  name="filename"
-                  onChange={(event) => {
-                    uploadImage(event.currentTarget.files[0]).then((res) => {
-                      formik.setFieldValue('avatar', res?.data?.fileDownloadUri);
-                    });
-                  }}
-                ></input>
-              </IconButton>
+              {/* <IconButton> */}
+              <label for="file-upload" className="custom-file-upload">
+                <AddCircleIcon />
+              </label>
+              <input
+                style={{ display: 'none' }}
+                type="file"
+                id="file-upload"
+                name="filename"
+                onChange={(event) => {
+                  uploadImage(event.currentTarget.files[0]).then((res) => {
+                    formik.setFieldValue('avatar', res?.data?.fileDownloadUri);
+                  });
+                }}
+              ></input>
+              {/* </IconButton> */}
             </CardActions>
           </Card>
           <Grid item xs={7.4} md={7.4} style={{ display: 'flex', justifyContent: 'flex-end' }}>

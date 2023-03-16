@@ -6,8 +6,6 @@ const ComparisonChart = ({ height, color = [], data = {} }) => {
   const theme = useTheme();
   const [list, setList] = useState([]);
 
-  console.log(data);
-
   useEffect(() => {
     let newList = [];
     data?.map((item, index) => {
@@ -17,11 +15,11 @@ const ComparisonChart = ({ height, color = [], data = {} }) => {
   }, [data]);
 
   const option = {
-    grid: { top: '10%', bottom: '10%', right: '5%' },
-    legend: { show: false },
-    color: ['rgba(34, 51, 136, 0.8)'],
+    grid: { top: '10%', bottom: '10%', right: '0%' },
+    legend: { show: true },
+    color: color,
     barGap: 0,
-    barMaxWidth: '64px',
+    barMaxWidth: '30px',
     dataset: {
       source: list,
       // [
@@ -36,9 +34,9 @@ const ComparisonChart = ({ height, color = [], data = {} }) => {
     },
     xAxis: {
       type: 'category',
-      axisLine: { show: false },
-      splitLine: { show: false },
-      axisTick: { show: false },
+      axisLine: { show: true },
+      splitLine: { show: true },
+      axisTick: { show: true },
       axisLabel: {
         fontSize: 13,
         fontFamily: 'roboto',
@@ -46,8 +44,8 @@ const ComparisonChart = ({ height, color = [], data = {} }) => {
       },
     },
     yAxis: {
-      axisLine: { show: false },
-      axisTick: { show: false },
+      axisLine: { show: true },
+      axisTick: { show: true },
       splitLine: {
         lineStyle: { color: theme.palette.text.secondary, opacity: 0.15 },
       },
