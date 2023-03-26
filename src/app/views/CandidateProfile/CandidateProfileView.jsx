@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { editCandidate } from './CandidateProfileService';
 import TextField from '@mui/material/TextField';
 import './Candidate.scss';
+import { color } from 'app/constant';
 
 export default function CandidateProfileView(props) {
   const { open, handleClose, item } = props;
@@ -56,17 +57,29 @@ export default function CandidateProfileView(props) {
   return (
     <>
       <Dialog open={open} fullWidth maxWidth={'md'}>
-        <DialogTitle style={{ marginBlockEnd: 0, padding: '16px 24px 0' }}>
-          Hồ sơ ứng viên
+        <DialogTitle sx={{ bgcolor: color.DIALOG }}>
           <Box className="icon-close" onClick={handleClose}>
             <IconButton color="error">
               <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
-        <DialogContent style={{ margin: '20px', fontSize: 15, overflowX: 'hidden' }}>
-          <Grid container>
+        <DialogContent
+          style={{ fontSize: 15, overflowX: 'hidden' }}
+          sx={{ bgcolor: color.DIALOG, color: color.TEXTDIALOG }}
+        >
+          <Grid container style={{ padding: '0 40px' }}>
             <Grid container spacing={1} style={{ marginTop: 5 }}>
+              <Grid
+                item
+                container
+                xs={12}
+                style={{ fontSize: '30px', marginBottom: 40 }}
+                alignItems="center"
+                justifyContent="center"
+              >
+                Hồ sơ ứng viên
+              </Grid>
               <Grid container item xs={8} md={8} spacing={1} style={{ height: 200 }}>
                 <Grid item xs={12} md={12} style={{ fontWeight: 600, textTransform: 'uppercase' }}>
                   I. Thông tin cá nhân
@@ -115,7 +128,7 @@ export default function CandidateProfileView(props) {
                     alt=""
                     style={{
                       height: '100%',
-                      float: 'right',
+                      float: 'center',
                       border: '1px solid #ccc',
                       borderRadius: 10,
                     }}
@@ -294,7 +307,7 @@ export default function CandidateProfileView(props) {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ bgcolor: color.DIALOG }}>
           <Button
             variant="contained"
             color="primary"

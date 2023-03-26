@@ -209,7 +209,7 @@ const Analytics = () => {
               <SubTitle>Công ty Oceantech</SubTitle>
               <LineChart
                 height="350px"
-                color={[palette.primary.main, palette.secondary.main]}
+                color={['#FFA900', '#E71414']}
                 data={personnelChangeReport}
               />
             </Card>
@@ -222,7 +222,7 @@ const Analytics = () => {
 
               <ComparisonChart
                 height="350px"
-                color={[palette.primary.dark]}
+                color={'#291F71'}
                 data={monthlyEmployeeCountReport[0]}
               />
             </Card>

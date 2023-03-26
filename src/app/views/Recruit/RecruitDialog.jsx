@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import { addRecruit, editRecruit } from './RecruitService';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { toast } from 'react-toastify';
+import { colorButton } from 'app/constant';
 
 export default function RecruitDialog(props) {
   const { open, handleClose, item } = props;
@@ -182,13 +183,19 @@ export default function RecruitDialog(props) {
         </DialogContent>
         <DialogActions>
           <>
-            <Button variant="contained" color="secondary" onClick={handleClose}>
+            <Button
+              variant="contained"
+              //color="secondary"
+              style={{ backgroundColor: colorButton.COLOR_HUY }}
+              onClick={handleClose}
+            >
               Hủy
             </Button>
             <Button
               type="submit"
               variant="contained"
-              color="primary"
+              // color="primary"
+              style={{ backgroundColor: colorButton.COLOR_LUU_GUI }}
               onClick={() => setRecruit({ ...recruit, status: 2 })}
             >
               Lưu và gửi
@@ -196,7 +203,8 @@ export default function RecruitDialog(props) {
             <Button
               type="submit"
               variant="contained"
-              color="primary"
+              //   color="primary"
+              style={{ backgroundColor: colorButton.COLOR_LUU_NHAP }}
               onClick={() => setRecruit({ ...recruit, status: 1 })}
             >
               Lưu nháp
