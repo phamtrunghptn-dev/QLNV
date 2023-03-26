@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box, Button } from '@mui/material';
 import { Breadcrumb } from 'app/components';
 import MaterialTable from 'material-table';
-import { getListEmployee } from './TimeKeepingService';
+import { getListEmployee, importFileExcel } from './TimeKeepingService';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { toast } from 'react-toastify';
@@ -15,6 +15,8 @@ export default function Employee() {
   const [shouldOpenTimeKeepingTable, setShouldOpenTimeKeepingTable] = useState(false);
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   const columns = [
     {
@@ -116,10 +118,35 @@ export default function Employee() {
       });
   };
 
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    fileInputRef.current.previousFile = file;
+    importFileExcel(file)
+      .then((res) => {
+        if (res?.data?.statusCode === 200) {
+          toast.success('Tải file thành công');
+        } else {
+          toast.warning('Có lỗi xảy ra!');
+        }
+      })
+      .catch((err) => {
+        toast.error('Tải file không thành công');
+      });
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
   const handleClose = () => {
     setShouldOpenTimeKeepingTable(false);
     setItem({});
     updatePageData();
+  };
+
+  const handleButtonReset = () => {
+    fileInputRef.current.value = '';
+    fileInputRef.current.previousFile = null;
   };
 
   return (
@@ -131,7 +158,23 @@ export default function Employee() {
             { name: 'Danh sách chấm công nhân viên' },
           ]}
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 0 10px' }}>
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            onChange={handleFileUpload}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            onClick={handleButtonClick}
+            onBlur={handleButtonReset}
+          >
+            Nhập file excel
+          </Button>
           <IconButton
             color="primary"
             onClick={() => {

@@ -3,6 +3,7 @@ import { API } from 'app/constant';
 
 const API_PATH = API + '/api/time-keepings';
 const API_PATH2 = API + '/api/employees';
+const API_PATH3 = API + '/api/time-keepings/import';
 
 export const getListTimeKeeping = (searchObject) => {
   return axios.post(API_PATH + '/searchByDto', searchObject);
@@ -22,4 +23,10 @@ export const addTimeKeeping = (obj) => {
 
 export const deleteListTimeKeeping = (id) => {
   return axios.delete(API_PATH + '/' + id);
+};
+
+export const importFileExcel = (file) => {
+  let bodyFormData = new FormData();
+  bodyFormData.append('file', file);
+  return axios.post(API_PATH3, bodyFormData);
 };
