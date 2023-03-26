@@ -145,12 +145,23 @@ export const quyetDinh = [
 ];
 
 export const colorTable = {
-  HEADER: '#539165',
+  HEADER: '#1746A2',
   ROW: '#F9F9F9',
   TEXTHEADER: '#FFF',
   TEXTROW: '#000',
 };
 
 export const color = {
-  DIALOG: '#EDF1D6',
+  DIALOG: '#F1F6F5',
+  TEXTDIALOG: '#000',
+};
+export const colorButton = {
+  COLOR_THEM: '#EF5B0C',
+  COLOR_HUY: '#F55050',
+  COLOR_LUU_NHAP: '#262A56',
+  COLOR_LUU_GUI: '#B8621B',
+  COLOR_TIEP_NHAN: '#3B3486',
+  COLOR_TU_CHOI: '#F55050',
+  COLOR_PHE_DUYET: '#4E944F',
+  COLOR_YEU_CAU_BO_SUNG: '#3B3486',
 };

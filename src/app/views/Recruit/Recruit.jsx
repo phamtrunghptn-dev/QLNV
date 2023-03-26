@@ -16,7 +16,7 @@ import Grid from '@mui/material/Grid';
 import LoopIcon from '@mui/icons-material/Loop';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { trangThaiKeHoanhTD } from 'app/constant';
+import { trangThaiKeHoanhTD, colorButton } from 'app/constant';
 import './Recruit.scss';
 import { colorTable } from 'app/constant';
 export default function Recruit() {
@@ -199,9 +199,13 @@ export default function Recruit() {
           <Grid item xs={9}>
             <Button
               variant="contained"
-              color="primary"
+              //color="primary"
               size="medium"
-              style={{ margin: '20px 0', padding: '5px 20px' }}
+              style={{
+                margin: '20px 0',
+                padding: '5px 20px',
+                backgroundColor: colorButton.COLOR_THEM,
+              }}
               onClick={() => setShouldOpenDialog(true)}
             >
               Thêm

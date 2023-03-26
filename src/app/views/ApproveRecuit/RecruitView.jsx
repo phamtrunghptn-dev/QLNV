@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Grid';
 import { TextField } from '@mui/material';
-import { checkStatus } from 'app/constant';
+import { checkStatus, colorButton } from 'app/constant';
 import { approveRecruit } from './ApproveService';
 import { toast } from 'react-toastify';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
@@ -183,14 +183,16 @@ export default function RecruitView(props) {
           <>
             <Button
               variant="contained"
-              color="primary"
+              //color="primary"
+              style={{ backgroundColor: colorButton.COLOR_PHE_DUYET }}
               onClick={() => setShouldOpenConfirmDialog(true)}
             >
               Phê duyệt
             </Button>
             <Button
               variant="contained"
-              color="primary"
+              //  color="primary"
+              style={{ backgroundColor: colorButton.COLOR_YEU_CAU_BO_SUNG }}
               onClick={() => setShouldOpenFeedbackDialog(true)}
             >
               Yêu cầu bổ sung

@@ -43,7 +43,6 @@ export const navigations = [
     name: 'Quản lý nhân viên',
     icon: 'account_circle',
     children: [
-      { name: 'Chấm công', path: '/manage/time-keeping' },
       { name: 'Tạo hồ sơ nhân viên', path: '/manage/create-employee' },
       { name: 'Cập nhật diễn biến', path: '/manage/update-happening' },
       { name: 'QĐ Tăng lương', path: '/manage/promote' },
@@ -55,6 +54,7 @@ export const navigations = [
     name: 'Quản lý lương',
     icon: 'paid',
     children: [
+      { name: 'Chấm công', path: '/manage/time-keeping' },
       { name: 'Tính lương', path: '/payment-salary' },
       { name: 'QĐ Khen thưởng - Kỷ luật', path: '/commendation-and-discipline' },
       { name: 'Báo cáo thống kê', path: '/manage-payment/statistic-report' },

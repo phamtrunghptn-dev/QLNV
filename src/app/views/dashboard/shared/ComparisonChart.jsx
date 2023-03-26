@@ -2,7 +2,7 @@ import { useTheme } from '@mui/system';
 import ReactEcharts from 'echarts-for-react';
 import { useState, useEffect } from 'react';
 
-const ComparisonChart = ({ height, color = [], data = {} }) => {
+const ComparisonChart = ({ height, color = '', data = {} }) => {
   const theme = useTheme();
   const [list, setList] = useState([]);
 
@@ -18,7 +18,7 @@ const ComparisonChart = ({ height, color = [], data = {} }) => {
   const option = {
     grid: { top: '10%', bottom: '10%', right: '5%' },
     legend: { show: false },
-    color: ['rgba(34, 51, 136, 0.8)'],
+    color: [color],
     barGap: 0,
     barMaxWidth: '64px',
     dataset: {
