@@ -147,7 +147,8 @@ export default function CandidateProfile() {
       .then((res) => {
         if (res.data.statusCode === 200) {
           setLoading(false);
-          setListCandidate(res.data.data);
+          // setListCandidate(res.data.data);
+          setListCandidate(res.data.data.filter((item) => item.status !== 19));
         } else {
           setLoading(false);
           toast.warning('Lỗi xác thực!');

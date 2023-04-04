@@ -243,7 +243,7 @@ export default function CandidateProfileView(props) {
                     />
                   </Grid>
                 </Grid>
-                {candidate?.status === 18 ? (
+                {candidate ? (
                   <>
                     <Grid
                       item
@@ -253,32 +253,41 @@ export default function CandidateProfileView(props) {
                     >
                       IV. Thông tin cuộc hẹn phỏng vấn
                     </Grid>
+                    {candidate?.status === 18 && (
+                      <>
+                        <Grid container item xs={12} md={12} spacing={1}>
+                          <Grid item style={{ fontWeight: 600 }} className="ml-20">
+                            Người hẹn:
+                          </Grid>
+                          <Grid item xs={7} md={7}>
+                            {candidate?.interviewer}
+                          </Grid>
+                        </Grid>
+
+                        <Grid container item xs={12} md={12} spacing={1}>
+                          <Grid item style={{ fontWeight: 600 }} className="ml-20">
+                            Thời gian hẹn:
+                          </Grid>
+                          <Grid item xs={7} md={7}>
+                            {moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')}
+                          </Grid>
+                        </Grid>
+                      </>
+                    )}
                     <Grid container item xs={12} md={12} spacing={1}>
-                      <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
-                        Người hẹn:
-                      </Grid>
-                      <Grid item xs={7} md={7}>
-                        {candidate?.interviewer}
-                      </Grid>
-                    </Grid>
-                    <Grid container item xs={12} md={12} spacing={1}>
-                      <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
-                        Thời gian hẹn:
-                      </Grid>
-                      <Grid item xs={7} md={7}>
-                        {moment(candidate?.interviewDate).format('DD/MM/YYYY hh:mm A')}
-                      </Grid>
-                    </Grid>
-                    <Grid container item xs={12} md={12} spacing={1}>
-                      <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
+                      <Grid item style={{ fontWeight: 600 }} className="ml-20">
                         Ứng tuyển vị trí:
                       </Grid>
-                      <Grid item xs={7} md={7}>
+                      <Grid item xs={9} md={9}>
                         {item?.titleRecruit || ''}
                       </Grid>
                     </Grid>
                   </>
-                ) : candidate?.status === 6 || candidate?.status === 9 ? (
+                ) : (
+                  ''
+                )}
+
+                {candidate?.status === 6 || candidate?.status === 9 ? (
                   <>
                     <Grid
                       item
@@ -286,13 +295,13 @@ export default function CandidateProfileView(props) {
                       md={12}
                       style={{ fontWeight: 600, textTransform: 'uppercase' }}
                     >
-                      IV.{' '}
+                      V.{' '}
                       {candidate?.status === 6
                         ? 'Lý do không đi phỏng vấn'
                         : 'Lý do không đạt phỏng vấn'}
                     </Grid>
-                    <Grid container item xs={12} md={12} spacing={2}>
-                      <Grid item style={{ fontWeight: 600 }} xs={2.7} md={2.7} className="ml-20">
+                    <Grid container item xs={12} md={12} spacing={1}>
+                      <Grid item style={{ fontWeight: 600 }} className="ml-20">
                         Lý do:
                       </Grid>
                       <Grid item xs={7} md={7}>
