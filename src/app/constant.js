@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const API = 'http://14.225.205.11:8888';
+//export const API = 'http://14.225.205.11:8888';
 
-//export const API = 'http://localhost:8888';
+export const API = 'http://localhost:8888';
 export const checkStatus = (value) => {
   let message;
   let color;
@@ -152,7 +152,7 @@ export const colorTable = {
 };
 
 export const color = {
-  DIALOG: '#F1F6F5',
+  DIALOG: '#FFFFFF',
   TEXTDIALOG: '#000',
 };
 export const colorButton = {
@@ -163,5 +163,5 @@ export const colorButton = {
   COLOR_TIEP_NHAN: '#3B3486',
   COLOR_TU_CHOI: '#F55050',
   COLOR_PHE_DUYET: '#4E944F',
-  COLOR_YEU_CAU_BO_SUNG: '#3B3486',
+  COLOR_YEU_CAU_BO_SUNG: '#D7A86E',
 };

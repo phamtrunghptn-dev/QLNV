@@ -138,11 +138,11 @@ export default function EmployeeView(props) {
                 />
               )}
             </Grid>
-            <Grid item container xs={12} className="pd-60" spacing={1} style={{}}>
+            <Grid item container xs={12} className="pd-60" spacing={1} style={{ marginLeft: 2 }}>
               <Grid item xs={2} className="fw-600 mr-10">
                 Địa chỉ:
               </Grid>
-              <Grid item xs={8} style={{ marginLeft: 60 }}>
+              <Grid item xs={9} style={{ marginLeft: 40 }}>
                 {item?.address}
               </Grid>
             </Grid>

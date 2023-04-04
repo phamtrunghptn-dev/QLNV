@@ -367,7 +367,7 @@ export default function EmployeeView(props) {
         />
       )}
       {shouldOpenRequestDialog && (
-        <RequestDialog
+        <RequestDialog /// Yêu cầu chỉnh sửa
           open={shouldOpenRequestDialog}
           handleCloseDialog={() => setShouldOpenRequestDialog(false)}
           item={item}
